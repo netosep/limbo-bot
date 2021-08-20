@@ -1,0 +1,12 @@
+{
+    "prefix": "!",
+    "token": "tokenbot",
+
+    "database": {
+        "host": "host-database",
+        "db": "database",
+        "user": "user-database",
+        "password": "pw-database",
+        "port": "port-database"
+    }
+}
