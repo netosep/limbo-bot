@@ -1,13 +1,12 @@
 const mysql = require("mysql");
-const { database } = require("../../config.json")
 
 var pool = mysql.createPool({
     connectionLimit: 1000,
-    user: database.user,
-    password: database.password,
-    database: database.db,
-    host: database.host,
-    port: database.port
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    host: process.env.HOST,
+    port: process.env.PORT
 });
 
 const execute = function(query, params=[]) {

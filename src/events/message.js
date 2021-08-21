@@ -1,9 +1,9 @@
 const { bot } = require("../../index");
-const { prefix } = require("../../config.json");
 const { randomXP, levelUP } = require("../lib/experience");
 const User = require("../utils/user");
 const cooldownLvl = new Set();
 const cooldownCmd = new Set();
+const prefix = process.env.PREFIX;
 
 bot.on("message", async (message) => {
 
