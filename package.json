@@ -1,5 +1,5 @@
 {
-  "name": "nA-discord-bot",
+  "name": "na-discord-bot",
   "version": "1.0.0",
   "description": "Bot de discord para o servidor nA raiz em node.js",
   "main": "index.js",
@@ -18,8 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/netosep/nA-discord-bot.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "netosep",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/netosep/nA-discord-bot/issues"
