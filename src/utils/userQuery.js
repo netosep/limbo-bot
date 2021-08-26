@@ -1,5 +1,4 @@
 const mysql = require("../database/connection");
-const { randomXP } = require("../lib/experience");
 
 const findById = function(userId) {
 
@@ -9,13 +8,9 @@ const findById = function(userId) {
             if(result.length > 0) {
                 const user = {
                     id         : result[0].user_id,
-                    guild_id   : result[0].guild_id,
                     name       : result[0].user_name,
                     avatar_url : result[0].user_avatar_url,
-                    xp         : result[0].experience,
-                    level      : result[0].level,
-                    messagens  : result[0].messages,
-                    isActive   : result[0].active
+                    created_at : result[0].created_at
                 }
                 resolve(user);
             } else {
@@ -39,13 +34,9 @@ const findAll = function() {
                 for (let i = 0; i < results.length; i++) {
                     users[i] = {
                         id         : results[i].user_id,
-                        guild_id   : results[i].guild_id,
                         name       : results[i].user_name,
                         avatar_url : results[i].user_avatar_url,
-                        xp         : results[i].experience,
-                        level      : results[i].level,
-                        messagens  : results[i].messages,
-                        isActive   : results[i].active
+                        created_at : results[i].created_at
                     }
                 }
                 resolve(users);
@@ -60,16 +51,12 @@ const findAll = function() {
 const insert = function(user) {
 
     mysql.execute(`
-        INSERT INTO user (
-            user_id, guild_id, user_name,
-            user_avatar_url, experience, messages
-        )
-        VALUES( ?, ?, ?, ?, ?, ? )
-    `, 
-    [
-        user.id, user.guild_id, user.name,
-        user.avatar_url, user.xp, user.messages
-    ])
+        INSERT INTO user ( user_id, user_name, user_avatar_url )
+        VALUES( ?, ?, ? ) `, 
+        [ 
+            user.id, user.name, user.avatar_url 
+        ]
+    )
     .catch((err) => {
         return console.error(err);
     });
@@ -81,14 +68,11 @@ const update = function(user) {
     mysql.execute(`
         UPDATE user
         SET user_name       = ?,
-            user_avatar_url = ?,
-            experience      = experience + ?,
-            level           = level + ?,
-            messages        = messages + ?
+            user_avatar_url = ?
         WHERE user_id       = ?`,
-        [
-            user.name, user.avatar_url, user.xp, 
-            user.level, user.messages, user.id
+        [ 
+            user.name, user.avatar_url,
+            user.id
         ]
     )
     .catch((err) => {
