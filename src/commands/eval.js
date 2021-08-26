@@ -9,10 +9,10 @@ module.exports = {
 
     run: async (bot, message, args) => {
         
-/*         var input = args.join(" ");
+         var input = args.join(" ");
         var output;
 
-        console.log(message.authort)
+        console.log(message.author)
 
         try {
             output = eval(input)
@@ -20,7 +20,7 @@ module.exports = {
             console.error(err)
         }
 
-        return message.channel.send(`\`\`\`js\n${output}\`\`\`` )*/
+        return message.channel.send(`\`\`\`js\n${output}\`\`\`` )
 
     } 
     
