@@ -1,12 +1,14 @@
 const mysql = require("mysql");
+const { database } = require("../../config.json");
+//const { database } = require("../../config.example.json");
 
 var pool = mysql.createPool({
-    //connectionLimit: 1000,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    host: process.env.HOST,
-    port: process.env.PORT
+    connectionLimit: 1000,
+    user: database.user,
+    password: database.password,
+    database: database.db,
+    host: database.host,
+    port: database.port
 });
 
 const execute = function(query, params=[]) {
@@ -22,16 +24,16 @@ const execute = function(query, params=[]) {
 }
 
 const testConnection = function() {
-    execute("SHOW databases")
+    
+    execute("SHOW TABLES")
     .then((result) => {
-        if(result.length > 0){
-            return console.log("Conectado com sucesso com o banco de dados")
-        } else {
-            return console.log("Não existe banco de dados configurado")
+        if(result.length > 0) {
+            return console.log("Database connected!\n")
         }
     })
     .catch((err) => {
-        console.log(err)
+        var errMsg = err.sqlMessage ? err.sqlMessage : "Review the config.json file!"
+        return console.error(`Failed to connect to database!\n${errMsg}`);
     });
 }
 
