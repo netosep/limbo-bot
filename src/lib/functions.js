@@ -39,14 +39,22 @@ function setup(bot) {
             return console.log("sem eventos para carregar")
         }
 
-        console.log(`${jsFiles.length} eventos carregados`);
+        console.clear();
+        console.log(`\x1b[33m`); // cor console amarela
+        console.log(`╔══════════════════════════════════════╗`)
+        console.log(`║     ___  ___ _  / _ \\/ __ \\/_  __/   ║`);
+        console.log(`║    / _ \\/ _ \`/ / _ </ /_/ / / /      ║`);
+        console.log(`║   /_//_/\\_,_/ /____/\\____/ /_/       ║`);
+        console.log(`╚══════════════════════════════════════╝`)
+        console.log(`\x1b[0m`); // retornando a cor normal
+        console.log("Loading events...\n");
 
         jsFiles.forEach((file, i = 0) => {
             require(`../events/${file}`); 
             i++;
             console.log(`→ ${file} - OK!`)
             if(i === jsFiles.length) {
-                console.log(`${i} eventos carregados`)
+                console.log(`\n${i} events loaded successfully!\n`)
             }
         })
 
@@ -56,9 +64,11 @@ function setup(bot) {
 
         var props = require(file);
         bot.commands.set(props.help.name, props);
+        
         props.help.aliases.forEach(aliase => {
             bot.aliases.set(aliase, props.help.name);
         });
+
     });
 
 }
