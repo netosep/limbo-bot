@@ -1,0 +1,14 @@
+{
+    "prefix": "?",
+    "token": "token_bot",
+
+    "database": {
+        "host": "localhost",
+        "db": "discord-bot",
+        "user": "root",
+        "password": "",
+        "port": "3306"
+    },
+
+    "logChannelID" : "id_channel"
+}
