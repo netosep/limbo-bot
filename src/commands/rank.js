@@ -1,4 +1,5 @@
-const mysql = require("../database/connection");
+const { convertTime } = require("../lib/time");
+const Rank = require("../utils/rankQuery");
 
 module.exports = { 
 
@@ -11,30 +12,32 @@ module.exports = {
 
         var user = message.mentions.users.first() || message.author;
 
-        //console.log(user)
-
         if(user.bot) return;
 
-        mysql.execute(`SELECT * FROM user WHERE user_id = ?`, [ user.id ])
-        .then((result) => {
+        await Rank.findRankByIds(user.id, message.guild.id)
+        .then((userRank) => {
+            if(userRank.id) {
+                var totalExp = userRank.xp;
+                var totalExpForNxtLVL = userRank.nxt_lvl_xp;
+                var levelExp = Math.round(totalExpForNxtLVL - (totalExpForNxtLVL / 2.5)); 
+                var nowExp = Math.round(totalExp - (totalExpForNxtLVL / 2.5));
 
-            if(result.length === 0) {
-                return message.channel.send('sem resultados')
+                message.channel.send(`\`\`\`fix\n`+
+                    `Nome: ${userRank.name}\n`+
+                    `Nível: ${userRank.level}\n`+
+                    `XP total: ${totalExp}/${totalExpForNxtLVL}\n`+
+                    `XP nível: ${nowExp}/${levelExp}\n`+
+                    `Msgs enviadas: ${userRank.messages}\n`+
+                    `Tempo em call: ${convertTime(userRank.time_connected)}`+
+                `\`\`\``);
+            } else {
+                message.channel.send("sem resultados")
             }
-
-            return message.channel.send(`\`\`\`fix\n`+
-                `ID: ${result[0].user_id}\n`+
-                `Nome: ${result[0].user_name}\n`+
-                `XP: ${result[0].experience}\n`+
-                `Level: ${result[0].level}\n`+
-            `\`\`\``);
-
         })
         .catch((err) => {
-            console.error(err)
+            return console.error(err);
         });
 
-        //message.channel.send(message.author.id)
     } 
     
 }
