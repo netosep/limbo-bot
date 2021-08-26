@@ -1,11 +1,14 @@
 {
-  "name": "na-discord-bot",
+  "name": "nA-discord-bot",
   "version": "1.0.0",
   "description": "Bot de discord para o servidor nA raiz em node.js",
   "main": "index.js",
   "dependencies": {
+    "@discordjs/opus": "^0.6.0",
+    "canvas": "^2.8.0",
     "discord.js": "^12.0",
-    "dotenv": "^10.0.0",
+    "ffmpeg-static": "^4.4.0",
+    "google-tts-api": "^2.0.2",
     "mysql": "^2.18.1"
   },
   "devDependencies": {
@@ -19,7 +22,8 @@
     "type": "git",
     "url": "git+https://github.com/netosep/nA-discord-bot.git"
   },
-  "author": "netosep",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/netosep/nA-discord-bot/issues"
