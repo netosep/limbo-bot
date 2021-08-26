@@ -1,9 +1,12 @@
 const { bot } = require("../../index");
-const { randomXP, levelUP } = require("../lib/experience");
-const User = require("../utils/user");
+const { randomXP } = require("../lib/experience");
+const { MessageEmbed } = require("discord.js");
+const config = require("../../config.json");
+const User = require("../utils/userQuery");
+const Rank = require("../utils/rankQuery");
+const Guild = require("../utils/guildQuery");
 const cooldownLvl = new Set();
 const cooldownCmd = new Set();
-const prefix = process.env.PREFIX;
 
 bot.on("message", async (message) => {
 
@@ -11,37 +14,65 @@ bot.on("message", async (message) => {
     if(message.channel.type === "dm") return;
 
     var targetUser = message.author;
+    var prefix;
+
+    await Guild.findById(message.guild.id)
+    .then((guild) => {
+        if(guild.id) {
+            prefix = guild.prefix;
+        } else {
+            prefix = config.prefix;
+        }
+    })
+    .catch((err) => {
+        console.error(err);
+    });
 
     if(!cooldownLvl.has(targetUser.id)) {
         await User.findById(targetUser.id)
-        .then(user => {
+        .then(async (user) => {
             if(user.id) {
-                 var updatedUser = {
+                var updateUser = {
                     id          : targetUser.id,
                     name        : targetUser.username,
                     avatar_url  : targetUser.displayAvatarURL({ size: 1024 }),
-                    xp          : randomXP(),
-                    level       : levelUP(user) ? 1 : 0,
-                    messages    : 1,
+                    rank : {
+                        guild_id : message.guild.id,
+                        xp       : randomXP()
+                    }
                 }
-                User.update(updatedUser);
-                if(levelUP(user)) {
-                    message.channel.send(`${message.author} upou para o level ${user.level+1}`)
-                } 
+                User.update(updateUser);
+                Rank.updateXP(updateUser);
+
+                await Rank.findByIds(user.id, message.guild.id)
+                .then((rank) => {
+                    if(rank.xp >= rank.nxt_lvl_xp) {
+                        Rank.updateLevel(updateUser)
+                        //message.channel.send(`${targetUser} upou para o level ${rank.level+1}`);
+                    }
+                })
+                .catch((err) => {
+                    return console.error(err);
+                });
+
             } else {
-                 var insertUser = {
-                    id          : targetUser.id,
-                    guild_id    : message.guild.id,
-                    name        : targetUser.username,
-                    avatar_url  : targetUser.displayAvatarURL({ size: 1024 }),
-                    xp          : randomXP(),
-                    messages    : 1,
+                var insertUser = {
+                    id         : targetUser.id,
+                    name       : targetUser.username,
+                    avatar_url : targetUser.displayAvatarURL({ size: 1024 }),
+                    guild_id   : message.guild.id,
+                    rank : {
+                        xp         : randomXP(),
+                        nxt_lvl_xp : 100,
+                        messages   : 1
+                    }
                 }
                 User.insert(insertUser);
+                Rank.insert(insertUser);
             }
         })
         .catch((err) => {
-            return console.error(err)
+            return console.error(err);
         });
 
         cooldownLvl.add(targetUser.id);
@@ -50,9 +81,16 @@ bot.on("message", async (message) => {
         }, 60000);
     }
 
-    /* if(message.content === `<@!${bot.user.id}>`){
-        return message.channel.send("ola")
-    } */
+    if(message.content === `<@!${bot.user.id}>`) {
+        var embed = new MessageEmbed();
+        return message.channel.send(message.author, embed
+            .setAuthor(`Olá ${message.author.username}!`, message.author.displayAvatarURL({ dynamic: true }))
+            .setThumbnail(message.guild.iconURL({ dynamic: true }))
+            .addField('**Precisa de ajuda?**',
+                      `> O meu prefixo nesse servidor é: \`${prefix}\`
+                       > Digite \`${prefix}help\` para ver os comandos disponíveis.`)
+        ).catch(() => { return });
+    }
 
     if(cooldownCmd.has(message.author.id)) {
         return;
