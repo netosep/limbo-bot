@@ -1,15 +1,18 @@
 const discord = require('discord.js');
+const DisTube = require("distube");
+const env = require("dotenv");
 const bot = new discord.Client();
 const lib = require("./src/lib/functions");
-const env = require("dotenv");
+
 env.config();
 
-const token = process.env.TOKEN_BOT;
-
 bot.commands = new discord.Collection();
-bot.aliases = new discord.Collection();
+bot.aliases  = new discord.Collection();
+bot.distube  = new DisTube(bot, { searchSongs: false, emitNewSongOnly: true });
+bot.database = require("./src/database/mongodb");
+
 lib.setup(bot);
 
-bot.login(token);
+bot.login(process.env.BOT_TOKEN);
 
 module.exports = { bot }
