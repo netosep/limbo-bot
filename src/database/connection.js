@@ -1,12 +1,16 @@
 const mysql = require("mysql");
+const env = require("dotenv");
+
+env.config();
 
 var pool = mysql.createPool({
-    //connectionLimit: 1000,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    host: process.env.HOST,
-    port: process.env.PORT
+    host            : process.env.DB_HOST,
+    database        : process.env.DB_NAME,
+    user            : process.env.DB_USER,
+    password        : process.env.DB_PASS,
+    port            : process.env.DB_PORT,
+    connectionLimit : 1000,
+    charset         : "utf8mb4"
 });
 
 const execute = function(query, params=[]) {
@@ -22,16 +26,16 @@ const execute = function(query, params=[]) {
 }
 
 const testConnection = function() {
-    execute("SHOW databases")
+    
+    execute("SHOW TABLES")
     .then((result) => {
-        if(result.length > 0){
-            return console.log("Conectado com sucesso com o banco de dados")
-        } else {
-            return console.log("Não existe banco de dados configurado")
+        if(result.length > 0) {
+            return console.log("Database connected!\n")
         }
     })
     .catch((err) => {
-        console.log(err)
+        var errMsg = err.sqlMessage ? err.sqlMessage : "Review the config.json file!"
+        return console.error(`Failed to connect to database!\n${errMsg}`);
     });
 }
 
