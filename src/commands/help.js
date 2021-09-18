@@ -8,6 +8,8 @@ module.exports = {
     },
 
     run: async (bot, message, args) => {
+
+        console.log(bot.commands)
         message.channel.send("comando help ok")
     } 
     
