@@ -10,7 +10,7 @@ const randomXP = function() {
     var minXP = 15;
     var xp = Math.random() * (maxXP - minXP) + minXP;
 
-    return Math.round(xp) ;
+    return Math.round(parseInt(xp)) ;
 
 }
 
