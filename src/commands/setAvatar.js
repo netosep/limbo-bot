@@ -8,6 +8,8 @@ module.exports = {
     run: async (bot, message, args) => {
         var link = args.join(" ");
 
+        if(message.author.id != "232310431174230026") return;
+
         if(link.startsWith("https://")){
             //message.channel.send(link)
             console.log(bot)
