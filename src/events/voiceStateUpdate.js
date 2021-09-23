@@ -1,7 +1,9 @@
+/* const env = require("dotenv");
 const { bot } = require("../../index");
-const { logChannelID } = require("../../config.json")
 const User = require("../utils/userQuery");
 const Rank = require("../utils/rankQuery");
+
+env.config();
 
 var userConnected;
 var userDisconnected;
@@ -10,7 +12,7 @@ var logChannel
 
 bot.on("voiceStateUpdate", async (oldMember, newMember) => {
 
-    logChannel = newMember.guild.channels.cache.get(logChannelID);
+    logChannel = newMember.guild.channels.cache.get(process.env.LOG_CHANNEL_ID);
 
     // desabilitando a função para o canal afk
     if(newMember.channelID === newMember.guild.afkChannelID) return;
@@ -27,6 +29,11 @@ bot.on("voiceStateUpdate", async (oldMember, newMember) => {
     // desabilitando para usuário bot
     if(newMember.member.user.bot || oldMember.member.user.bot) return;
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // utilizar função old para verificar ultimo estado (desmutar, parar de trasmitir, etc para liberar a contagem)     //
+    // utilizar função new para verificar o nove estado (mutou, iniciou live, etc para travar a contagem)               //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     var channels = [];
     newMember.guild.channels.cache.forEach((channel) => {
         if(channel.type == "voice" && channel.id != newMember.guild.afkChannelID) {
@@ -39,6 +46,7 @@ bot.on("voiceStateUpdate", async (oldMember, newMember) => {
         if(newMember.channelID === channelId) {
             userConnected = newMember.member.user;
             var channel = newMember.channel;
+            userConnected.channel = channel;
 
             await User.findById(userConnected.id)
             .then(user => {
@@ -76,8 +84,8 @@ bot.on("voiceStateUpdate", async (oldMember, newMember) => {
 
             if(users.length > 0){
                 for(let i = 0; i < users.length; i++) {
-                    if(users[i].id === userDisconnected.id) {
-                        if(logChannel) logChannel.send(`\`\`\`diff\n- ←📞 ${users[i].username} saiu do canal ${channel.name}\`\`\``);
+                    if(users[i].id === userDisconnected.id && users[i].channel.id === oldMember.channelID) {
+                        if(logChannel) logChannel.send(`\`\`\`diff\n- ←📞 ${users[i].username} saiu do canal ${channel.name} •\`\`\``);
                         // removendo do array o usuário desconectado
                         users.splice(i, 1); 
                     }
@@ -100,4 +108,4 @@ setInterval(() => {
         if(logChannel) logChannel.send(`\`\`\`yaml\n- 🔄 Atualizando tempo de conexão de ${user.username} | +30seg\`\`\``);
     });
 
-}, 30000);
+}, 10000); */
