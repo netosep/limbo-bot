@@ -1,5 +1,4 @@
 const { bot } = require("../../index");
-const database = require("../database/connection");
 
 bot.on("ready", async () => {
 
@@ -16,5 +15,5 @@ bot.on("ready", async () => {
      }), 10000);
 
     console.log("Connecting to the database...");
-    database.testConnection()
+
 })
