@@ -1,14 +1,16 @@
 const mysql = require("mysql");
-const { database } = require("../../config.json");
-//const { database } = require("../../config.example.json");
+const env = require("dotenv");
+
+env.config();
 
 var pool = mysql.createPool({
-    connectionLimit: 1000,
-    user: database.user,
-    password: database.password,
-    database: database.db,
-    host: database.host,
-    port: database.port
+    host            : process.env.DB_HOST,
+    database        : process.env.DB_NAME,
+    user            : process.env.DB_USER,
+    password        : process.env.DB_PASS,
+    port            : process.env.DB_PORT,
+    connectionLimit : 1000,
+    charset         : "utf8mb4"
 });
 
 const execute = function(query, params=[]) {
