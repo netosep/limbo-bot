@@ -1,17 +1,22 @@
 {
-  "name": "nA-discord-bot",
+  "name": "limbo-bot",
   "version": "1.0.0",
-  "description": "Bot de discord para o servidor nA raiz em node.js",
+  "description": "Simples bot de discord desenvolvido em node.js",
   "main": "index.js",
   "dependencies": {
     "@discordjs/opus": "^0.6.0",
-    "canvas": "^2.8.0",
-    "discord.js": "^12.0",
+    "canvacord": "^5.2.3",
+    "discord.js": "^12.5.3",
+    "distube": "^2.8.18",
+    "dotenv": "^10.0.0",
     "ffmpeg-static": "^4.4.0",
     "google-tts-api": "^2.0.2",
+    "moment": "^2.29.1",
+    "mongoose": "^6.0.6",
     "mysql": "^2.18.1"
   },
   "devDependencies": {
+    "@types/mongoose": "^5.11.97",
     "nodemon": "^2.0.12"
   },
   "scripts": {
@@ -20,13 +25,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/netosep/nA-discord-bot.git"
+    "url": "git+https://github.com/netosep/limbo-bot.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "discord",
+    "bot",
+    "discord.js",
+    "discord-bot"
+  ],
+  "author": "netosep",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/netosep/nA-discord-bot/issues"
+    "url": "https://github.com/netosep/limbo-bot/issues"
   },
-  "homepage": "https://github.com/netosep/nA-discord-bot#readme"
+  "homepage": "https://github.com/netosep/limbo-bot#readme"
 }
