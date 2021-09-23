@@ -13,7 +13,7 @@ module.exports = {
     run: async (bot, message, args) => {
 
         let embed = new MessageEmbed({
-            color: "RAMDOM",
+            color: "BLACK",
             description: "**Pingando... ⏳**"
         });
         
