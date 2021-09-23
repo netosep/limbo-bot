@@ -25,8 +25,9 @@ const convertTime = function(time) {
     // horas
     else if(time >= 3600000) {
         var hour = msToHour(time);
-        //var min = time % 3600000
-        return `${hour} hora${hour > 1 ? "s" : ""}`
+        var min = msToMin(time % 3600000);
+        var string = `${hour} hora${hour > 1 ? "s" : ""} ${min > 0 ? `e ${min} min` : ""}`;
+        return string;
     } else {
         return `${time} ms`;
     }
