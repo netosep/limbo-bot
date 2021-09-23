@@ -7,7 +7,11 @@ module.exports = {
         aliases: ["falar", "talk"]
     },
 
-    run: async (bot, message, args) => {
+    run: (bot, message, args) => {
+
+        if(bot.distube.isPaused(message) || bot.distube.isPlaying(message)) {
+            return message.channel.send("> **Não é uma boa hora pra usar esse comando...**")
+        }
         
         var string = args.join(" ");
         var voiceChannel = message.member.voice.channel;
@@ -27,7 +31,7 @@ module.exports = {
             return message.channel.send("você precisa estar em um canal de voz!")
         }
 
-        var audioURL = await getAudioUrl(string, {
+        var audioURL = getAudioUrl(`${message.author.username} disse: ${string}`, {
             lang: "pt",
             host: "https://translate.google.com"
         });
