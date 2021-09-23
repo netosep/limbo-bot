@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js")
 const moment = require("moment");
-const { loading_engre, arrow_raimbow } = require("../database/emojiIDs.json");
-const { getEmoji } = require("../lib/getEmoji");
+const { loading_engre, arrow_raimbow } = require("../../database/emojiIDs.json");
+const { getEmoji } = require("../../lib/getEmoji");
 
 module.exports = { 
 
