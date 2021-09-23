@@ -41,11 +41,15 @@ function setup(bot) {
 
         console.clear();
         console.log(`\x1b[33m`); // cor console amarela
-        console.log(`╔══════════════════════════════════════╗`)
-        console.log(`║     ___  ___ _  / _ \\/ __ \\/_  __/   ║`);
-        console.log(`║    / _ \\/ _ \`/ / _ </ /_/ / / /      ║`);
-        console.log(`║   /_//_/\\_,_/ /____/\\____/ /_/       ║`);
-        console.log(`╚══════════════════════════════════════╝`)
+        console.log(`╔══════════════════════════════════╗`)
+        console.log(`║   _ _           _                ║`);
+        console.log(`║  | (_)         | |               ║`);
+        console.log(`║  | |_ _ __ ___ | |__   ___       ║`);
+        console.log(`║  | | | '_ \` _ \\  '_ \\ / _ \\      ║`);
+        console.log(`║  | | | | | | | | |_) | (_) |     ║`);
+        console.log(`║  |_|_|_| |_| |_|_.__/ \\___/      ║`);
+        console.log(`║                                  ║`);
+        console.log(`╚══════════════════════════════════╝`)
         console.log(`\x1b[0m`); // retornando a cor normal
         console.log("Loading events...\n");
 
