@@ -1,6 +1,5 @@
 const { randomXP } = require("../lib/experience");
 
-
 module.exports = { 
 
     help: {
@@ -10,7 +9,7 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-        if(message.author.id != "232310431174230026") return;
+        if(message.author.id != process.env.BOT_OWNER_ID) return;
 
         var numMsgs = parseInt(args[1]);
         var target = message.mentions.users.first();
@@ -21,7 +20,7 @@ module.exports = {
 
             xp += randomXP();
             if(xp >= checkXP) {
-                checkXP = Math.round(checkXP * 2.5);
+                checkXP = Math.round(checkXP * 2);
                 level += 1;
             }
             
