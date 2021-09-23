@@ -5,7 +5,7 @@ module.exports = {
     help: {
         name: "avatar",
         usage: [`avatar`, `avatar <@user>`],
-        description: "Mostra o seu avatar ou o de alguém mencionado.",
+        description: "mostra o seu avatar ou o de alguém mencionado.",
         accessableBy: 'Todos os membros.',
         aliases: ["a", "perfil"]
     },
@@ -17,7 +17,7 @@ module.exports = {
         var time = new Date();
 
         message.channel.send(
-            embed.setColor("#2C3E50")
+            embed.setColor("BLACK")
             .setDescription(`> **Avatar de ${target}**
                              > [Clique aqui](${target.displayAvatarURL({ size: 4096, dynamic: true })}) para baixar`)
             .setImage(target.displayAvatarURL({ size: 4096, dynamic: true }))
