@@ -26,6 +26,42 @@ const findById = function(guildId) {
 
 }
 
+const insert = function(guild) {
+
+    mysql.execute(`
+        INSERT INTO guild (
+            guild_id, guild_owner_id, guild_name, guild_icon_url
+        )
+        VALUES ( ?, ?, ?, ? )`,
+        [ guild.id, guild.owner_id, guild.name, guild.icon_url ]
+    )
+    .catch((err) => {
+        return console.error(err);
+    });
+
+}
+
+const update = function(guild) {
+
+    mysql.execute(`
+        UPDATE guild
+        SET guild_name     = ?,
+            guild_owner_id = ?,
+            guild_icon_url = ?
+        WHERE guild_id     = ?`,
+        [
+            guild.name, guild.owner_id,
+            guild.icon_url, guild.id
+        ]
+    )
+    .catch((err) => {
+        return console.error(err);
+    });
+
+}
+
 module.exports = {
-    findById
+    findById,
+    insert,
+    update
 }
