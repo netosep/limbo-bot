@@ -44,9 +44,17 @@ const disabledChannelsTable = new Schema({
     versionKey : false
 });
 
+const botRichPresences = new Schema({
+    status_description : { type: String, default: '0', required: true }
+},
+{ 
+    versionKey : false
+});
+
 module.exports = {
     guildInfoTable,
     userInfoTable,
     rankInfoTable,
-    disabledChannelsTable
+    disabledChannelsTable,
+    botRichPresences
 }
