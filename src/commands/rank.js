@@ -1,7 +1,7 @@
 const canvacord = require("canvacord");
 const { MessageAttachment } = require("discord.js");
 //const { convertTime } = require("../lib/time");
-const Rank = require("../utils/rankQuery");
+//const Rank = require("../utils/rankQuery");
 
 module.exports = { 
 
