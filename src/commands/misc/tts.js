@@ -4,6 +4,9 @@ module.exports = {
 
     help: {
         name: "tts",
+        usage: ["tts <frase para falar>"],
+        description: "Fala no canal o texto digitado. 9?",
+        accessableBy: "Todos os membros.",
         aliases: ["falar", "talk"]
     },
 

@@ -7,6 +7,9 @@ module.exports = {
 
     help: {
         name: "info",
+        usage: ["info", "info <@user>"],
+        description: "Mostra as suas informações do discord ou a de alguém mencionado.",
+        accessableBy: "Todos os membros.",
         aliases: ["i"]
     },
 

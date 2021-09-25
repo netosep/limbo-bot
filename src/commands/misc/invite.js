@@ -5,8 +5,8 @@ module.exports = {
     help: {
         name: "invite",
         usage: ["invite"],
-        description: "te envia o link de convite do bot.",
-        accessableby: "todos os membros.",
+        description: "Te envia o link de convite do bot.",
+        accessableBy: "Todos os membros.",
         aliases: ["convite", "link"]
     },
     

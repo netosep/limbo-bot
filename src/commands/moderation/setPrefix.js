@@ -3,9 +3,9 @@ module.exports = {
 
     help: {
         name: "setprefix",
-        usage: ["setprefix ?", "sp !"],
-        description: "altera o prefixo do servidor.",
-        accessableBy: "administrador",
+        usage: ["setprefix <prefixo>", "sp !"],
+        description: "Altera o prefixo do servidor.",
+        accessableBy: "Administrador",
         aliases: ["sp"]
     },
 

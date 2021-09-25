@@ -7,7 +7,7 @@ module.exports = {
         name: "uptime",
         usage: ["uptime"],
         description: "Mostra o tempo online do bot.",
-        accessableby: "Todos os membros.",
+        accessableBy: "Todos os membros.",
         aliases: ["upt"]
     },
     

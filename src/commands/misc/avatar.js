@@ -4,9 +4,9 @@ module.exports = {
 
     help: {
         name: "avatar",
-        usage: [`avatar`, `avatar <@user>`],
-        description: "mostra o seu avatar ou o de alguém mencionado.",
-        accessableBy: 'Todos os membros.',
+        usage: ["avatar", "avatar <@user>"],
+        description: "Mostra o seu avatar ou o de alguém mencionado.",
+        accessableBy: "Todos os membros.",
         aliases: ["a", "perfil"]
     },
 
