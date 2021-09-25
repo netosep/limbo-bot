@@ -14,6 +14,4 @@ bot.on("ready", async () => {
         url: "https://www.youtube.com/watch?v=sSQH1Hin9-I", // video do samuel silva
      }), 10000);
 
-    console.log("Connecting to the database...");
-
-})
+});
