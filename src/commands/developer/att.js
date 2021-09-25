@@ -1,4 +1,7 @@
 const { randomXP } = require("../../lib/experience");
+const env = require("dotenv");
+
+env.config();
 
 module.exports = { 
 

@@ -1,3 +1,6 @@
+const env = require("dotenv");
+
+env.config();
 
 module.exports = { 
 
@@ -5,7 +8,7 @@ module.exports = {
         name: "eval",
         usage: ["eval"],
         description: "executa um comando em javascript",
-        accessableBy: "Dono do bot",
+        accessableBy: "Desenvolvedor do bot.",
         aliases: ["js", "run"]
     },
 
