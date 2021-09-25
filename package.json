@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@discordjs/opus": "^0.6.0",
+    "axios": "^0.21.4",
     "canvacord": "^5.2.3",
     "discord.js": "^12.5.3",
     "distube": "^2.8.18",
@@ -14,10 +15,11 @@
     "moment": "^2.29.1",
     "mongoose": "^6.0.6",
     "ms": "^3.0.0-canary.1",
-    "mysql": "^2.18.1"
+    "steamid": "^2.0.0"
   },
   "devDependencies": {
     "@types/mongoose": "^5.11.97",
+    "colors": "^1.4.0",
     "nodemon": "^2.0.12"
   },
   "scripts": {
