@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { asciiLogo } = require("./asciiLogo");
 
 function findFile(directory, pattern) {
 
@@ -29,36 +30,23 @@ function setup(bot) {
 
     fs.readdir("./src/events", (err, files) => {
 
-        if(err) {
-            return console.error(err);
-        }
+        if(err) return console.error(err);
 
         var jsFiles = files.filter(file => file.split(".").pop() === "js");
 
         if(jsFiles.length <= 0) {
-            return console.log("sem eventos para carregar")
+            return console.log("sem eventos para carregar");
         }
 
-        console.clear();
-        console.log(`\x1b[33m`); // cor console amarela
-        console.log(`╔══════════════════════════════════╗`)
-        console.log(`║   _ _           _                ║`);
-        console.log(`║  | (_)         | |               ║`);
-        console.log(`║  | |_ _ __ ___ | |__   ___       ║`);
-        console.log(`║  | | | '_ \` _ \\  '_ \\ / _ \\      ║`);
-        console.log(`║  | | | | | | | | |_) | (_) |     ║`);
-        console.log(`║  |_|_|_| |_| |_|_.__/ \\___/      ║`);
-        console.log(`║                                  ║`);
-        console.log(`╚══════════════════════════════════╝`)
-        console.log(`\x1b[0m`); // retornando a cor normal
+        asciiLogo();
         console.log("Loading events...\n");
-
         jsFiles.forEach((file, i = 0) => {
             require(`../events/${file}`); 
             i++;
-            console.log(`→ ${file} - OK!`)
+            console.log(`→ ${file} - OK!`);
             if(i === jsFiles.length) {
-                console.log(`\n${i} events loaded successfully!\n`)
+                console.log(`\n${i} events loaded successfully!\n`);
+                asciiLogo();
             }
         })
 
