@@ -7,6 +7,7 @@
     "@discordjs/opus": "^0.6.0",
     "axios": "^0.21.4",
     "canvacord": "^5.2.3",
+    "colors": "^1.4.0",
     "discord.js": "^12.5.3",
     "distube": "^2.8.18",
     "dotenv": "^10.0.0",
@@ -19,7 +20,6 @@
   },
   "devDependencies": {
     "@types/mongoose": "^5.11.97",
-    "colors": "^1.4.0",
     "nodemon": "^2.0.12"
   },
   "scripts": {
