@@ -62,7 +62,7 @@ LOG_CHANNEL_ID=000000000000
 
 - Execute o bot
 ```bash
-  npm run start
+  npm start
 ```
 
 #
