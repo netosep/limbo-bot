@@ -1,5 +1,6 @@
 const axios = require("axios");
 const Steam = require("steamid");
+const moment = require("moment");
 const { MessageEmbed } = require("discord.js");
 const env = require("dotenv");
 
@@ -52,17 +53,35 @@ module.exports = {
             await axios(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${token}&steamids=${steam}`)
             .then(async ({ data }) => {
                 let steamAcc = data.response.players[0];
+                let state = ["online", "offline", "ocupado", "away", "cochilando", "querendo trocar", "querendo jogar"];
+
                 if(!steamAcc) {
                     message.react("❎");
                     return message.channel.send("> **Não foi possivel encontrar uma conta steam com esse parâmetro...**");
                 }
+
                 await axios(`http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=${token}&steamids=${steam}`)
                 .then(({ data }) => {
-                    steamAcc.vacStatus = data.players[0]
+                    steamAcc.VACBanned = data.players[0].VACBanned;
+                    steamAcc.gameBans = data.players[0].NumberOfGameBans;
+                    steamAcc.VACBans = data.players[0].NumberOfVACBans;
                 });
 
-                // variavel final
-                console.log(steamAcc)
+                return message.channel.send(embed
+                    .setAuthor(`Steam de ${steamAcc.personaname}`, steamAcc.avatarfull, steamAcc.profileurl)
+                    .setThumbnail(steamAcc.avatarfull)
+                    .setDescription(`
+                        > Nome real: \`${steamAcc.realname || "indefinido"}\`
+                        > Status: \`${steamAcc.profilestate ? state[steamAcc.profilestate] : "offline"}\`` + 
+                        `| País: :flag_${steamAcc.loccountrycode ? steamAcc.loccountrycode.toLowerCase() : "white"}:
+                        > Link do perfil: **[clique aqui](https://steamcommunity.com/profiles/${steamAcc.steamid})**
+                        > Ultima vez online: \`${steamAcc.lastlogoff ? moment(steamAcc.lastlogoff*1000).format("DD/MM/YYYY - HH:mm") : "indefinido"}\`
+                        > SteamID: \`${new Steam(steamAcc.steamid).getSteam2RenderedID()}\`
+                        > Conta criada em: \`${moment(steamAcc.timecreated*1000).format("DD/MM/YYYY - HH:mm")}\`
+                        > Banimentos: \`VACBans: ${steamAcc.VACBans} / GameBans: ${steamAcc.gameBans}\`
+                    `)
+                    .setFooter(`Steam - © ${bot.user.username}`, "https://i.imgur.com/e9kv0wT.png")
+                );
 
             });
             
