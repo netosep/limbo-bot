@@ -6,20 +6,20 @@ const {
     rankInfoTable, 
     disabledChannelsTable 
 } = require("./schemas");
+require("colors");
 
 env.config();
 
 const uri = process.env.MONGODB_URL;
-
 client.connect(uri, { 
     useNewUrlParser: true, 
     useUnifiedTopology: true 
 })
 .then(() => {
-    return console.log("Success!")
+    return console.log("→ ONLINE!\n→ Conectado com o banco de dados!".green);
 })
 .catch((err) => {
-    console.log("Error!")
+    console.log("→ ONLINE!\n→ Erro ao conectar com o banco de dados...".red);
     return console.error(err)
 });
 
