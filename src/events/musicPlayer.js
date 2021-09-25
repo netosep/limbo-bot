@@ -62,7 +62,7 @@ bot.distube.on("finish", (message) => {
                 message.channel.send("> **Já que não tô tocando nada, tô vazando do canal!  👋**");
                 return message.member.voice.channel.leave();
             }
-        }, 60000);
+        }, 180000); // 3 min
     }
     
 });
