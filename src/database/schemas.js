@@ -36,9 +36,10 @@ const rankInfoTable = new Schema({
     versionKey : false
 });
 
-const disabledChannelsTable = new Schema({
+const disabledCmdsTable = new Schema({
     guild_id   : { type: String, default: '0', required: true },
-    channel_id : { type: String, default: '0', required: true }
+    channel_id : { type: String, default: '0', required: true },
+    commands   : { type: Array, default: [], required: true }
 },
 { 
     versionKey : false
@@ -55,6 +56,6 @@ module.exports = {
     guildInfoTable,
     userInfoTable,
     rankInfoTable,
-    disabledChannelsTable,
+    disabledCmdsTable,
     botRichPresences
 }
