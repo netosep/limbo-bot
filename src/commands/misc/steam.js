@@ -3,8 +3,8 @@ const Steam = require("steamid");
 const moment = require("moment");
 const { MessageEmbed } = require("discord.js");
 const env = require("dotenv");
-
 const token = process.env.STEAM_API_KEY;
+
 env.config();
 
 module.exports = {
@@ -22,6 +22,8 @@ module.exports = {
         let embed = new MessageEmbed().setColor("BLACK");
         let steam = args.join(" ");
         let validSteam = true;
+
+        if(!token) return;
 
         if(parseInt(steam)) {
             let validSteamId = new Steam(steam).isValid();
@@ -46,6 +48,9 @@ module.exports = {
                     message.react("❎");
                     return message.channel.send("> **Não foi possivel encontrar ninguém com esse final de URL...**");
                 }
+            })
+            .catch((err) => {
+                return console.error(err);
             });
         }
 
@@ -65,24 +70,30 @@ module.exports = {
                     steamAcc.VACBanned = data.players[0].VACBanned;
                     steamAcc.gameBans = data.players[0].NumberOfGameBans;
                     steamAcc.VACBans = data.players[0].NumberOfVACBans;
+                })
+                .catch((err) => {
+                    return console.error(err);
                 });
 
                 return message.channel.send(embed
-                    .setAuthor(`Steam de ${steamAcc.personaname}`, steamAcc.avatarfull, steamAcc.profileurl)
+                    .setAuthor(`Steam de ${(steamAcc.personaname).toUpperCase()}`, steamAcc.avatarfull, steamAcc.profileurl)
                     .setThumbnail(steamAcc.avatarfull)
                     .setDescription(`
-                        > Nome real: \`${steamAcc.realname || "indefinido"}\`
-                        > Status: \`${steamAcc.profilestate ? state[steamAcc.profilestate] : "offline"}\`` + 
+                        > ▫ Nome real: **${steamAcc.realname || "indefinido"}**
+                        > ▫ Status: **${steamAcc.profilestate ? state[steamAcc.profilestate] : "offline"}** ` + 
                         `| País: :flag_${steamAcc.loccountrycode ? steamAcc.loccountrycode.toLowerCase() : "white"}:
-                        > Link do perfil: **[clique aqui](https://steamcommunity.com/profiles/${steamAcc.steamid})**
-                        > Ultima vez online: \`${steamAcc.lastlogoff ? moment(steamAcc.lastlogoff*1000).format("DD/MM/YYYY - HH:mm") : "indefinido"}\`
-                        > SteamID: \`${new Steam(steamAcc.steamid).getSteam2RenderedID()}\`
-                        > Conta criada em: \`${moment(steamAcc.timecreated*1000).format("DD/MM/YYYY - HH:mm")}\`
-                        > Banimentos: \`VACBans: ${steamAcc.VACBans} / GameBans: ${steamAcc.gameBans}\`
+                        > ▫ Link do perfil: **[clique aqui](https://steamcommunity.com/profiles/${steamAcc.steamid})**
+                        > ▫ Ultima vez online: **${steamAcc.lastlogoff ? moment(steamAcc.lastlogoff*1000).format("DD/MM/YYYY - HH:mm") : "indefinido"}**
+                        > ▫ SteamID: **${new Steam(steamAcc.steamid).getSteam2RenderedID()}**
+                        > ▫ Conta criada em: **${moment(steamAcc.timecreated*1000).format("DD/MM/YYYY - HH:mm")}**
+                        > ▫ VAC: **\`${steamAcc.VACBanned ? "✅" : "❎"}\`** - VACBans: **${steamAcc.VACBans}** - GameBans: **${steamAcc.gameBans}**
                     `)
-                    .setFooter(`Steam - © ${bot.user.username}`, "https://i.imgur.com/e9kv0wT.png")
+                    .setFooter(`Steam Info - © ${bot.user.username}`, "https://i.imgur.com/e9kv0wT.png")
                 );
 
+            })
+            .catch((err) => {
+                return console.error(err);
             });
             
         }
