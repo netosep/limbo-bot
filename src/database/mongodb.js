@@ -4,7 +4,7 @@ const {
     guildInfoTable, 
     userInfoTable, 
     rankInfoTable, 
-    disabledChannelsTable 
+    disabledCmdsTable 
 } = require("./schemas");
 require("colors");
 
@@ -23,14 +23,14 @@ client.connect(uri, {
     return console.error(err)
 });
 
-const guildInfo        = client.model("guild", guildInfoTable);
-const userInfo         = client.model("user", userInfoTable);
-const rankInfo         = client.model("rank", rankInfoTable);
-const disabledChannels = client.model("disabledChannels", disabledChannelsTable);
+const guildInfo    = client.model("guild", guildInfoTable);
+const userInfo     = client.model("user", userInfoTable);
+const rankInfo     = client.model("rank", rankInfoTable);
+const disabledCmds = client.model("disabledCmds", disabledCmdsTable);
 
 module.exports = { 
     guildInfo,
     userInfo,
     rankInfo,
-    disabledChannels
+    disabledCmds
 }
