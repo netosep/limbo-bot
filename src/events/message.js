@@ -54,9 +54,19 @@ bot.on("message", async (message) => {
     }
 
     if(command) {
-        command.run(bot, message, args);
+        cmdToRun = command.help.name;
+        await bot.database.disabledCmds.findOne(
+            { guild_id: message.guild.id, channel_id: message.channel.id }
+        ).then((result) => {
+            if(result) {
+                if(result.commands.indexOf(cmdToRun) >= 0){
+                    return message.channel.send("> **Esse comando foi desabilitado nesse canal!**");
+                }
+            }
+            command.run(bot, message, args);
+        });
     } else {
-        // message.channel.send("esse comando não existe")
+        // message.channel.send("> **Esse comando não existe!**");
     }
 
     // commandCoodown.add(message.author.id);
