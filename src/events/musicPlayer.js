@@ -66,3 +66,8 @@ bot.distube.on("finish", (message) => {
     }
     
 });
+
+bot.distube.on("error", (message, err) => {
+    console.error(err);
+    return message.channel.send(`> **Aconteceu alguma coisa errada aqui e eu não vou poder reproduzir... 🥺**`);
+});
