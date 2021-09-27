@@ -18,6 +18,7 @@
     <li><a href="#">Como criar um banco de dados mongodb</a></li>
     <li><a href="https://discord.com/developers/applications">Painel de desenvolvedor do discord</a></li>
     <li><a href="#">Como criar um bot e obter o token</a></li>
+    <li><a href="https://steamcommunity.com/dev/apikey">Steam API Key</a></li>
     <li><a href="https://github.com/netosep/limbo-bot/archive/refs/heads/main.zip">Baixar o reposítório</a></li>
 </ul>
 
@@ -60,7 +61,7 @@ LEVELS_URL=http://localhost
 LOG_CHANNEL_ID=000000000000
 
 # steamapikey para o comando steam
-STEAM_API_KEY=
+STEAM_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 - Execute o bot
