@@ -54,7 +54,7 @@ module.exports = {
         }
 
         if(validSteam) {
-            let kills, deaths, player, headshots, mvps, matches, wons;
+            let kills, deaths, player, headshots, mvps, matches, wins;
             await axios(`http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=${token}&steamid=${steam}`)
             .then(({ data }) => {
                 data.playerstats.stats.forEach((stats) => {
@@ -63,7 +63,7 @@ module.exports = {
                     if(stats.name === "total_kills_headshot") headshots = stats.value;
                     if(stats.name === "total_mvps") mvps = stats.value;
                     if(stats.name === "total_matches_played") matches= stats.value;
-                    if(stats.name === "total_matches_won") wons = stats.value;
+                    if(stats.name === "total_matches_won") wins = stats.value;
                 });
             })
             .catch((err) => {
@@ -88,10 +88,10 @@ module.exports = {
                     > ▫ KD: **${(kills/deaths).toFixed(2)}**
                     > ▫ HS: **${headshots} - ${((headshots * 100) / kills).toFixed(0)}%**\n
                     > ▫ Partidas: **${matches}**
-                    > ▫ Vencidas: **${wons}**
-                    > ▫ Perdidas: **${matches - wons}**
+                    > ▫ Vencidas: **${wins}**
+                    > ▫ Perdidas: **${matches - wins}**
                     > ▫ MVPS: **${mvps}**
-                    > ▫ Winrate: **${(wons/(matches-wons)).toFixed(2)}%**
+                    > ▫ Winrate: **${(wins/(matches-wins)).toFixed(2)}%**
                 `)
                 .setFooter(`CS:GO Player Info - © ${bot.user.username}`, bot.user.displayAvatarURL())
             );
