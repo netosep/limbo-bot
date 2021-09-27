@@ -32,12 +32,7 @@ module.exports = {
         }
 
         message.channel.send(`> **Procurando por: \`${music}\` 🔍**`);
-        try {
-            return bot.distube.play(message, music);
-        } catch(err) {
-            console.error(err);
-            return message.channel.send(`> **Aconteceu alguma coisa errada aqui e eu não vou poder reproduzir... 🥺**`);
-        }
+        return bot.distube.play(message, music);
 
     } 
     
