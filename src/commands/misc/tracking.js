@@ -31,7 +31,7 @@ module.exports = {
 
             for (let i = (eventos.length -1); i >= 0; i--) {
                 embed.addField(`• ${eventos[i].descricao}`,
-                    `> 📆 Atualizado em \`${moment(eventos[i].dtHrCriado).format("DD/MM/YYYY")}\`
+                    `> 📆 Atualizado em: \`${moment(eventos[i].dtHrCriado).format("DD/MM/YYYY")}\`
                      > 📍 ${eventos[i].unidade.tipo} - ${eventos[i].unidade.endereco.cidade}-${eventos[i].unidade.endereco.uf}
                     ${eventos[i].unidadeDestino ? "> ✈ " + eventos[i].unidadeDestino.tipo + " - " +
                       eventos[i].unidadeDestino.endereco.cidade + "-" + eventos[i].unidadeDestino.endereco.uf : ""}`
@@ -39,15 +39,15 @@ module.exports = {
             }
 
             message.channel.send(embed
-                .setTitle(`🧭 **Rastreando objeto pela API dos CORREIOS**`)
+                .setAuthor("Rastreando objeto pela API dos CORREIOS", "https://i.imgur.com/I18ZP2h.png")
                 .setThumbnail("https://i.imgur.com/unNhvOp.png")
-                .setDescription(`> 🔗 Código de rastreio: **\`${objeto.codObjeto}\`**`)
+                .setDescription(`> ▫ Código de rastreio: **\`${objeto.codObjeto}\`**`)
                 .setFooter(`Previsão de chegada: ${moment(objeto.dtPrevista).format("DD/MM/YYYY")} 📅`, bot.user.displayAvatarURL())
             );
 
         })
         .catch((err) => {
-            return console.error(err)
+            return console.error(err);
         });
 
     }
