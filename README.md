@@ -58,6 +58,9 @@ LEVELS_URL=http://localhost
 
 # canal para salvar os logs do bot de forma global (será removido)
 LOG_CHANNEL_ID=000000000000
+
+# steamapikey para o comando steam
+STEAM_API_KEY=
 ```
 
 - Execute o bot
