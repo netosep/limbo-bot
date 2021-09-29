@@ -4,7 +4,7 @@ const guildInfoTable = new Schema({
     guild_id       : { type: String, default: '0', required: true },
     guild_name     : { type: String, default: '0', required: true },
     guild_owner_id : { type: String, default: '0', required: true },
-    guild_icon_url : { type: String, default: '0', required: true },
+    guild_icon_url : { type: String, default: '0', required: false },
     guild_prefix   : { type: String, default: '?', required: true },
     enable_rank    : { type: Boolean, default: false, required: true },
     created_at     : { type: Date, default: Date.now(), required: true }
