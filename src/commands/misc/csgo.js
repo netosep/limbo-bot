@@ -2,7 +2,6 @@ const axios = require("axios");
 const Steam = require("steamid");
 const { MessageEmbed } = require("discord.js");
 const env = require("dotenv");
-const token = process.env.STEAM_API_KEY;
 
 env.config();
 
@@ -21,8 +20,14 @@ module.exports = {
         let embed = new MessageEmbed().setColor("BLACK");
         let steam = args.join(" ");
         let validSteam = true;
+        let token = process.env.STEAM_API_KEY;
 
         if(!token) return;
+
+        if(!steam) {
+            message.react("❎");
+            return message.channel.send("> **É necessário passar um parâmetro!**");
+        }
 
         if(parseInt(steam)) {
             let validSteamId = new Steam(steam).isValid();
@@ -85,13 +90,13 @@ module.exports = {
                     > ▫ Nick: **[${player.personaname}](https://steamcommunity.com/profiles/${player.steamid})**
                     > ▫ Kills: **${kills}**
                     > ▫ Mortes: **${deaths}**
-                    > ▫ KD: **${(kills/deaths).toFixed(2)}**
-                    > ▫ HS: **${headshots} - ${((headshots * 100) / kills).toFixed(0)}%**\n
+                    > ▫ KD: **${(kills / deaths).toFixed(2)}**
+                    > ▫ HS: **${headshots} - ${((headshots * 100) / kills).toFixed(2)}%**\n
                     > ▫ Partidas: **${matches}**
                     > ▫ Vencidas: **${wins}**
                     > ▫ Perdidas: **${matches - wins}**
                     > ▫ MVPS: **${mvps}**
-                    > ▫ Winrate: **${(wins/(matches-wins)).toFixed(2)}%**
+                    > ▫ Winrate: **${((wins * 100) / matches).toFixed(2)}%**
                 `)
                 .setFooter(`CS:GO Player Info - © ${bot.user.username}`, bot.user.displayAvatarURL())
             );
