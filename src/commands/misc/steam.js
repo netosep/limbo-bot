@@ -25,6 +25,11 @@ module.exports = {
 
         if(!token) return;
 
+        if(!steam) {
+            message.react("❎");
+            return message.channel.send("> **É necessário passar um parâmetro!**");
+        }
+
         if(parseInt(steam)) {
             let validSteamId = new Steam(steam).isValid();
             if(!validSteamId) {
