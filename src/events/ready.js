@@ -3,7 +3,12 @@ const { bot } = require("../../index");
 bot.on("ready", async () => {
 
     var status = [
-        "boas energias!"
+        "boas energias!",
+        "use ?help",
+        "novos comandos!",
+        `em ${bot.guilds.cache.size} servidores 🥰`,
+        "me mencione para obter ajuda...",
+        `para ${bot.users.cache.size} usuários 🤪`
     ];
 
     let i = 0;
