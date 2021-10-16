@@ -1,4 +1,4 @@
-const { getAudioUrl } = require("google-tts-api")
+const axios = require("axios");
 
 module.exports = { 
 
@@ -10,7 +10,7 @@ module.exports = {
         aliases: ["falar", "talk"]
     },
 
-    run: (bot, message, args) => {
+    run: async (bot, message, args) => {
 
         if(bot.distube.isPaused(message) || bot.distube.isPlaying(message)) {
             return message.channel.send("> **Não é uma boa hora pra usar esse comando...**")
@@ -24,9 +24,9 @@ module.exports = {
             return message.channel.send("mensagem inválida!")
         }
 
-        if(string.length > 200) {
+        if(string.length > 550) {
             message.react("🔇");
-            return message.channel.send("mensagem inválida! (muito grande)")
+            return message.channel.send("> A mensagem contém muitos caracteres! Limite: \`550\` 😶");
         }
 
         if(!voiceChannel) {
@@ -34,22 +34,34 @@ module.exports = {
             return message.channel.send("você precisa estar em um canal de voz!")
         }
 
-        var audioURL = getAudioUrl(`${message.author.username} disse: ${string}`, {
-            lang: "pt",
-            host: "https://translate.google.com"
-        });
-
-        try {
-            voiceChannel.join().then(connection => {
-                message.react("🔊")
-                var dispacher = connection.play(audioURL);
-                dispacher.on("finish", () => {
-                    voiceChannel.leave()
+        await axios({
+            method: "post",
+            url: "https://streamlabs.com/polly/speak",
+            data: {
+                text: string,
+                voice: "Ricardo"
+            }
+        })
+        .then(({ data }) => {
+            try {
+                voiceChannel.join().then(connection => {
+                    message.react("🔊")
+                    var dispacher = connection.play(data.speak_url);
+                    dispacher.on("finish", () => {
+                        setTimeout(() => {
+                            voiceChannel.leave()
+                        }, 3000)
+                    })
                 })
-            })
-        } catch (error) {
-            message.channel.send("erro")
-        }
+            } catch (error) {
+                console.error(error);
+                message.channel.send("> **Ocorreu um erro ao reproduzir o texto... 🤕**");
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            return message.channel.send("> **Ocorreu um erro ao executar o comando... 🤕**");
+        })
 
     } 
     
