@@ -79,8 +79,10 @@ module.exports = {
                 setTimeout(() => { message.delete().catch(() => { return }) }, 60000);
                 return message.channel.send(embed
                     .setAuthor('Comando inválido!', 'https://i.imgur.com/ga5FQNR.png')
-                    .setDescription(`> Me perdoe ${message.author}, mas esse comando não existe! 
-                                     > Use \`${prefix}help\` para ver os comandos disponíveis.`)
+                    .setDescription(`
+                        > Me perdoe ${message.author}, mas esse comando não existe! 
+                        > Use \`${prefix}help\` para ver os comandos disponíveis.
+                    `)
                 )
                 .then(x => setTimeout(() => { x.delete().catch(() => { return }) }, 60000))
                 .catch(() => { return });
@@ -91,14 +93,16 @@ module.exports = {
             setTimeout(() => { message.delete().catch(() => { return }) }, 60000);
             message.channel.send(embed
                 .setAuthor(`Comando ${command.name.slice(0, 1).toUpperCase() + command.name.slice(1)}`, 'https://i.imgur.com/ga5FQNR.png')
-                .setDescription(`> 🔸 Descrição:
-                                 > \`${command.description || "não possui."}\`
-                                 > 🔸 Como usar:
-                                 > \`${prefix}${command.name ? command.usage.join(` / ${prefix}`) : 'não definido.'}\`
-                                 > 🔸 Quem pode usar:
-                                 > \`${command.accessableBy}\`
-                                 > 🔸 Atalhos:
-                                 > \`${prefix}${command.aliases ? command.aliases.join(` / ${prefix}`) : "não possui."}\``)
+                .setDescription(`
+                    > 🔸 Descrição:
+                    > \`${command.description || "não possui."}\`
+                    > 🔸 Como usar:
+                    > \`${prefix}${command.name ? command.usage.join(` / ${prefix}`) : 'não definido.'}\`
+                    > 🔸 Quem pode usar:
+                    > \`${command.accessableBy}\`
+                    > 🔸 Atalhos:
+                    > \`${prefix}${command.aliases ? command.aliases.join(` / ${prefix}`) : "não possui."}\`
+                `)
             )
             .then(x => setTimeout(() => { x.delete().catch(() => { return }) }, 60000))
             .catch(() => { return });
