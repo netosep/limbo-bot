@@ -12,7 +12,6 @@
     "distube": "^2.8.18",
     "dotenv": "^10.0.0",
     "ffmpeg-static": "^4.4.0",
-    "google-tts-api": "^2.0.2",
     "moment": "^2.29.1",
     "mongoose": "^6.0.6",
     "ms": "^3.0.0-canary.1",
