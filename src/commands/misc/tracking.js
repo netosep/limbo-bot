@@ -14,7 +14,7 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-        let tracking = args.join(" ");
+        let tracking = args.join(" ").toUpperCase();
         if (tracking.length < 1) return;
   
         await axios(`https://proxyapp.correios.com.br/v1/sro-rastro/${tracking}`)
