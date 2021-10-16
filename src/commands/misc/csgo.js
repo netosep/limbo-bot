@@ -54,12 +54,12 @@ module.exports = {
                 }
             })
             .catch((err) => {
-                return console.error(err)
+                return console.error(err);
             });
         }
 
         if(validSteam) {
-            let kills, deaths, player, headshots, mvps, matches, wins;
+            let kills, deaths, player, headshots, mvps, matches, wins, playerExists;
             await axios(`http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=${token}&steamid=${steam}`)
             .then(({ data }) => {
                 data.playerstats.stats.forEach((stats) => {
@@ -70,9 +70,13 @@ module.exports = {
                     if(stats.name === "total_matches_played") matches= stats.value;
                     if(stats.name === "total_matches_won") wins = stats.value;
                 });
+                playerExists = true;
+
             })
             .catch((err) => {
-                return console.error(err)
+                playerExists = false;
+                message.react("❎");
+                return message.channel.send("> **Esse usuário não existe ou está com o perfil privado... 🤔**");
             });
 
             await axios(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${token}&steamids=${steam}`)
@@ -83,23 +87,25 @@ module.exports = {
                 return console.error(err)
             });
 
-            return message.channel.send(embed
-                .setAuthor(`informações de ${(player.personaname).toUpperCase()}`, player.avatarfull, player.profileurl)
-                .setThumbnail("https://i.imgur.com/m90ZV8l.png") // csgologo
-                .setDescription(`
-                    > ▫ Nick: **[${player.personaname}](https://steamcommunity.com/profiles/${player.steamid})**
-                    > ▫ Kills: **${kills}**
-                    > ▫ Mortes: **${deaths}**
-                    > ▫ KD: **${(kills / deaths).toFixed(2)}**
-                    > ▫ HS: **${headshots} - ${((headshots * 100) / kills).toFixed(2)}%**\n
-                    > ▫ Partidas: **${matches}**
-                    > ▫ Vencidas: **${wins}**
-                    > ▫ Perdidas: **${matches - wins}**
-                    > ▫ MVPS: **${mvps}**
-                    > ▫ Winrate: **${((wins * 100) / matches).toFixed(2)}%**
-                `)
-                .setFooter(`CS:GO Player Info - © ${bot.user.username}`, bot.user.displayAvatarURL())
-            );
+            if(playerExists) {
+                return message.channel.send(embed
+                    .setAuthor(`informações de ${(player.personaname).toUpperCase()}`, player.avatarfull, player.profileurl)
+                    .setThumbnail("https://i.imgur.com/m90ZV8l.png") // csgologo
+                    .setDescription(`
+                        > ▫ Nick: **[${player.personaname}](https://steamcommunity.com/profiles/${player.steamid})**
+                        > ▫ Kills: **${kills}**
+                        > ▫ Mortes: **${deaths}**
+                        > ▫ KD: **${(kills / deaths).toFixed(2)}**
+                        > ▫ HS: **${headshots} - ${((headshots * 100) / kills).toFixed(2)}%**\n
+                        > ▫ Partidas: **${matches}**
+                        > ▫ Vencidas: **${wins}**
+                        > ▫ Perdidas: **${matches - wins}**
+                        > ▫ MVPS: **${mvps}**
+                        > ▫ Winrate: **${((wins * 100) / matches).toFixed(2)}%**
+                    `)
+                    .setFooter(`CS:GO Player Info - © ${bot.user.username}`, bot.user.displayAvatarURL())
+                );
+            }
         }
 
     } 
