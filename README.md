@@ -46,7 +46,7 @@
   cp .env.example .env
 ```
 
-- Altere os valores
+- Subistitua os valores descritos com `<valor>`
 ```env
 # URL de conexão do banco de dados MongoDB
 # Veja mais em: https://www.mongodb.com/pt-br/basics/create-database
