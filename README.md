@@ -26,6 +26,9 @@
 #
 
 ### 👨‍💻 Executando localmente:
+
+- Pré requisitos: `npm >= 7.x e node >= 16.x`
+
 - Clone o projeto utilizando o comando abaixo
 ```bash
   git clone https://github.com/netosep/limbo-bot.git
