@@ -11,7 +11,7 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-        if(message.member.hasPermission("ADMINISTRATOR")) {
+        if(message.member.permissions.has("ADMINISTRATOR")) {
             
             let dataDB = await bot.database.disabledCmds.findOne(
                 { guild_id: message.guild.id, channel_id: message.channel.id }
@@ -48,10 +48,10 @@ module.exports = {
 
                     let successString = "O comando foi desativado nesse canal";
                     if(commandsToDisable.length > 1) successString = "Os comandos foram desativados nesse canal";
-                    return message.channel.send(`> **${successString}.**`);
+                    return message.reply(`> **${successString}.**`);
 
                 } else {
-                    return message.channel.send("> **Esse comando já está desabilitado para esse canal!**");
+                    return message.reply("> **Esse comando já está desabilitado para esse canal!**");
                 }
                 
             } else {
@@ -64,7 +64,7 @@ module.exports = {
             }
 
         } else {
-            return message.channel.send("> **Você não tem permissão para acessar esse comando!**");
+            return message.reply("> **Você não tem permissão para acessar esse comando!**");
         }
         
     } 

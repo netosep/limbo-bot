@@ -1,5 +1,4 @@
 const { MessageEmbed } = require("discord.js");
-const moment = require("moment");
 const ms = require("ms");
 
 module.exports = { 
@@ -17,33 +16,32 @@ module.exports = {
         let time = args[0];
         let reminder = args.slice(1).join(" ");
         let target = message.author;
-        let embed = new MessageEmbed().setColor("BLACK");
-
+        
         if(!time) {
-            message.react("❎");
-            return message.channel.send("> **Você se esqueceu de colocar o tempo... 🙄**");
+            return message.reply("> **Você se esqueceu de colocar o tempo... 🙄**");
         }
         if(isNaN(ms(time))) {
-            message.react("❎");
-            return message.channel.send("> **Esse tempo aí ta errado! 😬**");
+            return message.reply("> **Esse tempo aí ta errado! 😬**");
         }
         if(!reminder) {
-            message.react("❎");
-            return message.channel.send("> **Ta faltando o que devo te lembrar... 😒**");
+            return message.reply("> **Ta faltando o que devo te lembrar... 😒**");
         }
 
-        message.react("👍🏿");
-        message.channel.send(`> **Pode deixar que eu te lembro ${target.username}! 🤘🏿**`);
+        message.reply(`> **Pode deixar que eu te lembro ${target.username}! 🤘🏿**`);
+
+        let embed = new MessageEmbed()
+            .setColor("BLACK")
+            .setAuthor(`Opa ${target.username}! ✌`, target.displayAvatarURL())
+            .setDescription(`
+                > Há ${time} atrás você me pediu pra eu te lembrar disso aqui:
+                > **👉  ${reminder}**
+            `)
+            .setFooter(`© ${bot.user.username} - Lembretes`, bot.user.displayAvatarURL())
+            .setTimestamp()
 
         setTimeout(() => {
-            target.send(target, embed
-                .setAuthor(`Opa ${target.username}! ✌`, target.displayAvatarURL())
-                .setDescription(`> Você me pediu lembrar disso aqui:
-                                 > **👉  ${reminder}**`)
-                .setFooter(`© ${bot.user.username} - Lembretes`, bot.user.displayAvatarURL())
-                .setTimestamp()
-            );
-        }, ms(time)); 
+            return target.send({ content: `${target}`, embeds: [embed] });
+        }, ms(time));
 
     }
     

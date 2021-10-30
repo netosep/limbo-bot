@@ -13,10 +13,11 @@ module.exports = {
     
     run: async (bot, message, args) => {
 
-        let embed = new MessageEmbed().setColor("BLACK")
-        message.channel.send(embed
-            .setDescription(`**> Estou online a \`${ms(bot.uptime, {long: true})}\`**`)
-        ).catch(() => { return });
+        let embed = new MessageEmbed()
+            .setColor("BLACK")
+            .setDescription(`**> Estou online a \`${ms(bot.uptime, {long: true})}\`**`);
+
+        return message.channel.send({ embeds: [embed] }).catch(() => { return });
 
     }
 }

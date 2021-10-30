@@ -14,6 +14,7 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
+        let embed = new MessageEmbed().setColor("BLACK");
         let tracking = args.join(" ").toUpperCase();
         if (tracking.length < 1) return;
   
@@ -22,11 +23,11 @@ module.exports = {
 
             let objeto = data.objetos[0];
             let eventos = objeto.eventos;
-            let embed = new MessageEmbed().setColor("BLACK");
+            
 
             if(objeto.mensagem) {
                 message.react("❎");
-                return message.channel.send("> **Código de rastreio inválido!** 😕");
+                return message.reply("> **Código de rastreio inválido!** 😕");
             }
 
             for (let i = (eventos.length -1); i >= 0; i--) {
@@ -38,12 +39,12 @@ module.exports = {
                 );
             }
 
-            message.channel.send(embed
-                .setAuthor("Rastreando objeto pela API dos CORREIOS", "https://i.imgur.com/I18ZP2h.png")
+            embed.setAuthor("Rastreando objeto pela API dos CORREIOS", "https://i.imgur.com/I18ZP2h.png")
                 .setThumbnail("https://i.imgur.com/unNhvOp.png")
                 .setDescription(`> ▫ Código de rastreio: **\`${objeto.codObjeto}\`**`)
                 .setFooter(`Previsão de chegada: ${moment(objeto.dtPrevista).format("DD/MM/YYYY")} 📅`, bot.user.displayAvatarURL())
-            );
+
+            return message.reply({ embeds: [embed] });
 
         })
         .catch((err) => {

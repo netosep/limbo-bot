@@ -12,22 +12,16 @@ module.exports = {
     
     run: async (bot, message, args) => {
 
-        let embed = new MessageEmbed({
-            color: "BLACK",
-            description: "**Pingando... ⏳**"
-        });
+        let embed = new MessageEmbed()
+            .setColor("BLACK")
+            .setDescription("> **Pingando... ⏳**");
         
-        message.channel.send(embed)
-        .then(msg => {
-            var ping = msg.createdTimestamp - message.createdTimestamp
-            msg.edit(embed
-                .setDescription(`**Ping: \`${ping}ms\` ⏳| Ping API: \`${bot.ws.ping}ms\` ⏱**`)
-            ).catch(() => { 
-                return;
-            });
+        return message.reply({ embeds: [embed] })
+        .then((msg) => {
+            let ping = msg.createdTimestamp - message.createdTimestamp;
+            embed.setDescription(`> **BOT Ping: \`${ping}ms\` ⏳ | API Ping: \`${bot.ws.ping}ms\` ⏱**`);
+            return msg.edit({ embeds: [embed] }).catch(() => { return });
         })
-        .catch(() => { 
-            return;
-        });
+        .catch(() => { return });
     }
 }
