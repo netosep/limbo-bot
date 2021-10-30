@@ -1,44 +1,30 @@
 {
   "name": "limbo-bot",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Simples bot de discord desenvolvido em node.js",
   "main": "index.js",
-  "dependencies": {
-    "@discordjs/opus": "^0.6.0",
-    "axios": "^0.21.4",
-    "canvacord": "^5.2.3",
-    "colors": "^1.4.0",
-    "discord.js": "^12.5.3",
-    "distube": "^2.8.18",
-    "dotenv": "^10.0.0",
-    "ffmpeg-static": "^4.4.0",
-    "moment": "^2.29.1",
-    "mongoose": "^6.0.6",
-    "ms": "^3.0.0-canary.1",
-    "steamid": "^2.0.0"
-  },
-  "devDependencies": {
-    "@types/mongoose": "^5.11.97",
-    "nodemon": "^2.0.12"
-  },
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/netosep/limbo-bot.git"
+  "keywords": ["discord.js", "bot-discord", "discord-bot", "distube"],
+  "author": "https://github.com/netosep",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@discordjs/opus": "github:discordjs/opus",
+    "@discordjs/voice": "^0.6.0",
+    "@distube/spotify": "^1.0.0",
+    "axios": "^0.24.0",
+    "discord.js": "^13.2.0",
+    "distube": "^3.0.1",
+    "dotenv": "^10.0.0",
+    "ffmpeg-static": "^4.4.0",
+    "moment": "^2.29.1",
+    "mongoose": "^6.0.12",
+    "steamid": "^2.0.0",
+    "tweetnacl": "^1.0.3"
   },
-  "keywords": [
-    "discord",
-    "bot",
-    "discord.js",
-    "discord-bot"
-  ],
-  "author": "netosep",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/netosep/limbo-bot/issues"
-  },
-  "homepage": "https://github.com/netosep/limbo-bot#readme"
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
 }
