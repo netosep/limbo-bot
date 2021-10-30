@@ -5,8 +5,7 @@
 
 <div align="center">
     <p>Simples e descontraido bot de discord desenvolvido em Node.js</p>
-    <img alt="Discord" src="https://img.shields.io/discord/688110275789979657?color=black&label=discord&logo=discord&logoColor=white">
-    <img alt="License" src="https://img.shields.io/github/license/netosep/limbo-bot?color=black">
+    <img alt="License" src="https://img.shields.io/github/license/netosep/limbo-bot?color=black&logo=apache&logoColor=white">
     <img alt="Stars" src="https://img.shields.io/github/stars/netosep/limbo-bot?color=black&logo=github&logoColor=white">
     <img alt="Discord.js Version" src="https://img.shields.io/npm/v/discord.js?color=black&label=discord.js&logo=discord&logoColor=white">
     <img alt="Node.js Version" src="https://img.shields.io/npm/v/node?color=black&label=node&logo=node.js&logoColor=white">
