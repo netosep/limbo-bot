@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const { asciiLogo } = require("./asciiLogo");
 
 function findFile(directory, pattern) {
 
@@ -34,19 +33,28 @@ function setup(bot) {
 
         var jsFiles = files.filter(file => file.split(".").pop() === "js");
 
+        console.clear();
+        console.log(`╔═══════════════════════════════╗`)
+        console.log(`║   _ _           _             ║`);
+        console.log(`║  | (_)         | |            ║`);
+        console.log(`║  | |_ _ __ ___ | |__   ___    ║`);
+        console.log(`║  | | | '_ \` _ \\  '_ \\ / _ \\   ║`);
+        console.log(`║  | | | | | | | | |_) | (_) |  ║`);
+        console.log(`║  |_|_|_| |_| |_|_.__/ \\___/   ║`);
+        console.log(`║                               ║`);
+        console.log(`╚═══════════════════════════════╝`);
+
         if(jsFiles.length <= 0) {
             return console.log("sem eventos para carregar");
         }
 
-        asciiLogo();
-        console.log("Loading events...\n");
+        console.log("Loading events...");
         jsFiles.forEach((file, i = 0) => {
             require(`../events/${file}`); 
             i++;
             console.log(`→ ${file} - OK!`);
             if(i === jsFiles.length) {
-                console.log(`\n${i} events loaded successfully!\n`);
-                asciiLogo();
+                console.log(`${i} events loaded successfully!`);
             }
         })
 
