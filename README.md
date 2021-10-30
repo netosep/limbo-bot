@@ -14,6 +14,8 @@
 
 #
 
+<p align="center">Adicione-o ao seu servidor <a href="https://discord.com/oauth2/authorize?=&client_id=699289718348578836&scope=bot&permissions=8">clicando aqui</a> 🖤</p>
+
 ### 🔗 Links úteis:
 <ul>
     <li><a href="https://account.mongodb.com/account/login">MongoDB</a></li>
