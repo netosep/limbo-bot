@@ -4,7 +4,7 @@
 </h1>
 
 <div align="center">
-    <p>Simples e descontraido bot de discord desenvolvido em <a href="https://nodejs.dev/download/">node.js</a></p>
+    <p>Simples e descontraido bot de discord desenvolvido em Node.js</p>
     <img alt="Discord" src="https://img.shields.io/discord/688110275789979657?color=black&label=discord&logo=discord&logoColor=white">
     <img alt="License" src="https://img.shields.io/github/license/netosep/limbo-bot?color=black">
     <img alt="Stars" src="https://img.shields.io/github/stars/netosep/limbo-bot?color=black&logo=github&logoColor=white">
