@@ -7,7 +7,12 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "keywords": ["discord.js", "bot-discord", "discord-bot", "distube"],
+  "keywords": [
+    "discord.js",
+    "bot-discord",
+    "discord-bot",
+    "distube"
+  ],
   "author": "https://github.com/netosep",
   "license": "GPL-3.0",
   "dependencies": {
@@ -22,7 +27,8 @@
     "moment": "^2.29.1",
     "mongoose": "^6.0.12",
     "steamid": "^2.0.0",
-    "tweetnacl": "^1.0.3"
+    "tweetnacl": "^1.0.3",
+    "weather-js": "^2.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
