@@ -4,6 +4,9 @@ module.exports = {
 
     help: {
         name: "levels",
+        usage: ["levels"],
+        description: "Te manda o link do ranking de níveis do servidor.",
+        accessableBy: "Todos os membros.",
         aliases: ["lvl"]
     },
 

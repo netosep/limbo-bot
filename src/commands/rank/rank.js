@@ -7,6 +7,9 @@ module.exports = {
 
     help: {
         name: "rank",
+        usage: ["rank", "r"],
+        description: "Te mostra uma imagem com o seu nível.",
+        accessableBy: "Todos os membros.",
         aliases: ["r"]
     },
 
