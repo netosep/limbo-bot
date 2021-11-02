@@ -12,7 +12,10 @@ module.exports = {
     run: async (bot, message, args) => {
 
         if(!message.member.voice.channel) {
-            return message.reply("> **Você precisa estar em um canal pra poder executar esse comando...  😕**");
+            return message.reply({
+                content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
+                allowedMentions: { repliedUser: false } 
+            });
         }
 
         let queue = bot.distube.getQueue(message);
@@ -22,7 +25,10 @@ module.exports = {
             let userChannel = message.member.voice.channel.id
 
             if(queueChannel != userChannel) {
-                return message.reply("> **> **Não é possivel usar esse comando de um canal diferente!  😠**");
+                return message.reply({
+                    content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
+                    allowedMentions: { repliedUser: false } 
+                });
             } 
         }
 
@@ -31,7 +37,10 @@ module.exports = {
         let string = "Procurando por";
         if(song.startsWith("http")) string = "Acessando url";
 
-        message.reply(`> **${string}: \`${song}\` 🔍**`);
+        message.reply({
+            content: `> **${string}: \`${song}\` 🔍**`,
+            allowedMentions: { repliedUser: false } 
+        });
         return bot.distube.play(message, song);
         
     } 

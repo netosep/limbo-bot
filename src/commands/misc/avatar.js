@@ -24,7 +24,10 @@ module.exports = {
             .setFooter(`© ${bot.user.username} - ${time.getFullYear()}`, bot.user.displayAvatarURL())
             .setTimestamp();
         
-        return message.reply({ embeds: [embed] }).catch(() => { return; });
+        return message.reply({ 
+            embeds: [embed], 
+            allowedMentions: { repliedUser: false } 
+        });
 
     } 
     

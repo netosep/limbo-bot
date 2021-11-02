@@ -17,7 +17,10 @@ module.exports = {
 
         if(queue) {
             if(queue.playing || queue.paused) {
-                return message.reply("> **Não é possivel reproduzir texto enquanto estou tocando uma música!  🙄**");
+                return message.reply({
+                    content: "> **Não é possivel reproduzir texto enquanto estou tocando uma música!  🙄**",
+                    allowedMentions: { repliedUser: false }
+                });
             }
         }
         
@@ -25,15 +28,24 @@ module.exports = {
         let voiceChannel = message.member.voice.channel;
 
         if(string.length < 1) {
-            return message.reply("> **Mensagem inválida!**");
+            return message.reply({
+                content: "> **Mensagem inválida!**",
+                allowedMentions: { repliedUser: false }
+            });
         }
 
         if(string.length > 550) {
-            return message.reply("> **A mensagem contém muitos caracteres! Limite: \`550\` 😶**");
+            return message.reply({
+                content: "> **A mensagem contém muitos caracteres! Limite: \`550\` 😶**",
+                allowedMentions: { repliedUser: false }
+            });
         }
 
         if(!voiceChannel) {
-            return message.reply("> **Você precisa estar em um canal de voz para executar esse comando!**");
+            return message.reply({
+                content: "> **Você precisa estar em um canal de voz para executar esse comando!**",
+                allowedMentions: { repliedUser: false }
+            });
         }
 
         await axios({
@@ -69,12 +81,18 @@ module.exports = {
 
             } catch(err) {
                 console.error(err);
-                message.reply("> **Ocorreu um erro ao reproduzir o texto... 🤕**");
+                message.reply({
+                    content: "> **Ocorreu um erro ao reproduzir o texto... 🤕**",
+                    allowedMentions: { repliedUser: false }
+                });
             }
         })
         .catch((err) => {
             console.error(err);
-            return message.reply("> **Ocorreu um erro ao executar o comando... 🤕**");
+            return message.reply({
+                content: "> **Ocorreu um erro ao executar o comando... 🤕**",
+                allowedMentions: { repliedUser: false }
+            });
         });
 
     } 

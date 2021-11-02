@@ -23,23 +23,29 @@ module.exports = {
         if(!token) return;
 
         if(!steam) {
-            message.react("❎");
-            return message.reply("> **É necessário passar um parâmetro!**");
+            return message.reply({
+                content: "> **É necessário passar um parâmetro!**",
+                allowedMentions: { repliedUser: false }
+            });
         }
 
         if(parseInt(steam)) {
             let validSteamId = new Steam(steam).isValid();
             if(!validSteamId) {
-                message.react("❎");
-                return message.reply("> **O SteamID informado é inválido!**");
+                return message.reply({
+                    content: "> **O SteamID informado é inválido!**",
+                    allowedMentions: { repliedUser: false }
+                });
             }
         }
         else if(steam.startsWith("STEAM_") || steam.startsWith("[U:")) {
             try {
                 steam = new Steam(steam).getSteamID64();
             } catch(err) {
-                message.react("❎");
-                return message.reply("> **O SteamID informado é inválido!**");
+                return message.reply({
+                    content: "> **O SteamID informado é inválido!**",
+                    allowedMentions: { repliedUser: false }
+                });
             }
         } else {
             await axios(`http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${token}&vanityurl=${steam}`)
@@ -47,8 +53,10 @@ module.exports = {
                 steam = data.response.steamid;
                 if(!steam) {
                     validSteam = false;
-                    message.react("❎");
-                    return message.reply("> **Não foi possivel encontrar ninguém com esse final de URL...**");
+                    return message.reply({
+                        content: "> **Não foi possivel encontrar ninguém com esse final de URL...**",
+                        allowedMentions: { repliedUser: false }
+                    });
                 }
             })
             .catch((err) => {
@@ -63,8 +71,10 @@ module.exports = {
                 let state = ["online", "offline", "ocupado", "away", "cochilando", "querendo trocar", "querendo jogar"];
 
                 if(!steamAcc) {
-                    message.react("❎");
-                    return message.reply("> **Não foi possivel encontrar uma conta steam com esse parâmetro...**");
+                    return message.reply({
+                        content: "> **Não foi possivel encontrar uma conta steam com esse parâmetro...**",
+                        allowedMentions: { repliedUser: false }
+                    });
                 }
 
                 await axios(`http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=${token}&steamids=${steam}`)
@@ -93,7 +103,10 @@ module.exports = {
                     `)
                     .setFooter(`Steam Info - © ${bot.user.username}`, "https://i.imgur.com/e9kv0wT.png");
 
-                return message.reply({ embeds: [embed] });
+                return message.reply({ 
+                    embeds: [embed], 
+                    allowedMentions: { repliedUser: false } 
+                });
 
             })
             .catch((err) => {

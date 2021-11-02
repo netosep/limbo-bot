@@ -17,7 +17,10 @@ module.exports = {
         if(message.author.id != process.env.BOT_OWNER_ID) return;
 
         if(!message.member.voice.channel) {
-            return message.reply("> **Você precisa estar em um canal pra poder executar esse comando...  😕**");
+            return message.reply({
+                content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
+                allowedMentions: { repliedUser: false } 
+            });
         }
 
         let queue = bot.distube.getQueue(message);
@@ -27,7 +30,10 @@ module.exports = {
             let userChannel = message.member.voice.channel.id;
 
             if(queueChannel != userChannel) {
-                return message.reply("> **Não é possivel usar esse comando de um canal diferente!  😠**");
+                return message.reply({
+                    content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
+                    allowedMentions: { repliedUser: false } 
+                });
             } 
             if(queue.playing) {
                 if(!args[0]) {
@@ -44,7 +50,12 @@ module.exports = {
                             > Use **\`${command} 3d\`** para aplicar o efeito 3D.
                             > Use **\`${command} off\`** para desligar o efeito.
                         `);
-                    return message.reply({ embeds: [embed] });
+
+                    return message.reply({ 
+                        embeds: [embed],
+                        allowedMentions: { repliedUser: false } 
+                    });
+
                 } else {
                     let filter = args[0].toLowerCase();
                     let filterList = [
@@ -54,15 +65,31 @@ module.exports = {
                     ];
 
                     if(!filterList.includes(filter)) {
-                        return message.reply("> **Este filtro não existe!  😕**");
+                        return message.reply({
+                            content: "> **Este filtro não existe!  😕**",
+                            allowedMentions: { repliedUser: false } 
+                        });
                     }
-                    if(filter === "off") filter = false;
-                    
-                    return bot.distube.setFilter(queue, filter, true);
+                    if(filter === "off") {
+                        bot.distube.setFilter(queue, false, true);
+                        return message.reply({
+                            content: "> **Efeito desligado!  😉**",
+                            allowedMentions: { repliedUser: false } 
+                        });
+                    }
+
+                    bot.distube.setFilter(queue, filter, true);
+                    return message.reply({
+                        content: `> **Filtro aplicado: \`${filter.toUpperCase()}\`  ✅**`,
+                        allowedMentions: { repliedUser: false } 
+                    });
                 }
             }
         } else {
-            return message.reply("> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**");
+            return message.reply({
+                content: "> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**",
+                allowedMentions: { repliedUser: false } 
+            });
         }
 
     } 

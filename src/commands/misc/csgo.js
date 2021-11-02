@@ -23,20 +23,30 @@ module.exports = {
         if(!token) return;
 
         if(!steam) {
-            return message.reply("> **É necessário passar um parâmetro!**");
+            return message.reply({
+                content: "> **É necessário passar um parâmetro!**",
+                allowedMentions: { repliedUser: false }
+            });
         }
 
         if(parseInt(steam)) {
             let validSteamId = new Steam(steam).isValid();
             if(!validSteamId) {
-                return message.reply("> **O SteamID informado é inválido!**");
+                return message.reply({
+                    content: "> **O SteamID informado é inválido!**",
+                    allowedMentions: { repliedUser: false }
+                });
             }
+
         }
         else if(steam.startsWith("STEAM_") || steam.startsWith("[U:")) {
             try {
                 steam = new Steam(steam).getSteamID64();
             } catch(err) {
-                return message.reply("> **O SteamID informado é inválido!**");
+                return message.reply({
+                    content: "> **O SteamID informado é inválido!**",
+                    allowedMentions: { repliedUser: false }
+                });
             }
         } else {
             await axios(`http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${token}&vanityurl=${steam}`)
@@ -44,11 +54,17 @@ module.exports = {
                 steam = data.response.steamid;
                 if(!steam) {
                     validSteam = false;
-                    return message.reply("> **Não foi possivel encontrar ninguém com esse final de URL...**");
+                    return message.reply({
+                        content: "> **Não foi possivel encontrar ninguém com esse final de URL...**",
+                        allowedMentions: { repliedUser: false }
+                    });
                 }
             })
             .catch(() => {
-                return message.reply("> **Aconteceu alguma coisa errada aqui e eu não vou conseguir fazer isso... 🥺**");
+                return message.reply({
+                    content: "> **Aconteceu alguma coisa errada aqui e eu não vou conseguir fazer isso... 🥺**",
+                    allowedMentions: { repliedUser: false }
+                });
             });
         }
 
@@ -68,7 +84,10 @@ module.exports = {
             })
             .catch((err) => {
                 playerExists = false;
-                return message.reply("> **Esse usuário não existe ou está com o perfil privado... 🤔**");
+                return message.reply({
+                    content: "> **Esse usuário não existe ou está com o perfil privado... 🤔**",
+                    allowedMentions: { repliedUser: false }
+                });
             });
 
             await axios(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${token}&steamids=${steam}`)
@@ -96,7 +115,10 @@ module.exports = {
                     `)
                     .setFooter(`CS:GO Player Info - © ${bot.user.username}`, bot.user.displayAvatarURL());
 
-                return message.reply({ embeds: [embed] }).catch(() => { return });
+                return message.reply({ 
+                    embeds: [embed], 
+                    allowedMentions: { repliedUser: false } 
+                });
             }
         }
 

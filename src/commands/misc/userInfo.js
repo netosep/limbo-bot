@@ -29,7 +29,11 @@ module.exports = {
             .setFooter(`© ${bot.user.username} `, bot.user.displayAvatarURL())
             .setTimestamp();
 
-        return message.reply({ embeds: [embed] }).catch(() => { return });
+        return message.reply({ 
+            embeds: [embed],
+            allowedMentions: { repliedUser: false }
+        })
+        .catch(() => { return });
 
     } 
     

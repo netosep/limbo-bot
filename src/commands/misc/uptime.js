@@ -17,7 +17,11 @@ module.exports = {
             .setColor("BLACK")
             .setDescription(`**> Estou online a \`${ms(bot.uptime, {long: true})}\`**`);
 
-        return message.channel.send({ embeds: [embed] }).catch(() => { return });
+        return message.channel.send({ 
+            embeds: [embed],
+            allowedMentions: { repliedUser: false }
+        })
+        .catch(() => { return });
 
     }
 }

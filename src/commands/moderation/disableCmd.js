@@ -48,10 +48,16 @@ module.exports = {
 
                     let successString = "O comando foi desativado nesse canal";
                     if(commandsToDisable.length > 1) successString = "Os comandos foram desativados nesse canal";
-                    return message.reply(`> **${successString}.**`);
+                    return message.reply({
+                        content: `> **${successString}.**`,
+                        allowedMentions: { repliedUser: false }
+                    });
 
                 } else {
-                    return message.reply("> **Esse comando já está desabilitado para esse canal!**");
+                    return message.reply({
+                        content: "> **Esse comando já está desabilitado para esse canal!**",
+                        allowedMentions: { repliedUser: false }
+                    });
                 }
                 
             } else {
@@ -64,7 +70,10 @@ module.exports = {
             }
 
         } else {
-            return message.reply("> **Você não tem permissão para acessar esse comando!**");
+            return message.reply({
+                content: "> **Você não tem permissão para acessar esse comando!**",
+                allowedMentions: { repliedUser: false }
+            });
         }
         
     } 

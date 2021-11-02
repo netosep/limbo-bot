@@ -20,7 +20,7 @@ module.exports = {
             .setAuthor('Esses são os meus comandos disponíveis:', 'https://i.imgur.com/ga5FQNR.png')
             .setThumbnail(bot.user.displayAvatarURL())
             .setColor("BLACK")
-            .setFooter(`© ${bot.user.username} - ${new Date().getFullYear()} | Comando help.`, bot.user.displayAvatarURL())
+            .setFooter(`© ${bot.user.username} - ${new Date().getFullYear()} | Comando help`, bot.user.displayAvatarURL());
 
         if(!args[0]){
             embed.addField('Comandos gerais:  ⚙',
@@ -62,37 +62,45 @@ module.exports = {
                 `> \`${prefix}help <comando>\` - mostra mais sobre o comando e como usar.`
             );
 
-           return message.reply({ embeds: [embed] });
+            return message.reply({ 
+               embeds: [embed], 
+               allowedMentions: { repliedUser: false } 
+            });
 
         } else{
 
             let command = bot.commands.get(bot.aliases.get(args[0].toLowerCase()) || args[0].toLowerCase())
 
             if(!command){
-                message.react('❎');
                 embed.setAuthor('Comando inválido!', 'https://i.imgur.com/ga5FQNR.png')
                     .setDescription(`
                         > Me perdoe ${message.author}, mas esse comando não existe! 
                         > Use \`${prefix}help\` para ver os comandos disponíveis.
                     `)
-                return message.reply({ embeds: [embed] });
+                return message.reply({ 
+                    embeds: [embed], 
+                    allowedMentions: { repliedUser: false } 
+                });
             }
 
             command = command.help;
 
             embed.setAuthor(`Comando ${command.name.slice(0, 1).toUpperCase() + command.name.slice(1)}`, 'https://i.imgur.com/ga5FQNR.png')
                 .setDescription(`
-                    > 🔸 Descrição:
+                    > ▫ **Descrição:**
                     > \`${command.description || "não possui."}\`
-                    > 🔸 Como usar:
+                    > ▫ **Como usar:**
                     > \`${prefix}${command.name ? command.usage.join(` / ${prefix}`) : 'não definido.'}\`
-                    > 🔸 Quem pode usar:
+                    > ▫ **Quem pode usar:**
                     > \`${command.accessableBy}\`
-                    > 🔸 Atalhos:
+                    > ▫ **Atalhos:**
                     > \`${prefix}${command.aliases ? command.aliases.join(` / ${prefix}`) : "não possui."}\`
                 `);
             
-            return message.reply({ embeds: [embed] });
+            return message.reply({ 
+                embeds: [embed], 
+                allowedMentions: { repliedUser: false } 
+            });
 
         }
         

@@ -12,7 +12,10 @@ module.exports = {
     run: async (bot, message, args) => {
 
         if(!message.member.voice.channel) {
-            return message.reply(`> **Você precisa estar em um canal pra poder executar esse comando...  😕**`);
+            return message.reply({
+                content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
+                allowedMentions: { repliedUser: false } 
+            });
         }
 
         let queue = bot.distube.getQueue(message);
@@ -22,14 +25,19 @@ module.exports = {
             let userChannel = message.member.voice.channel.id
 
             if(queueChannel != userChannel) {
-                return message.reply("> **Não é possivel usar esse comando de um canal diferente!  😠**");
+                return message.reply({
+                    content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
+                    allowedMentions: { repliedUser: false } 
+                });
             } 
-            
             if(queue.playing || queue.paused) {
                 let volume = args[0];
 
                 if(!volume) {
-                    return message.reply("> **Você precisa especificar um volume!  😕**");
+                    return message.reply({
+                        content: "> **Você precisa especificar um volume!  😕**",
+                        allowedMentions: { repliedUser: false } 
+                    });
                 }
                 if(parseInt(volume)) {
                     if(volume < 0) return message.react("😶");
@@ -43,12 +51,23 @@ module.exports = {
                     if(volume >= 10000 && volume < 50000) message.react("😵");
                     if(volume >= 50000) message.react("🤯");
     
-                    message.reply(`> **Novo volume: \`${volume}\` 🔊**`);
+                    message.reply({
+                        content: `> **Novo volume: \`${volume}\` 🔊**`,
+                        allowedMentions: { repliedUser: false } 
+                    });
                     return bot.distube.setVolume(queue, Number(volume));
+                } else {
+                    return message.reply({
+                        content: "> **Tem alguma coisa errada aí nesse valor de volume...  🔢**",
+                        allowedMentions: { repliedUser: false } 
+                    });
                 }
             }
         } else {
-            return message.reply("> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**");
+            return message.reply({
+                content: "> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**",
+                allowedMentions: { repliedUser: false } 
+            });
         }
     
     } 

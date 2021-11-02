@@ -12,7 +12,10 @@ module.exports = {
     run: async (bot, message, args) => {
 
         if(!message.member.voice.channel) {
-            return message.reply(`> **Você precisa estar em um canal pra poder executar esse comando...  😕**`);
+            return message.reply({
+                content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
+                allowedMentions: { repliedUser: false } 
+            });
         }
 
         let queue = bot.distube.getQueue(message);
@@ -22,20 +25,32 @@ module.exports = {
             let userChannel = message.member.voice.channel.id;
 
             if(queueChannel != userChannel) {
-                return message.reply("> **Não é possivel usar esse comando de um canal diferente!  😠**");
+                return message.reply({
+                    content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
+                    allowedMentions: { repliedUser: false } 
+                });
             } 
 
             return bot.distube.skip(message)
             .then(() => { 
-                return message.reply(`> **Próxima música... ⏭**`);
+                return message.reply({
+                    content: "> **Próxima música... ⏭**",
+                    allowedMentions: { repliedUser: false } 
+                });
             })
             .catch(() => {
                 queue.voice.leave();
-                return message.reply(`> **Não há próxima música! Parando reprodução... ⏹**`);
+                return message.reply({
+                    content: "> **Não há próxima música! Parando reprodução... ⏹**",
+                    allowedMentions: { repliedUser: false } 
+                });
             });
 
         } else {
-            return message.reply("> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**");
+            return message.reply({
+                content: "> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**",
+                allowedMentions: { repliedUser: false } 
+            });
         }
 
     } 

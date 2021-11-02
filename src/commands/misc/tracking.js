@@ -27,7 +27,10 @@ module.exports = {
 
             if(objeto.mensagem) {
                 message.react("❎");
-                return message.reply("> **Código de rastreio inválido!** 😕");
+                return message.reply({
+                    content: "> **Código de rastreio inválido!** 😕",
+                    allowedMentions: { repliedUser: false }
+                });
             }
 
             for (let i = (eventos.length -1); i >= 0; i--) {
@@ -44,7 +47,10 @@ module.exports = {
                 .setDescription(`> ▫ Código de rastreio: **\`${objeto.codObjeto}\`**`)
                 .setFooter(`Previsão de chegada: ${moment(objeto.dtPrevista).format("DD/MM/YYYY")} 📅`, bot.user.displayAvatarURL())
 
-            return message.reply({ embeds: [embed] });
+            return message.reply({ 
+                embeds: [embed], 
+                allowedMentions: { repliedUser: false } 
+            });
 
         })
         .catch((err) => {

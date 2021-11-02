@@ -26,7 +26,10 @@ module.exports = {
                     commandsToEnable.push(command.help.name);
                 } else {
                     commandExists = false;
-                    return message.reply("> **Esse comando não existe!**");
+                    return message.reply({
+                        content: "> **Esse comando não existe!**",
+                        allowedMentions: { repliedUser: false }
+                    });
                 }
             });
 
@@ -42,7 +45,10 @@ module.exports = {
                 });
 
                 if(dbCommandsLength === dataDB.commands.length && commandExists){
-                    return message.reply("> **Esse comando já está ativo!**");
+                    return message.reply({
+                        content: "> **Esse comando já está ativo!**",
+                        allowedMentions: { repliedUser: false }
+                    });
                 }
                 
                 await bot.database.disabledCmds.updateOne(
@@ -57,12 +63,18 @@ module.exports = {
                 if(commandExists) {
                     let successString = "O comando está ativo novamente para uso neste canal";
                     if(args.length > 1) successString = "Os comandos estão ativos novamente para uso neste canal";
-                    return message.reply(`> **${successString}.**`);
+                    return message.reply({
+                        content: `> **${successString}.**`,
+                        allowedMentions: { repliedUser: false }
+                    });
                 }
             } 
             
         } else {
-            return message.reply("> **Você não tem permissão para acessar esse comando!**");
+            return message.reply({
+                content: "> **Você não tem permissão para acessar esse comando!**",
+                allowedMentions: { repliedUser: false }
+            });
         }
         
     } 

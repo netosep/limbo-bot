@@ -31,7 +31,10 @@ module.exports = {
             .setColor("BLACK")
             .setTimestamp();
 
-        return message.reply({ embeds: [embed] }); 
+        return message.reply({ 
+            embeds: [embed], 
+            allowedMentions: { repliedUser: false } 
+        }); 
 
     } 
     
