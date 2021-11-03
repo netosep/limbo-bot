@@ -25,7 +25,6 @@ module.exports = {
             let ping = msg.createdTimestamp - message.createdTimestamp;
             embed.setDescription(`> **BOT Ping: \`${ping}ms\` ⏳ | API Ping: \`${bot.ws.ping}ms\` ⏱**`);
             return msg.edit({ embeds: [embed] }).catch(() => { return });
-        })
-        .catch(() => { return });
+        });
     }
 }
