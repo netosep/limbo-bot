@@ -14,7 +14,8 @@ module.exports = {
         if(!message.member.voice.channel) {
             return message.reply({
                 content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
-                allowedMentions: { repliedUser: false } 
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
             });
         }
 
@@ -27,27 +28,43 @@ module.exports = {
             if(queueChannel != userChannel) {
                 return message.reply({
                     content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
-                    allowedMentions: { repliedUser: false } 
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
                 });
             } 
             if(queue.playing) {
                 message.reply({
-                    content: "> **Pausei ⏸**",
-                    allowedMentions: { repliedUser: false } 
-                });
-                return bot.distube.pause(message);
+                    content: `
+                        > **Reprodução em pausa ⏸**
+                        > ▶ Unpause automático em: \`3 min\` ⏱`,
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
+                })
+                bot.distube.pause(message);
+                return setTimeout(() => {
+                    if(queue.paused) {
+                        message.reply({
+                            content: "> **Unpause automatico! Retornando a reprodução ⏯**",
+                            allowedMentions: { repliedUser: false },
+                            failIfNotExists: false
+                        });
+                        bot.distube.resume(message);
+                    }
+                }, 5000); // 3 min
             }
             if(queue.paused) {
                 message.reply({
                     content: "> **Retornando a reprodução ⏯**",
-                    allowedMentions: { repliedUser: false } 
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
                 });
                 return bot.distube.resume(message);
             }
         } else {
             return message.reply({
                 content: "> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**",
-                allowedMentions: { repliedUser: false } 
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
             });
         }
 
