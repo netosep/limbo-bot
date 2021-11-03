@@ -35,6 +35,7 @@ module.exports = {
                 `> **\`${prefix}steam\`**       - busca um perfil steam pela url ou steamid.\n`+
                 `> **\`${prefix}csgo\`**        - mostra algus dados de uma conta de CS:GO.\n`+
                 `> **\`${prefix}lembrar\`**     - te manda uma mensagem de lembrete.\n`+
+                `> **\`${prefix}tempo\`**       - te mostra a previsão do tempo da cidade informada.\n`+
                 `> **\`${prefix}tts\`**         - entra no canal e fala o texto digitado.`
             );
             embed.addField('Comandos musicais:  🎶',
@@ -43,6 +44,7 @@ module.exports = {
                 `> **\`${prefix}pause\`**    - pausa a reprodução de uma música.\n`+
                 `> **\`${prefix}resume\`**   - retoma a música que estava em pausa.\n`+
                 `> **\`${prefix}stop\`**     - para a reprodução de uma música e sai do canal.\n`+
+                `> **\`${prefix}clear\`**    - limpa a fila de músicas para reprodução.\n`+
                 `> **\`${prefix}autoplay\`** - coloca a fila de reprodução em automático.\n`+
                 `> **\`${prefix}volume\`**   - define o volume da música que está reproduzindo.`
             );
@@ -54,7 +56,7 @@ module.exports = {
 
             if(message.member.id === process.env.BOT_OWNER_ID){
                 embed.addField('Comandos de desenvolvedor:  👨‍💻',
-                    `> **\`${prefix}eval\`**     - testa uma entrada de código.`
+                    `> **\`${prefix}eval\`**  - testa uma entrada de código.`
                 );
             }
 
@@ -64,7 +66,8 @@ module.exports = {
 
             return message.reply({ 
                embeds: [embed], 
-               allowedMentions: { repliedUser: false } 
+               allowedMentions: { repliedUser: false },
+               failIfNotExists: false 
             });
 
         } else{
@@ -79,7 +82,8 @@ module.exports = {
                     `)
                 return message.reply({ 
                     embeds: [embed], 
-                    allowedMentions: { repliedUser: false } 
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
                 });
             }
 
@@ -99,7 +103,8 @@ module.exports = {
             
             return message.reply({ 
                 embeds: [embed], 
-                allowedMentions: { repliedUser: false } 
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
             });
 
         }
