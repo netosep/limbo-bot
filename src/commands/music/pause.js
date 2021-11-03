@@ -3,41 +3,69 @@ module.exports = {
 
     help: {
         name: "pause",
+        usage: ["pause"],
+        description: "Pausa/Resume uma música em reprodução.",
+        accessableBy: "Todos os membros.",
         aliases: ["pausar"]
     },
 
     run: async (bot, message, args) => {
 
         if(!message.member.voice.channel) {
-            message.react("❎");
-            return message.channel.send(`> **Você precisa estar em um canal pra poder executar esse comando...  😕**`);
+            return message.reply({
+                content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
+            });
         }
 
         let queue = bot.distube.getQueue(message);
 
         if(queue) {
-            let queueChannel = queue.connection.channel.id;
-            let userChannel = message.member.voice.channel.id
+            let queueChannel = queue.voiceChannel.id;
+            let userChannel = message.member.voice.channel.id;
 
             if(queueChannel != userChannel) {
-                message.react("❎");
-                return message.channel.send("> **Não é possivel usar esse comando de um canal diferente!  😠**");
+                return message.reply({
+                    content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
+                });
             } 
-        }
-
-        if(bot.distube.isPlaying(message)) {
-            message.react("⏸");
-            message.channel.send(`> **Pausei ⏸**`);
-            return bot.distube.pause(message);
-        } 
-
-        if(bot.distube.isPaused(message)) {
-            message.react("⏸");
-            return message.channel.send(`> **Já estou pausado 😒**`);
-        } 
-
-        if(!bot.distube.isPlaying(message)){
-            return message.channel.send("> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**");
+            if(queue.playing) {
+                message.reply({
+                    content: `
+                        > **Reprodução em pausa ⏸**
+                        > ▶ Unpause automático em: \`3 min\` ⏱`,
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
+                })
+                bot.distube.pause(message);
+                return setTimeout(() => {
+                    if(queue.paused) {
+                        message.reply({
+                            content: "> **Unpause automatico! Retornando a reprodução ⏯**",
+                            allowedMentions: { repliedUser: false },
+                            failIfNotExists: false
+                        });
+                        bot.distube.resume(message);
+                    }
+                }, 5000); // 3 min
+            }
+            if(queue.paused) {
+                message.reply({
+                    content: "> **Retornando a reprodução ⏯**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
+                });
+                return bot.distube.resume(message);
+            }
+        } else {
+            return message.reply({
+                content: "> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**",
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
+            });
         }
 
     } 

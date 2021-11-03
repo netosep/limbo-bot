@@ -1,9 +1,8 @@
-/* const env = require("dotenv");
+/* require("dotenv").config();
 const { bot } = require("../../index");
 const User = require("../utils/userQuery");
 const Rank = require("../utils/rankQuery");
 
-env.config();
 
 var userConnected;
 var userDisconnected;

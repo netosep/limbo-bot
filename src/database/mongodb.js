@@ -1,14 +1,11 @@
 const client = require("mongoose");
-const env = require("dotenv");
 const { 
     guildInfoTable, 
     userInfoTable, 
     rankInfoTable, 
     disabledCmdsTable 
 } = require("./schemas");
-require("colors");
-
-env.config();
+require("dotenv").config();
 
 const uri = process.env.MONGODB_URL;
 client.connect(uri, { 
@@ -16,11 +13,12 @@ client.connect(uri, {
     useUnifiedTopology: true 
 })
 .then(() => {
-    return console.log("→ ONLINE!\n→ Conectado com o banco de dados!".green);
+    console.log("===== Client is Ready! =====");
+    return console.log("Success connecting to DB");
 })
 .catch((err) => {
-    console.log("→ ONLINE!\n→ Erro ao conectar com o banco de dados...".red);
-    return console.error(err)
+    console.log("An error occurred connecting to the DB...");
+    return console.error(err);
 });
 
 const guildInfo    = client.model("guild", guildInfoTable);

@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { joinVoiceChannel, createAudioResource, createAudioPlayer } = require("@discordjs/voice");
 
 module.exports = { 
 
@@ -12,26 +13,43 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-        if(bot.distube.isPaused(message) || bot.distube.isPlaying(message)) {
-            return message.channel.send("> **Não é uma boa hora pra usar esse comando...**")
+        let queue = bot.distube.getQueue(message);
+
+        if(queue) {
+            if(queue.playing || queue.paused) {
+                return message.reply({
+                    content: "> **Não é possivel reproduzir texto enquanto estou tocando uma música!  🙄**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
+                });
+            }
         }
         
-        var string = args.join(" ");
-        var voiceChannel = message.member.voice.channel;
+        let string = args.join(" ");
+        let voiceChannel = message.member.voice.channel;
 
         if(string.length < 1) {
-            message.react("🔇");
-            return message.channel.send("mensagem inválida!")
+            return message.reply({
+                content: "> **Mensagem inválida!**",
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
+            });
         }
 
         if(string.length > 550) {
-            message.react("🔇");
-            return message.channel.send("> A mensagem contém muitos caracteres! Limite: \`550\` 😶");
+            return message.reply({
+                content: "> **A mensagem contém muitos caracteres! Limite: \`550\` 😶**",
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
+            });
         }
 
         if(!voiceChannel) {
-            message.react("🔇");
-            return message.channel.send("você precisa estar em um canal de voz!")
+            return message.reply({
+                content: "> **Você precisa estar em um canal de voz para executar esse comando!**",
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
+            });
         }
 
         await axios({
@@ -44,24 +62,44 @@ module.exports = {
         })
         .then(({ data }) => {
             try {
-                voiceChannel.join().then(connection => {
-                    message.react("🔊")
-                    var dispacher = connection.play(data.speak_url);
-                    dispacher.on("finish", () => {
-                        setTimeout(() => {
-                            voiceChannel.leave()
-                        }, 3000)
-                    })
-                })
-            } catch (error) {
-                console.error(error);
-                message.channel.send("> **Ocorreu um erro ao reproduzir o texto... 🤕**");
+                let connection = joinVoiceChannel({
+                    channelId: voiceChannel.id,
+                    guildId: message.guild.id,
+                    adapterCreator: message.guild.voiceAdapterCreator
+                });
+
+                let player = createAudioPlayer();
+                let resource = createAudioResource(data.speak_url, { inlineVolume: true });
+
+                resource.volume.setVolume(1.5);
+                connection.subscribe(player);
+
+                message.react("🔊");
+                player.play(resource);
+
+                player.on("idle", () => {
+                    setTimeout(() => {
+                        connection.destroy();
+                    }, 3000);
+                });
+
+            } catch(err) {
+                console.error(err);
+                message.reply({
+                    content: "> **Ocorreu um erro ao reproduzir o texto... 🤕**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
+                });
             }
         })
         .catch((err) => {
             console.error(err);
-            return message.channel.send("> **Ocorreu um erro ao executar o comando... 🤕**");
-        })
+            return message.reply({
+                content: "> **Ocorreu um erro ao executar o comando... 🤕**",
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
+            });
+        });
 
     } 
     

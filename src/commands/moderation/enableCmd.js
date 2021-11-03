@@ -6,12 +6,12 @@ module.exports = {
         usage: ["enable <command>", "ec <command> <command>"],
         description: "Ativa o uso do comando no canal.",
         accessableBy: "Administrador.",
-        aliases: ["ac", "ativarcmd", "enablecmd"]
+        aliases: ["ec", "ativarcmd", "enablecmd"]
     },
 
     run: async (bot, message, args) => {
 
-        if(message.member.hasPermission("ADMINISTRATOR")) {
+        if(message.member.permissions.has("ADMINISTRATOR")) {
             
             let dataDB = await bot.database.disabledCmds.findOne(
                 { guild_id: message.guild.id, channel_id: message.channel.id }
@@ -26,7 +26,11 @@ module.exports = {
                     commandsToEnable.push(command.help.name);
                 } else {
                     commandExists = false;
-                    return message.channel.send("> **Esse comando não existe!**");
+                    return message.reply({
+                        content: "> **Esse comando não existe!**",
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false
+                    });
                 }
             });
 
@@ -42,7 +46,11 @@ module.exports = {
                 });
 
                 if(dbCommandsLength === dataDB.commands.length && commandExists){
-                    return message.channel.send("> **Esse comando já está ativo!**");
+                    return message.reply({
+                        content: "> **Esse comando já está ativo!**",
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false
+                    });
                 }
                 
                 await bot.database.disabledCmds.updateOne(
@@ -57,12 +65,20 @@ module.exports = {
                 if(commandExists) {
                     let successString = "O comando está ativo novamente para uso neste canal";
                     if(args.length > 1) successString = "Os comandos estão ativos novamente para uso neste canal";
-                    return message.channel.send(`> **${successString}.**`);
+                    return message.reply({
+                        content: `> **${successString}.**`,
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false
+                    });
                 }
             } 
             
         } else {
-            return message.channel.send("> **Você não tem permissão para acessar esse comando!**");
+            return message.reply({
+                content: "> **Você não tem permissão para acessar esse comando!**",
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
+            });
         }
         
     } 

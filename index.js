@@ -1,18 +1,24 @@
-const discord = require('discord.js');
-const DisTube = require("distube");
-const env = require("dotenv");
-const bot = new discord.Client();
+const { Client, Collection } = require("discord.js");
+const { DisTube } = require("distube");
+const { SpotifyPlugin } = require("@distube/spotify");
 const lib = require("./src/lib/functions");
+const bot = new Client({ intents: ['GUILDS', 'GUILD_VOICE_STATES', 'GUILD_MESSAGES'] });
+require("dotenv").config();
 
-env.config();
-
-bot.commands = new discord.Collection();
-bot.aliases  = new discord.Collection();
-bot.distube  = new DisTube(bot, { searchSongs: false, emitNewSongOnly: true });
+bot.commands = new Collection();
+bot.aliases  = new Collection();
 bot.database = require("./src/database/mongodb");
+bot.distube  = new DisTube(bot, {
+    searchSongs: 1, 
+    emitNewSongOnly: true,
+    emitAddSongWhenCreatingQueue: false,
+    leaveOnFinish: true,
+    leaveOnEmpty: true,
+    plugins: [new SpotifyPlugin()]
+});
 
 lib.setup(bot);
 
 bot.login(process.env.BOT_TOKEN);
 
-module.exports = { bot }
+module.exports = { bot };

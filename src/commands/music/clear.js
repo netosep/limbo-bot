@@ -2,11 +2,11 @@
 module.exports = { 
 
     help: {
-        name: "autoplay",
-        usage: ["autoplay"],
-        description: "define a reprodução automatica para \`on/off\`.",
+        name: "clear",
+        usage: ["clear", "limpar"],
+        description: "Limpa a fila de músicas que está em reprodução.",
         accessableBy: "Todos os membros.",
-        aliases: ["ap", "ra"]
+        aliases: ["c", "limpar"]
     },
 
     run: async (bot, message, args) => {
@@ -23,7 +23,8 @@ module.exports = {
 
         if(queue) {
             let queueChannel = queue.voiceChannel.id;
-            let userChannel = message.member.voice.channel.id
+            let userChannel = message.member.voice.channel.id;
+            let queueLength = queue.songs.length;
 
             if(queueChannel != userChannel) {
                 return message.reply({
@@ -32,14 +33,20 @@ module.exports = {
                     failIfNotExists: false 
                 });
             }
-
-            let mode = bot.distube.toggleAutoplay(queue);
-            message.reply({
-                content: `> **🔄 Autoplay: \`${mode ? "ATIVADO" : "DESATIVADO"}\`**`,
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false 
-            });
-
+            if(queueLength > 1) {
+                queue.songs = []; // limpando o array de músicas
+                return message.reply({
+                    content: `> **Todas as próximas \`${queueLength - 1}\` músicas foram removidas da fila...  🗑**`,
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
+                });
+            } else {
+                return message.reply({
+                    content: "> **A fila está vazia...  🙁**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
+                });
+            }
         } else {
             return message.reply({
                 content: "> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**",

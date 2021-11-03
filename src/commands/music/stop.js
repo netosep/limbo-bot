@@ -3,34 +3,49 @@ module.exports = {
 
     help: {
         name: "stop",
-        aliases: ["st", "parar"]
+        usage: ["stop", "leave"],
+        description: "Para a reprodução da música e sai do canal.",
+        accessableBy: "Todos os membros.",
+        aliases: ["st", "parar", "leave"]
     },
 
     run: async (bot, message, args) => {
 
         if(!message.member.voice.channel) {
-            message.react("❎");
-            return message.channel.send(`> **Você precisa estar em um canal pra poder executar esse comando...  😕**`);
+            return message.reply({
+                content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
+            });
         }
 
         let queue = bot.distube.getQueue(message);
 
         if(queue) {
-            let queueChannel = queue.connection.channel.id;
+            let queueChannel = queue.voiceChannel.id;
             let userChannel = message.member.voice.channel.id
 
             if(queueChannel != userChannel) {
-                message.react("❎");
-                return message.channel.send("> **Não é possivel usar esse comando de um canal diferente!  😠**");
+                return message.reply({
+                    content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
+                });
             } 
-        }
-
-        if(bot.distube.isPlaying(message)) {
-            message.react("⏹");
-            message.channel.send(`> **Parando reprodução... ⏹**`);
-            bot.distube.stop(message);
+            if(queue.playing || queue.paused) {
+                message.reply({
+                    content: "> **Parando reprodução... ⏹**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
+                });
+                return bot.distube.stop(message);
+            }
         } else {
-            message.channel.send("> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**");
+            return message.reply({
+                content: "> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**",
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
+            });
         }
 
     } 

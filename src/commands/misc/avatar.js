@@ -12,18 +12,23 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-        var target = message.mentions.users.first() || message.author;
-        var embed = new MessageEmbed();
-        var time = new Date();
-
-        message.channel.send(
-            embed.setColor("BLACK")
-            .setDescription(`> **Avatar de ${target}**
-                             > [Clique aqui](${target.displayAvatarURL({ size: 4096, dynamic: true })}) para baixar`)
+        let target = message.mentions.users.first() || message.author;
+        let time = new Date();
+        let embed = new MessageEmbed()
+            .setColor("BLACK")
             .setImage(target.displayAvatarURL({ size: 4096, dynamic: true }))
+            .setDescription(`
+                > **Avatar de ${target}**
+                > [Clique aqui](${target.displayAvatarURL({ size: 4096, dynamic: true })}) para baixar
+            `)
             .setFooter(`© ${bot.user.username} - ${time.getFullYear()}`, bot.user.displayAvatarURL())
-            .setTimestamp()
-        );
+            .setTimestamp();
+        
+        return message.reply({ 
+            embeds: [embed], 
+            allowedMentions: { repliedUser: false },
+            failIfNotExists: false
+        });
 
     } 
     

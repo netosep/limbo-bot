@@ -1,13 +1,14 @@
-const { randomXP } = require("../../lib/experience");
-const env = require("dotenv");
-
-env.config();
+const { randomXP } = require("../../lib/rankSystem");
+require("dotenv").config();
 
 module.exports = { 
 
     help: {
         name: "att",
-        aliases: ["a"]
+        usage: ["att <user> <num-msgs>"],
+        description: "Atualiza o rank do usuário.",
+        accessableBy: "Somente o desenvolvedor.",
+        aliases: ["update"]
     },
 
     run: async (bot, message, args) => {

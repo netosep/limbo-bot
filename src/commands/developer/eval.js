@@ -1,14 +1,13 @@
-const env = require("dotenv");
-
-env.config();
+const { MessageEmbed } = require("discord.js");
+require("dotenv").config();
 
 module.exports = { 
 
     help: {
         name: "eval",
-        usage: ["eval"],
-        description: "executa um comando em javascript",
-        accessableBy: "Desenvolvedor do bot.",
+        usage: ["eval <code>", "run <code>"],
+        description: "Executa um comando em javascript.",
+        accessableBy: "Somente o desenvolvedor.",
         aliases: ["js", "run"]
     },
 
@@ -16,16 +15,30 @@ module.exports = {
 
         if(message.author.id != process.env.BOT_OWNER_ID) return;
         
-        var input = args.join(" ");
-        var output;
+        let input = args.join(" ");
+        let output;
 
         try {
-            output = eval(input)
-        } catch (err) {
-            console.error(err)
+            output = eval(input);
+        } catch(err) {
+            output = err;
         }
 
-        return message.channel.send(`\`\`\`js\n${output}\`\`\`` );
+        let embed = new MessageEmbed()
+            .setColor("BLACK")
+            .setAuthor("Rodando um código em JavaScript", bot.user.displayAvatarURL())
+            .setDescription(`
+                ▫ **Entrada:**
+                \`\`\`js\n${input}\`\`\`
+                ▫ **Saída:**
+                \`\`\`js\n${output}\`\`\`
+            `)
+
+        return message.reply({ 
+            embeds: [embed], 
+            allowedMentions: { repliedUser: false },
+            failIfNotExists: false
+        });
 
     } 
     

@@ -3,37 +3,49 @@ module.exports = {
 
     help: {
         name: "play",
+        usage: ["play", "p <nome/link>"],
+        description: "Procura e reproduz a música pedida.",
+        accessableBy: "Todos os membros.",
         aliases: ["p"]
     },
 
     run: async (bot, message, args) => {
 
         if(!message.member.voice.channel) {
-            message.react("❎");
-            return message.channel.send(`> **Você precisa estar em um canal pra poder executar esse comando...  😕**`);
+            return message.reply({
+                content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
+            });
         }
 
         let queue = bot.distube.getQueue(message);
 
         if(queue) {
-            let queueChannel = queue.connection.channel.id;
+            let queueChannel = queue.voiceChannel.id;
             let userChannel = message.member.voice.channel.id
 
             if(queueChannel != userChannel) {
-                message.react("❎");
-                return message.channel.send("> **Não é possivel usar esse comando de um canal diferente!  😠**");
+                return message.reply({
+                    content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
+                });
             } 
         }
 
-        let music = args.join(" ");
+        let song = args.join(" ").trim();
+        if(!song) return message.react("🤨");
+        let string = "Procurando por";
+        if(song.startsWith("http")) string = "Acessando url";
 
-        if(music.trim() == "") {
-            return message.react("🤨");
-        }
-
-        message.channel.send(`> **Procurando por: \`${music}\` 🔍**`);
-        return bot.distube.play(message, music);
-
+        message.reply({
+            content: `> **${string}: \`${song}\` 🔍**`,
+            allowedMentions: { repliedUser: false },
+            failIfNotExists: false 
+        });
+        return bot.distube.play(message, song);
+        
     } 
     
 }

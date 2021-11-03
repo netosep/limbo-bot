@@ -3,50 +3,43 @@ const { bot } = require("../../index");
 
 let embed = new MessageEmbed().setColor("BLACK");
 
-bot.distube.on("playSong", (message, queue, song) => {
-
-    message.react("▶");
-    return message.channel.send(embed
-        .setAuthor("Tocando agora 🎵", bot.user.displayAvatarURL())
+bot.distube.on("playSong", (queue, song) => {
+    embed.setAuthor("Tocando agora 🎵", bot.user.displayAvatarURL())
         .setThumbnail(song.thumbnail)
         .setDescription(`
-            > **🔊 [${song.name}](${song.url})
-            > Duração: \`${song.formattedDuration}\`
-            > Pedida por: \`${song.user.username}#${song.user.discriminator}\`**
-        `)
-    );
+            > **🔊 [${song.name}](${song.url})**
+            > **Tocando em: ${queue.voiceChannel}**
+            > **Duração: \`${song.formattedDuration}\`**
+            > **Pedida por: \`${song.user.username}#${song.user.discriminator}\`**
+        `);
 
+    return queue.textChannel.send({ embeds: [embed] });
 });
 
-bot.distube.on("playList", (message, queue, playlist, song) => {
-    
-    message.react("✅");
-    return message.channel.send(embed
-        .setAuthor("Playlist adicionada 🆙", bot.user.displayAvatarURL())
-        .setThumbnail(playlist.thumbnail.url)
+bot.distube.on("addList", (queue, playlist) => {
+    embed.setAuthor("Uma playlist foi adicionada 🆙", bot.user.displayAvatarURL())
+        .setThumbnail(playlist.thumbnail)
         .setDescription(`
-            > **🔊 [${playlist.name}](${playlist.url})
-            > Duração: \`${playlist.formattedDuration}\`
-            > Tamanho: \`${playlist.songs.length} musicas\`
-            > Pedida por: \`${song.user.username}#${song.user.discriminator}\`**
-        `)
-    );
+            > **🔊 [${playlist.name}](${playlist.url})**
+            > **Duração: \`${playlist.formattedDuration}\`**
+            > **Tamanho: \`${playlist.songs.length} musicas\`**
+            > **Pedida por: \`${playlist.user.username}#${playlist.user.discriminator}\`**
+        `);
 
+    return queue.textChannel.send({ embeds: [embed] });
 });
 
-bot.distube.on("addSong", (message, queue, song) => {
-
-    message.react("✅");
-    return message.channel.send(embed
-        .setAuthor("Música adicionada a fila 🔜", bot.user.displayAvatarURL())
+bot.distube.on("addSong", (queue, song) => {
+    embed.setAuthor("Nova música adicionada a fila 🔜", bot.user.displayAvatarURL())
         .setThumbnail(song.thumbnail)
         .setDescription(`
-            > **🔊 [${song.name}](${song.url})
-            > Duração: \`${song.formattedDuration}\`
-            > Pedida por: \`${song.user.username}#${song.user.discriminator}\`**
+            > **🔊 [${song.name}](${song.url})**
+            > **Tocando em: ${queue.voiceChannel}**
+            > **Duração: \`${song.formattedDuration}\`**
+            > **Pedida por: \`${song.user.username}#${song.user.discriminator}\`**
         `)
-    );
 
+    return queue.textChannel.send({ embeds: [embed] });
 });
 
 bot.distube.on("initQueue", (queue) => {
@@ -54,20 +47,21 @@ bot.distube.on("initQueue", (queue) => {
     queue.volume = 100;
 });
 
-bot.distube.on("finish", (message) => {
-    
-    if(message.member.voice.channel) {
-        setTimeout(() => {
-            if(!bot.distube.isPaused(message) && !bot.distube.isPlaying(message)) {
-                message.channel.send("> **Já que não tô tocando nada, tô vazando do canal!  👋**");
-                return message.member.voice.channel.leave();
-            }
-        }, 180000); // 3 min
-    }
-    
+bot.distube.on("searchNoResult", (message, query) => {
+    return message.reply("> **Nada encontrado... 😕 Seja um pouco mais específico...  📝**");
 });
 
-bot.distube.on("error", (message, err) => {
-    // console.error(err);
-    return message.channel.send(`> **Aconteceu alguma coisa errada aqui e eu não vou poder reproduzir... 🥺**`);
+bot.distube.on("finish", (queue) => {
+    return queue.textChannel.send("> **Já que não tem mais nada pra tocar, tô vazando!  👋**");
+});
+
+bot.distube.on("empty", (queue) => {
+    return queue.textChannel.send("> **Não vou ficar tocando sozinho aqui não, tô vazando! 😠**");
+});
+
+bot.distube.on("error", (channel, err) => {
+    return channel.send(`
+        > **Aconteceu alguma coisa errada aqui e eu não consegui reproduzir... 🥺**
+        > 📄 Erro: **\`${err}\`**
+    `);
 });

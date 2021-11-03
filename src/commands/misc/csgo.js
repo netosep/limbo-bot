@@ -1,9 +1,7 @@
 const axios = require("axios");
 const Steam = require("steamid");
 const { MessageEmbed } = require("discord.js");
-const env = require("dotenv");
-
-env.config();
+require("dotenv").config();
 
 module.exports = { 
 
@@ -25,23 +23,33 @@ module.exports = {
         if(!token) return;
 
         if(!steam) {
-            message.react("❎");
-            return message.channel.send("> **É necessário passar um parâmetro!**");
+            return message.reply({
+                content: "> **É necessário passar um parâmetro!**",
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
+            });
         }
 
         if(parseInt(steam)) {
             let validSteamId = new Steam(steam).isValid();
             if(!validSteamId) {
-                message.react("❎");
-                return message.channel.send("> **O SteamID informado é inválido!**");
+                return message.reply({
+                    content: "> **O SteamID informado é inválido!**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
+                });
             }
+
         }
         else if(steam.startsWith("STEAM_") || steam.startsWith("[U:")) {
             try {
                 steam = new Steam(steam).getSteamID64();
             } catch(err) {
-                message.react("❎");
-                return message.channel.send("> **O SteamID informado é inválido!**");
+                return message.reply({
+                    content: "> **O SteamID informado é inválido!**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
+                });
             }
         } else {
             await axios(`http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${token}&vanityurl=${steam}`)
@@ -49,12 +57,19 @@ module.exports = {
                 steam = data.response.steamid;
                 if(!steam) {
                     validSteam = false;
-                    message.react("❎");
-                    return message.channel.send("> **Não foi possivel encontrar ninguém com esse final de URL...**");
+                    return message.reply({
+                        content: "> **Não foi possivel encontrar ninguém com esse final de URL...**",
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false
+                    });
                 }
             })
-            .catch((err) => {
-                return console.error(err);
+            .catch(() => {
+                return message.reply({
+                    content: "> **Aconteceu alguma coisa errada aqui e eu não vou conseguir fazer isso... 🥺**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
+                });
             });
         }
 
@@ -71,12 +86,14 @@ module.exports = {
                     if(stats.name === "total_matches_won") wins = stats.value;
                 });
                 playerExists = true;
-
             })
             .catch((err) => {
                 playerExists = false;
-                message.react("❎");
-                return message.channel.send("> **Esse usuário não existe ou está com o perfil privado... 🤔**");
+                return message.reply({
+                    content: "> **Esse usuário não existe ou está com o perfil privado... 🤔**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
+                });
             });
 
             await axios(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${token}&steamids=${steam}`)
@@ -88,8 +105,7 @@ module.exports = {
             });
 
             if(playerExists) {
-                return message.channel.send(embed
-                    .setAuthor(`informações de ${(player.personaname).toUpperCase()}`, player.avatarfull, player.profileurl)
+                embed.setAuthor(`informações de ${(player.personaname).toUpperCase()}`, player.avatarfull, player.profileurl)
                     .setThumbnail("https://i.imgur.com/m90ZV8l.png") // csgologo
                     .setDescription(`
                         > ▫ Nick: **[${player.personaname}](https://steamcommunity.com/profiles/${player.steamid})**
@@ -103,8 +119,13 @@ module.exports = {
                         > ▫ MVPS: **${mvps}**
                         > ▫ Winrate: **${((wins * 100) / matches).toFixed(2)}%**
                     `)
-                    .setFooter(`CS:GO Player Info - © ${bot.user.username}`, bot.user.displayAvatarURL())
-                );
+                    .setFooter(`CS:GO Player Info - © ${bot.user.username}`, bot.user.displayAvatarURL());
+
+                return message.reply({ 
+                    embeds: [embed], 
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
+                });
             }
         }
 

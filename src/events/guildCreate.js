@@ -1,7 +1,5 @@
 const { bot } = require("../../index");
-const env = require("dotenv");
-
-env.config();
+require("dotenv").config();
 
 bot.on("guildCreate", async (guild) => {
 

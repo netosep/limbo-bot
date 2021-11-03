@@ -12,17 +12,17 @@ module.exports = {
     
     run: async (bot, message, args) => {
         
-        let embed = new MessageEmbed().setColor("BLACK");
         let time = new Date();
-        // link de convite do bot
-        let link = `https://discord.com/oauth2/authorize?=&client_id=${bot.user.id}&scope=bot&permissions=8`
+        let link = `https://discord.com/oauth2/authorize?=&client_id=${bot.user.id}&scope=bot&permissions=8`; // link de convite do bot
 
-        message.react('🤙🏿').catch(() => { return });
-        
-        message.author.send(embed
+        let embed = new MessageEmbed()
+            .setColor("BLACK")
             .setAuthor(`Olá ${message.author.username}!`, message.author.displayAvatarURL())
             .setDescription(`> **[Clique aqui](${link}) para poder me adicionar ao seu servidor!**`)
-            .setFooter(`© ${bot.user.username} - ${time.getFullYear()} | Todos os direitos reservados.`, bot.user.displayAvatarURL())
-        ).catch(() => { return });
+            .setFooter(`© ${bot.user.username} - ${time.getFullYear()} | Todos os direitos reservados.`, bot.user.displayAvatarURL());
+        
+        message.react('🤙🏿').catch(() => { return });
+        return message.author.send({ embeds: [embed] }).catch(() => { return });
+        
     }
 }

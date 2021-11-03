@@ -1,5 +1,5 @@
-const canvacord = require("canvacord");
-const { MessageAttachment } = require("discord.js");
+//const canvacord = require("canvacord");
+//const { MessageAttachment } = require("discord.js");
 //const { convertTime } = require("../lib/time");
 //const Rank = require("../utils/rankQuery");
 
@@ -7,12 +7,21 @@ module.exports = {
 
     help: {
         name: "rank",
+        usage: ["rank", "r"],
+        description: "Te mostra uma imagem com o seu nível.",
+        accessableBy: "Todos os membros.",
         aliases: ["r"]
     },
 
     run: async (bot, message, args) => {
 
-/*         var user = message.mentions.users.first() || message.author;
+        return message.reply({
+            content: "> **Em desenvolvimento...  🛠**",
+            allowedMentions: { repliedUser: false },
+            failIfNotExists: false
+        });
+
+        /* var user = message.mentions.users.first() || message.author;
 
         if(user.bot) return;
 
