@@ -19,7 +19,8 @@ module.exports = {
         if(!message.member.voice.channel) {
             return message.reply({
                 content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
-                allowedMentions: { repliedUser: false } 
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
             });
         }
 
@@ -32,7 +33,8 @@ module.exports = {
             if(queueChannel != userChannel) {
                 return message.reply({
                     content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
-                    allowedMentions: { repliedUser: false } 
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
                 });
             } 
             if(queue.playing) {
@@ -53,7 +55,8 @@ module.exports = {
 
                     return message.reply({ 
                         embeds: [embed],
-                        allowedMentions: { repliedUser: false } 
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false 
                     });
 
                 } else {
@@ -67,28 +70,32 @@ module.exports = {
                     if(!filterList.includes(filter)) {
                         return message.reply({
                             content: "> **Este filtro não existe!  😕**",
-                            allowedMentions: { repliedUser: false } 
+                            allowedMentions: { repliedUser: false },
+                            failIfNotExists: false 
                         });
                     }
                     if(filter === "off") {
                         bot.distube.setFilter(queue, false, true);
                         return message.reply({
                             content: "> **Efeito desligado!  😉**",
-                            allowedMentions: { repliedUser: false } 
+                            allowedMentions: { repliedUser: false },
+                            failIfNotExists: false 
                         });
                     }
 
                     bot.distube.setFilter(queue, filter, true);
                     return message.reply({
                         content: `> **Filtro aplicado: \`${filter.toUpperCase()}\`  ✅**`,
-                        allowedMentions: { repliedUser: false } 
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false 
                     });
                 }
             }
         } else {
             return message.reply({
                 content: "> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**",
-                allowedMentions: { repliedUser: false } 
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
             });
         }
 

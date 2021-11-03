@@ -12,7 +12,13 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-       /*  message.channel.send(`${process.env.LEVELS_URL}/guild/${message.guild.id}`) */
+        return message.reply({
+            content: "> **Em desenvolvimento...  🛠**",
+            allowedMentions: { repliedUser: false },
+            failIfNotExists: false
+        });
+
+        // message.channel.send(`${process.env.LEVELS_URL}/guild/${message.guild.id}`) */
 
     } 
     

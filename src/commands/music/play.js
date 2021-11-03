@@ -14,7 +14,8 @@ module.exports = {
         if(!message.member.voice.channel) {
             return message.reply({
                 content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
-                allowedMentions: { repliedUser: false } 
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
             });
         }
 
@@ -27,7 +28,8 @@ module.exports = {
             if(queueChannel != userChannel) {
                 return message.reply({
                     content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
-                    allowedMentions: { repliedUser: false } 
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
                 });
             } 
         }
@@ -39,7 +41,8 @@ module.exports = {
 
         message.reply({
             content: `> **${string}: \`${song}\` 🔍**`,
-            allowedMentions: { repliedUser: false } 
+            allowedMentions: { repliedUser: false },
+            failIfNotExists: false 
         });
         return bot.distube.play(message, song);
         

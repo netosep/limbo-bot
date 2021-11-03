@@ -6,7 +6,7 @@ module.exports = {
         usage: ["enable <command>", "ec <command> <command>"],
         description: "Ativa o uso do comando no canal.",
         accessableBy: "Administrador.",
-        aliases: ["ac", "ativarcmd", "enablecmd"]
+        aliases: ["ec", "ativarcmd", "enablecmd"]
     },
 
     run: async (bot, message, args) => {
@@ -28,7 +28,8 @@ module.exports = {
                     commandExists = false;
                     return message.reply({
                         content: "> **Esse comando não existe!**",
-                        allowedMentions: { repliedUser: false }
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false
                     });
                 }
             });
@@ -47,7 +48,8 @@ module.exports = {
                 if(dbCommandsLength === dataDB.commands.length && commandExists){
                     return message.reply({
                         content: "> **Esse comando já está ativo!**",
-                        allowedMentions: { repliedUser: false }
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false
                     });
                 }
                 
@@ -65,7 +67,8 @@ module.exports = {
                     if(args.length > 1) successString = "Os comandos estão ativos novamente para uso neste canal";
                     return message.reply({
                         content: `> **${successString}.**`,
-                        allowedMentions: { repliedUser: false }
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false
                     });
                 }
             } 
@@ -73,7 +76,8 @@ module.exports = {
         } else {
             return message.reply({
                 content: "> **Você não tem permissão para acessar esse comando!**",
-                allowedMentions: { repliedUser: false }
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
             });
         }
         

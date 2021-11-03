@@ -14,7 +14,8 @@ module.exports = {
         if(!message.member.voice.channel) {
             return message.reply({
                 content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
-                allowedMentions: { repliedUser: false } 
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
             });
         }
 
@@ -27,7 +28,8 @@ module.exports = {
             if(queueChannel != userChannel) {
                 return message.reply({
                     content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
-                    allowedMentions: { repliedUser: false } 
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
                 });
             } 
             if(queue.playing || queue.paused) {
@@ -36,7 +38,8 @@ module.exports = {
                 if(!volume) {
                     return message.reply({
                         content: "> **Você precisa especificar um volume!  😕**",
-                        allowedMentions: { repliedUser: false } 
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false 
                     });
                 }
                 if(parseInt(volume)) {
@@ -53,20 +56,23 @@ module.exports = {
     
                     message.reply({
                         content: `> **Novo volume: \`${volume}\` 🔊**`,
-                        allowedMentions: { repliedUser: false } 
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false 
                     });
                     return bot.distube.setVolume(queue, Number(volume));
                 } else {
                     return message.reply({
                         content: "> **Tem alguma coisa errada aí nesse valor de volume...  🔢**",
-                        allowedMentions: { repliedUser: false } 
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false 
                     });
                 }
             }
         } else {
             return message.reply({
                 content: "> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**",
-                allowedMentions: { repliedUser: false } 
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
             });
         }
     

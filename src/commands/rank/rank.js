@@ -15,7 +15,13 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-/*         var user = message.mentions.users.first() || message.author;
+        return message.reply({
+            content: "> **Em desenvolvimento...  🛠**",
+            allowedMentions: { repliedUser: false },
+            failIfNotExists: false
+        });
+
+        /* var user = message.mentions.users.first() || message.author;
 
         if(user.bot) return;
 

@@ -19,7 +19,8 @@ module.exports = {
             if(prefix.length > 4) {
                 return message.reply({
                     content: "> **O prefixo é muito grande! Tamanho minimo: \`4\`**",
-                    allowedMentions: { repliedUser: false } 
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
                 });
             }
 
@@ -30,13 +31,15 @@ module.exports = {
 
             return message.reply({
                 content: `> **O meu prefixo foi alterado! Novo prefixo: \`${prefix}\`**`,
-                allowedMentions: { repliedUser: false } 
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
             });
 
         } else {
             return message.reply({
                 content: "> **Você não tem permissão para acessar esse comando!**",
-                allowedMentions: { repliedUser: false }
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
             });
         }
 

@@ -25,7 +25,8 @@ module.exports = {
         if(!steam) {
             return message.reply({
                 content: "> **É necessário passar um parâmetro!**",
-                allowedMentions: { repliedUser: false }
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
             });
         }
 
@@ -34,7 +35,8 @@ module.exports = {
             if(!validSteamId) {
                 return message.reply({
                     content: "> **O SteamID informado é inválido!**",
-                    allowedMentions: { repliedUser: false }
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
                 });
             }
 
@@ -45,7 +47,8 @@ module.exports = {
             } catch(err) {
                 return message.reply({
                     content: "> **O SteamID informado é inválido!**",
-                    allowedMentions: { repliedUser: false }
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
                 });
             }
         } else {
@@ -56,14 +59,16 @@ module.exports = {
                     validSteam = false;
                     return message.reply({
                         content: "> **Não foi possivel encontrar ninguém com esse final de URL...**",
-                        allowedMentions: { repliedUser: false }
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false
                     });
                 }
             })
             .catch(() => {
                 return message.reply({
                     content: "> **Aconteceu alguma coisa errada aqui e eu não vou conseguir fazer isso... 🥺**",
-                    allowedMentions: { repliedUser: false }
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
                 });
             });
         }
@@ -86,7 +91,8 @@ module.exports = {
                 playerExists = false;
                 return message.reply({
                     content: "> **Esse usuário não existe ou está com o perfil privado... 🤔**",
-                    allowedMentions: { repliedUser: false }
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
                 });
             });
 
@@ -117,7 +123,8 @@ module.exports = {
 
                 return message.reply({ 
                     embeds: [embed], 
-                    allowedMentions: { repliedUser: false } 
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
                 });
             }
         }

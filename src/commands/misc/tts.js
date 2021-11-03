@@ -19,7 +19,8 @@ module.exports = {
             if(queue.playing || queue.paused) {
                 return message.reply({
                     content: "> **Não é possivel reproduzir texto enquanto estou tocando uma música!  🙄**",
-                    allowedMentions: { repliedUser: false }
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
                 });
             }
         }
@@ -30,21 +31,24 @@ module.exports = {
         if(string.length < 1) {
             return message.reply({
                 content: "> **Mensagem inválida!**",
-                allowedMentions: { repliedUser: false }
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
             });
         }
 
         if(string.length > 550) {
             return message.reply({
                 content: "> **A mensagem contém muitos caracteres! Limite: \`550\` 😶**",
-                allowedMentions: { repliedUser: false }
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
             });
         }
 
         if(!voiceChannel) {
             return message.reply({
                 content: "> **Você precisa estar em um canal de voz para executar esse comando!**",
-                allowedMentions: { repliedUser: false }
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
             });
         }
 
@@ -83,7 +87,8 @@ module.exports = {
                 console.error(err);
                 message.reply({
                     content: "> **Ocorreu um erro ao reproduzir o texto... 🤕**",
-                    allowedMentions: { repliedUser: false }
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
                 });
             }
         })
@@ -91,7 +96,8 @@ module.exports = {
             console.error(err);
             return message.reply({
                 content: "> **Ocorreu um erro ao executar o comando... 🤕**",
-                allowedMentions: { repliedUser: false }
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
             });
         });
 

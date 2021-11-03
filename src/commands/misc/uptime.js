@@ -19,9 +19,9 @@ module.exports = {
 
         return message.channel.send({ 
             embeds: [embed],
-            allowedMentions: { repliedUser: false }
-        })
-        .catch(() => { return });
+            allowedMentions: { repliedUser: false },
+            failIfNotExists: false
+        });
 
     }
 }

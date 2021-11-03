@@ -29,7 +29,8 @@ module.exports = {
                 message.react("❎");
                 return message.reply({
                     content: "> **Código de rastreio inválido!** 😕",
-                    allowedMentions: { repliedUser: false }
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
                 });
             }
 
@@ -49,7 +50,8 @@ module.exports = {
 
             return message.reply({ 
                 embeds: [embed], 
-                allowedMentions: { repliedUser: false } 
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
             });
 
         })

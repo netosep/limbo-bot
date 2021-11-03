@@ -31,7 +31,8 @@ module.exports = {
 
         return message.reply({ 
             embeds: [embed],
-            allowedMentions: { repliedUser: false }
+            allowedMentions: { repliedUser: false },
+            failIfNotExists: false
         })
         .catch(() => { return });
 

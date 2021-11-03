@@ -38,8 +38,11 @@ bot.on("messageCreate", async (message) => {
                 > O meu prefixo nesse servidor é: \`${prefix}\`
                 > Digite \`${prefix}help\` para ver os comandos disponíveis.
             `);
-            
-        return message.reply({ embeds: [embed] }).catch(() => { return });
+
+        return message.reply({ 
+            embeds: [embed],
+            failIfNotExists: false
+        });
     }
 
     if(!message.content.startsWith(prefix)) return;
