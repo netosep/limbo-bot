@@ -28,13 +28,15 @@ module.exports = {
             if(err) {
                 return message.reply({
                     content: "> **Ocorreu algum erro por aqui...  🤕**",
-                    allowedMentions: { repliedUser: false }
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
                 });
             }
             if(result.length === 0) {
                 return message.reply({
                     content: "> **Não foi possível encontrar essa cidade ou local...  🧭**",
-                    allowedMentions: { repliedUser: false }
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false
                 });
             }
 
@@ -46,8 +48,9 @@ module.exports = {
                     > 💦 Humidade: **${result.current.humidity}%** 
                     > 💨 Vento: **${result.current.winddisplay}**
                     > ${emojis[result.current.skycode]} Tempo: **${result.current.skytext}**
+                    > 🔗 Fonte: **[MSN Clima](https://www.msn.com/pt-br/clima/)**
                 `)
-                .setFooter(`Atualizado às: ${result.current.observationtime}h - ${moment(result.current.date).format("DD/MM/YY")}`, bot.user.displayAvatarURL());
+                .setFooter(`Atualizado às: ${result.current.observationtime}h - ${moment(result.current.date).format("DD/MM/YY")} por MSN Clima`, bot.user.displayAvatarURL());
             
             let days = result.forecast;
             /* iniciando o for no 2 pois os dias 0 e 1 são ontem e hoje */
@@ -62,7 +65,8 @@ module.exports = {
            
             return message.reply({
                 embeds: [embed],
-                allowedMentions: { repliedUser: false }
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
             });
         });
 
