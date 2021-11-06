@@ -1,10 +1,5 @@
 const client = require("mongoose");
-const { 
-    guildInfoTable, 
-    userInfoTable, 
-    rankInfoTable, 
-    disabledCmdsTable 
-} = require("./schemas");
+const { guildInfoTable, userInfoTable, rankInfoTable, disabledCmdsTable } = require("./schemas");
 require("dotenv").config();
 
 const uri = process.env.MONGODB_URL;
