@@ -16,8 +16,9 @@ bot.on("messageCreate", async (message) => {
         await new bot.database.guildInfo({
             guild_id       : message.guild.id,
             guild_name     : message.guild.name,
-            guild_owner_id : message.guild.ownerID,
-            guild_icon_url : message.guild.iconURL({ size: 1024 })
+            guild_owner_id : message.guild.ownerId,
+            guild_icon_url : message.guild.iconURL({ size: 1024 }),
+            created_at     : Date.now()
         })
         .save()
         .then((guild) => { guildData = guild });
@@ -32,11 +33,12 @@ bot.on("messageCreate", async (message) => {
     if(message.content === `<@!${bot.user.id}>`) {
         let embed = new MessageEmbed()
             .setColor("BLACK")
-            .setAuthor(`Olá ${message.author.username}!`, message.author.displayAvatarURL({ dynamic: true }))
+            .setAuthor(`Salve ${message.author.username} ✌🏿`, message.author.displayAvatarURL({ dynamic: true }))
             .setThumbnail(message.guild.iconURL({ dynamic: true }))
-            .addField(`**Precisa de ajuda?**`, `
-                > O meu prefixo nesse servidor é: \`${prefix}\`
-                > Digite \`${prefix}help\` para ver os comandos disponíveis.
+            .setDescription(`
+                > ▫ **Me chamo ${bot.user}! Precisa de ajuda?**
+                > ▫ O meu prefixo nesse servidor é: \`${prefix}\`
+                > ▫ Digite \`${prefix}help\` para ver os comandos disponíveis.
             `);
 
         return message.reply({ 
@@ -67,7 +69,11 @@ bot.on("messageCreate", async (message) => {
             if(result) {
                 if(result.commands.indexOf(cmdToRun) >= 0){
                     setTimeout(() => { message.delete().catch(() => { return }) }, 10000);
-                    return message.reply("> **Esse comando foi desabilitado nesse canal!  🥱**")
+                    return message.reply({
+                        content: "> **Esse comando foi desabilitado nesse canal!  🥱**",
+                        allowedMentions: { repliedUser: false },
+                        failIfNotExists: false
+                    })
                     .then((msg) => {
                         setTimeout(() => { msg.delete().catch(() => { return }) }, 10000);
                     });
