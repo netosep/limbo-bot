@@ -10,7 +10,8 @@ const guildInfoTable = new Schema({
     guild_icon_url : { type: String, default: '0', required: false },
     guild_prefix   : { type: String, default: prefix, required: true },
     enable_rank    : { type: Boolean, default: false, required: true },
-    created_at     : { type: Date, default: Date.now(), required: true }
+    created_at     : { type: Date, required: false },
+    updated_at     : { type: Date, required: false }
 },
 { 
     versionKey : false
@@ -20,7 +21,8 @@ const userInfoTable = new Schema({
     user_id         : { type: String, default: '0', required: true },
     user_name       : { type: String, default: '0', required: true },
     user_avatar_url : { type: String, default: '0', required: true },
-    created_at      : { type: Date, default: Date.now(), required: true }
+    created_at      : { type: Date, required: false },
+    updated_at      : { type: Date, required: false }
 },
 { 
     versionKey : false
@@ -48,17 +50,9 @@ const disabledCmdsTable = new Schema({
     versionKey : false
 });
 
-const botRichPresences = new Schema({
-    status_description : { type: String, default: '0', required: true }
-},
-{ 
-    versionKey : false
-});
-
 module.exports = {
     guildInfoTable,
     userInfoTable,
     rankInfoTable,
-    disabledCmdsTable,
-    botRichPresences
+    disabledCmdsTable
 }
