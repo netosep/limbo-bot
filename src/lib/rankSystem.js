@@ -68,16 +68,17 @@ const randomXP = function() {
 
             } else {
                 await new bot.database.userInfo({
-                    user_id: user.id,
-                    user_name: user.username,
-                    user_avatar_url: user.displayAvatarURL({ size: 1024 })
+                    user_id         : user.id,
+                    user_name       : user.username,
+                    user_avatar_url : user.displayAvatarURL({ size: 1024 }),
+                    created_at      : Date.now()
                 }).save();
 
                 await new bot.database.rankInfo({
-                    user_id: user.id,
-                    guild_id: message.guild.id,
-                    experience: randomXP(),
-                    messages: 1
+                    user_id     : user.id,
+                    guild_id    : message.guild.id,
+                    experience  : randomXP(),
+                    messages    : 1
                 }).save();
             }
         })
