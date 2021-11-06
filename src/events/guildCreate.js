@@ -1,11 +1,6 @@
 const { bot } = require("../../index");
-require("dotenv").config();
 
 bot.on("guildCreate", async (guild) => {
-
-    let globalLogChannel = bot.channels.cache.get(process.env.LOG_CHANNEL_ID);
-    let owner = guild.owner.user;
-    if(globalLogChannel) globalLogChannel.send(`Entrei no servidor: **${guild.name}** - Dono: **${owner.username}#${owner.discriminator}**`);
 
     await bot.database.guildInfo.findOne({ 
         "guild_id": guild.id 
@@ -15,8 +10,9 @@ bot.on("guildCreate", async (guild) => {
             new bot.database.guildInfo({
                 guild_id       : guild.id,
                 guild_name     : guild.name,
-                guild_owner_id : guild.ownerID,
-                guild_icon_url : guild.iconURL({ size: 1024 })
+                guild_owner_id : guild.ownerId,
+                guild_icon_url : guild.iconURL({ size: 1024 }),
+                created_at     : Date.now()
             })
             .save()
             .then(() => {
