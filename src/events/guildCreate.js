@@ -22,6 +22,9 @@ bot.on("guildCreate", async (guild) => {
                 console.log(`Ocorreu um erro ao adicionar o servidor ${guild.name} ao banco de dados...`);
                 return console.error(err);
             });
+        } else {
+            await bot.database.guildInfo.updateOne({ guild_id: guild.id }, { active : true });
+            return console.log(`Estou de volta ao servidor: ${guild.name}`);
         }
     })
     .catch((err) => {
