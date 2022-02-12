@@ -13,18 +13,19 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-        let target = message.mentions.users.first() ||  message.author;
+        let user = message.mentions.users.first() || message.author;
+        let member = message.guild.members.cache.get(user.id);
         
         let embed = new MessageEmbed()
             .setColor("BLACK")
-            .setThumbnail(target.displayAvatarURL({ size: 1024 }))
-            .setAuthor(`Informações sobre ${target.username}`, target.displayAvatarURL())
+            .setThumbnail(user.displayAvatarURL({ size: 1024 }))
+            .setAuthor(`Informações sobre ${user.username}`, user.displayAvatarURL())
             .setDescription(`
-                > ▫ Nome: **${target.username}#${target.discriminator}**
-                > ▫ Nick no servidor: **${target.nickname || target.username}**
-                > ▫ Entrou no servidor em: **${moment(target.joinedTimestamp).format("DD/MM/YYYY")}**
-                > ▫ Conta criada em: **${moment(target.createdTimestamp).format("DD/MM/YYYY")}**
-                > ▫ ID único: \`${target.id}\`
+                > ▫ Nome: **${user.username}#${user.discriminator}**
+                > ▫ Nick no servidor: **${member.nickname || user.username}**
+                > ▫ Membro do servidor desde: **${moment(member.joinedTimestamp).format("DD/MM/YYYY")}**
+                > ▫ Conta criada em: **${moment(user.createdTimestamp).format("DD/MM/YYYY")}**
+                > ▫ ID único: \`${user.id}\`
             `)
             .setFooter(`© ${bot.user.username} `, bot.user.displayAvatarURL())
             .setTimestamp();
@@ -33,8 +34,7 @@ module.exports = {
             embeds: [embed],
             allowedMentions: { repliedUser: false },
             failIfNotExists: false
-        })
-        .catch(() => { return });
+        });
 
     } 
     
