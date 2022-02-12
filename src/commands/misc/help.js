@@ -24,42 +24,47 @@ module.exports = {
 
         if(!args[0]){
             embed.addField('Comandos gerais:  ⚙',
+                `> **\`${prefix}activity\`**    - iniciar uma atividade no canal do discord.\n`+
                 `> **\`${prefix}avatar\`**      - mostra o seu avatar ou o de alguém mencionado.\n`+
+                `> **\`${prefix}csgo\`**        - mostra algus dados de uma conta de CS:GO.\n`+
                 `> **\`${prefix}help\`**        - mostra os comandos disponíveis do bot.\n`+
+                `> **\`${prefix}invite\`**      - link de convite para adicionar o bot ao seu servidor.\n`+
                 `> **\`${prefix}ping\`**        - mostra o tempo de resposta do bot.\n`+
+                `> **\`${prefix}reminder\`**    - te manda uma mensagem de lembrete.\n`+
+                `> **\`${prefix}serverinfo\`**  - mostra algumas informações do servidor.\n`+
+                `> **\`${prefix}steam\`**       - busca um perfil steam pela url ou steamid.\n`+
+                // sugestion
+                `> **\`${prefix}tracking\`**    - mostra os dados de uma encomenda dos correios.\n`+
+                `> **\`${prefix}tts\`**         - entra no canal e fala o texto digitado.\n`+
                 `> **\`${prefix}uptime\`**      - mostra o tempo online do bot.\n`+
                 `> **\`${prefix}userinfo\`**    - mostra algumas informações da conta do discord.\n`+
-                `> **\`${prefix}serverinfo\`**  - mostra algumas informações do servidor.\n`+
-                `> **\`${prefix}link\`**        - link de convite para adicionar o bot ao seu servidor.\n`+
-                `> **\`${prefix}rastrear\`**    - mostra os dados de uma encomenda dos correios.\n`+
-                `> **\`${prefix}steam\`**       - busca um perfil steam pela url ou steamid.\n`+
-                `> **\`${prefix}csgo\`**        - mostra algus dados de uma conta de CS:GO.\n`+
-                `> **\`${prefix}lembrar\`**     - te manda uma mensagem de lembrete.\n`+
-                `> **\`${prefix}tempo\`**       - te mostra a previsão do tempo da cidade informada.\n`+
-                `> **\`${prefix}tts\`**         - entra no canal e fala o texto digitado.`
+                `> **\`${prefix}weather\`**     - mostra a previsão do tempo da cidade informada.\n`
             );
             embed.addField('Comandos musicais:  🎶',
-                `> **\`${prefix}play\`**     - busca no youtube e reproduz a música solicitada.\n`+
-                `> **\`${prefix}skip\`**     - pula a musica que está tocando para a próxima da fila.\n`+
-                `> **\`${prefix}pause\`**    - pausa a reprodução de uma música.\n`+
-                `> **\`${prefix}resume\`**   - retoma a música que estava em pausa.\n`+
-                `> **\`${prefix}stop\`**     - para a reprodução de uma música e sai do canal.\n`+
-                `> **\`${prefix}clear\`**    - limpa a fila de músicas para reprodução.\n`+
                 `> **\`${prefix}autoplay\`** - coloca a fila de reprodução em automático.\n`+
+                `> **\`${prefix}clear\`**    - limpa a fila de músicas para reprodução.\n`+
+                // filter
+                `> **\`${prefix}pause\`**    - pausa a reprodução de uma música.\n`+
+                `> **\`${prefix}play\`**     - busca no youtube e reproduz a música solicitada.\n`+
+                // queue
+                `> **\`${prefix}resume\`**   - retoma a música que estava em pausa.\n`+
+                `> **\`${prefix}skip\`**     - pula a musica que está tocando para a próxima da fila.\n`+
+                `> **\`${prefix}stop\`**     - para a reprodução de uma música e sai do canal.\n`+
                 `> **\`${prefix}volume\`**   - define o volume da música que está reproduzindo.`
             );
             embed.addField('Comandos de moderação:  👮‍♂️',
-                `> **\`${prefix}setprefix\`** - definir o prefixo do bot no servidor.\n`+
                 `> **\`${prefix}disable\`**   - desabilita o uso do(s) comando(s) no canal.\n`+
-                `> **\`${prefix}enable\`**    - habilita o uso do(s) comando(s) no canal.\n`
+                `> **\`${prefix}enable\`**    - habilita o uso do(s) comando(s) no canal.\n`+
+                `> **\`${prefix}setprefix\`** - definir o prefixo do bot no servidor.\n`
             );
-
-            if(message.member.id === process.env.BOT_OWNER_ID){
-                embed.addField('Comandos de desenvolvedor:  👨‍💻',
-                    `> **\`${prefix}eval\`**  - testa uma entrada de código.`
-                );
-            }
-
+            embed.addField('Comandos de desenvolvedor:  👨‍💻',
+                `> **\`${prefix}eval\`**  - testa/executa uma entrada de código.\n`+
+                `> **\`${prefix}lower\`** - converte uma palavra ou frase para letras minúsculas.\n`+
+                `> **\`${prefix}md5\`**   - converte uma palavra ou frase para char md5.\n`+
+                // qrcode
+                // repo
+                `> **\`${prefix}upper\`** - converte uma palavra ou frase para letras maiúsculas.\n`
+            );
             embed.addField("Use também:  🔥",
                 `> \`${prefix}help <comando>\` - mostra mais sobre o comando e como usar.`
             );
