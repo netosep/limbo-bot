@@ -71,7 +71,7 @@ module.exports = {
                 let player = createAudioPlayer();
                 let resource = createAudioResource(data.speak_url, { inlineVolume: true });
 
-                resource.volume.setVolume(1.5);
+                resource.volume.setVolume(5);
                 connection.subscribe(player);
 
                 message.react("🔊");
