@@ -10,8 +10,9 @@ const guildInfoTable = new Schema({
     guild_icon_url : { type: String, default: '0', required: false },
     guild_prefix   : { type: String, default: prefix, required: true },
     enable_rank    : { type: Boolean, default: false, required: true },
+    active         : { type: Boolean, default: true, required: true },
     created_at     : { type: Date, required: false },
-    updated_at     : { type: Date, required: false }
+    updated_at     : { type: Date, default: null, required: false }
 },
 { 
     versionKey : false
