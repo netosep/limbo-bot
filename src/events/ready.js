@@ -6,7 +6,8 @@ bot.on("ready", async () => {
         "boas energias!",
         "use ?help",
         `em ${bot.guilds.cache.size} servidores! 🥰`,
-        "me mencione para obter ajuda..."
+        "me mencione para obter ajuda...",
+        "novos comandos!"
     ];
 
     let i = 0;
