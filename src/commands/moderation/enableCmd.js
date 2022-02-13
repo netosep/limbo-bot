@@ -11,7 +11,7 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-        if(message.member.permissions.has("ADMINISTRATOR")) {
+        if(message.member.permissions.has("MANAGE_CHANNELS")) {
             
             let dataDB = await bot.database.disabledCmds.findOne(
                 { guild_id: message.guild.id, channel_id: message.channel.id }

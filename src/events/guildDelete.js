@@ -1,10 +1,8 @@
 const { bot } = require("../../index");
-require("dotenv").config();
 
-bot.on("guildDelete", (guild) => {
+bot.on("guildDelete", async (guild) => {
 
-    let globalLogChannel = bot.channels.cache.get(process.env.LOG_CHANNEL_ID);
-    let owner = guild.owner.user;
-    if(globalLogChannel) globalLogChannel.send(`Saí do servidor: **${guild.name}** - Dono: **${owner.username}#${owner.discriminator}**`);
+    await bot.database.guildInfo.updateOne({ guild_id: guild.id }, { active : false });
+    return console.log(`Fui removido do servidor: ${guild.name}`);
 
 });

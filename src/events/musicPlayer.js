@@ -4,40 +4,41 @@ const { bot } = require("../../index");
 let embed = new MessageEmbed().setColor("BLACK");
 
 bot.distube.on("playSong", (queue, song) => {
-    embed.setAuthor("Tocando agora 🎵", bot.user.displayAvatarURL())
+    embed.setAuthor("Tocando agora 🎶", bot.user.displayAvatarURL())
         .setThumbnail(song.thumbnail)
         .setDescription(`
-            > **🔊 [${song.name}](${song.url})**
-            > **Tocando em: ${queue.voiceChannel}**
-            > **Duração: \`${song.formattedDuration}\`**
-            > **Pedida por: \`${song.user.username}#${song.user.discriminator}\`**
+            > **🔗 [${song.name}](${song.url})**
+            > **🔊 Tocando em: ${queue.voiceChannel}**
+            > **⏱ Duração: \`${song.formattedDuration}\`**
+            > **👤 Pedida por: ${song.user.id === bot.user.id ? "\`AUTOPLAY\`" : song.user}**
         `);
 
     return queue.textChannel.send({ embeds: [embed] });
 });
 
 bot.distube.on("addList", (queue, playlist) => {
-    embed.setAuthor("Uma playlist foi adicionada 🆙", bot.user.displayAvatarURL())
+    embed.setAuthor("Uma nova playlist foi adicionada 🆙", bot.user.displayAvatarURL())
         .setThumbnail(playlist.thumbnail)
         .setDescription(`
-            > **🔊 [${playlist.name}](${playlist.url})**
-            > **Duração: \`${playlist.formattedDuration}\`**
-            > **Tamanho: \`${playlist.songs.length} musicas\`**
-            > **Pedida por: \`${playlist.user.username}#${playlist.user.discriminator}\`**
+            > **🔗 [${playlist.name}](${playlist.url})**
+            > **🔊 Para tocar em: ${queue.voiceChannel}**
+            > **⏱ Duração: \`${playlist.formattedDuration}\`**
+            > **📂 Tamanho: \`${playlist.songs.length} musicas\`**
+            > **👤 Adicionada por: ${playlist.user.id === bot.user.id ? "\`AUTOPLAY\`" : playlist.user}**
         `);
 
     return queue.textChannel.send({ embeds: [embed] });
 });
 
 bot.distube.on("addSong", (queue, song) => {
-    embed.setAuthor("Nova música adicionada a fila 🔜", bot.user.displayAvatarURL())
+    embed.setAuthor("Uma nova música foi adicionada a fila 🔜", bot.user.displayAvatarURL())
         .setThumbnail(song.thumbnail)
         .setDescription(`
-            > **🔊 [${song.name}](${song.url})**
-            > **Tocando em: ${queue.voiceChannel}**
-            > **Duração: \`${song.formattedDuration}\`**
-            > **Pedida por: \`${song.user.username}#${song.user.discriminator}\`**
-        `)
+            > **🔗 [${song.name}](${song.url})**
+            > **🔊 Para tocar em: ${queue.voiceChannel}**
+            > **⏱ Duração: \`${song.formattedDuration}\`**
+            > **👤 Pedida por: ${song.user.id === bot.user.id ? "\`AUTOPLAY\`" : song.user}**
+        `);
 
     return queue.textChannel.send({ embeds: [embed] });
 });
@@ -61,7 +62,6 @@ bot.distube.on("empty", (queue) => {
 
 bot.distube.on("error", (channel, err) => {
     return channel.send(`
-        > **Aconteceu alguma coisa errada aqui e eu não consegui reproduzir... 🥺**
-        > 📄 Erro: **\`${err}\`**
+        > **Aconteceu alguma coisa errada aqui... 🥺👇🏿**\n\`\`\`fix\n${err}\`\`\`
     `);
 });

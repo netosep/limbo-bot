@@ -50,7 +50,7 @@ module.exports = {
                         });
                         bot.distube.resume(message);
                     }
-                }, 5000); // 3 min
+                }, 180000); // 3 min
             }
             if(queue.paused) {
                 message.reply({

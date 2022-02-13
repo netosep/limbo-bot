@@ -2,7 +2,7 @@ const { Client, Collection } = require("discord.js");
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
 const lib = require("./src/lib/functions");
-const bot = new Client({ intents: ['GUILDS', 'GUILD_VOICE_STATES', 'GUILD_MESSAGES'] });
+const bot = new Client({ intents: ['GUILDS', 'GUILD_VOICE_STATES', 'GUILD_MESSAGES', 'GUILD_MEMBERS', 'GUILD_PRESENCES'] });
 require("dotenv").config();
 
 bot.commands = new Collection();

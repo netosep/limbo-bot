@@ -1,7 +1,4 @@
-const env = require("dotenv");
 const { bot } = require("../../index");
-
-env.config();
 
 bot.on("userUpdate", async (oldUser, newUser) => {
 
@@ -13,7 +10,8 @@ bot.on("userUpdate", async (oldUser, newUser) => {
             await bot.database.userInfo.updateOne({ user_id: newUser.id }, 
                 {
                     user_name       : newUser.username,
-                    user_avatar_url : newUser.displayAvatarURL({ size: 1024 })
+                    user_avatar_url : newUser.displayAvatarURL({ size: 1024 }),
+                    updated_at      : Date.now()
                 }
             );
         }

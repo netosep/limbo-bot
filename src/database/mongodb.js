@@ -1,10 +1,5 @@
 const client = require("mongoose");
-const { 
-    guildInfoTable, 
-    userInfoTable, 
-    rankInfoTable, 
-    disabledCmdsTable 
-} = require("./schemas");
+const { guildInfoTable, userInfoTable, rankInfoTable, disabledCmdsTable } = require("./schemas");
 require("dotenv").config();
 
 const uri = process.env.MONGODB_URL;
@@ -14,7 +9,7 @@ client.connect(uri, {
 })
 .then(() => {
     console.log("===== Client is Ready! =====");
-    return console.log("Success connecting to DB");
+    return console.log("Successfully connected to the database");
 })
 .catch((err) => {
     console.log("An error occurred connecting to the DB...");
