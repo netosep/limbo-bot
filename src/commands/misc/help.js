@@ -52,17 +52,17 @@ module.exports = {
                 `> **\`${prefix}stop\`**     - para a reprodução de uma música e sai do canal.\n`+
                 `> **\`${prefix}volume\`**   - define o volume da música que está reproduzindo.`
             );
-            embed.addField('Comandos de moderação:  👮‍♂️',
+            embed.addField('Comandos de moderação:  👮🏻‍♂️',
                 `> **\`${prefix}disable\`**   - desabilita o uso do(s) comando(s) no canal.\n`+
                 `> **\`${prefix}enable\`**    - habilita o uso do(s) comando(s) no canal.\n`+
                 `> **\`${prefix}setprefix\`** - definir o prefixo do bot no servidor.\n`
             );
-            embed.addField('Comandos de desenvolvedor:  👨‍💻',
-                `> **\`${prefix}eval\`**  - testa/executa uma entrada de código.\n`+
+            embed.addField('Comandos de desenvolvedor:  👨🏻‍💻',
+                // alert
+                // eval
                 `> **\`${prefix}lower\`** - converte uma palavra ou frase para letras minúsculas.\n`+
                 `> **\`${prefix}md5\`**   - converte uma palavra ou frase para char md5.\n`+
                 // qrcode
-                // repo
                 `> **\`${prefix}upper\`** - converte uma palavra ou frase para letras maiúsculas.\n`
             );
             embed.addField("Use também:  🔥",
