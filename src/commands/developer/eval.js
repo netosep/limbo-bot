@@ -13,7 +13,13 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-        if(message.author.id != process.env.BOT_OWNER_ID) return;
+        if(message.author.id != process.env.BOT_OWNER_ID) {
+            return message.reply({
+                content: `> **Negado! Esse comando só pode ser usado pelo desenvolvedor!  ⛔**`,
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
+            });
+        }
         
         let input = args.join(" ");
         let output;
