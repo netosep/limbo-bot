@@ -11,7 +11,8 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-        if(!message.member.voice.channel) {
+        let voiceChannel = message.member.voice.channel;
+        if(!voiceChannel) {
             return message.reply({
                 content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
                 allowedMentions: { repliedUser: false },
@@ -23,7 +24,7 @@ module.exports = {
 
         if(queue) {
             let queueChannel = queue.voiceChannel.id;
-            let userChannel = message.member.voice.channel.id
+            let userChannel = voiceChannel.id
 
             if(queueChannel != userChannel) {
                 return message.reply({
@@ -34,17 +35,22 @@ module.exports = {
             } 
         }
 
-        let song = args.join(" ").trim();
-        if(!song) return message.react("🤨");
+        let musicParams = args.join(" ").trim();
+        if(!musicParams) return message.react("🤨");
         let string = "Procurando por";
-        if(song.startsWith("http")) string = "Acessando url";
+        if(musicParams.startsWith("http")) string = "Acessando url";
 
         message.reply({
-            content: `> **${string}: \`${song}\` 🔍**`,
+            content: `> **${string}: \`${musicParams}\` 🔍**`,
             allowedMentions: { repliedUser: false },
             failIfNotExists: false 
         });
-        return bot.distube.play(message, song);
+
+        return bot.distube.play(voiceChannel, musicParams , {
+            member: message.member,
+            textChannel: message.channel,
+            message: message
+        });
         
     } 
     
