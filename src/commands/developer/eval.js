@@ -32,7 +32,7 @@ module.exports = {
 
         let embed = new MessageEmbed()
             .setColor("BLACK")
-            .setAuthor("Rodando um código em JavaScript", bot.user.displayAvatarURL())
+            .setAuthor({name: "Rodando um código em JavaScript", iconURL: bot.user.displayAvatarURL()})
             .setDescription(`
                 ▫ **Entrada:**
                 \`\`\`js\n${input}\`\`\`

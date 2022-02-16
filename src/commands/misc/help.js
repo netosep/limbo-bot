@@ -17,10 +17,13 @@ module.exports = {
         let prefix = data.guild_prefix;
 
         let embed = new MessageEmbed()
-            .setAuthor('Esses são os meus comandos disponíveis:', 'https://i.imgur.com/ga5FQNR.png')
+            .setAuthor({name: 'Esses são os meus comandos disponíveis:', iconURL: 'https://i.imgur.com/ga5FQNR.png'})
             .setThumbnail(bot.user.displayAvatarURL())
             .setColor("BLACK")
-            .setFooter(`© ${bot.user.username} - ${new Date().getFullYear()} | Comando help`, bot.user.displayAvatarURL());
+            .setFooter({
+                text: `© ${bot.user.username} - ${new Date().getFullYear()} | Comando help`, 
+                iconURL: bot.user.displayAvatarURL()
+            });
 
         if(!args[0]){
             embed.addField('Comandos gerais:  ⚙',
@@ -80,7 +83,7 @@ module.exports = {
             let command = bot.commands.get(bot.aliases.get(args[0].toLowerCase()) || args[0].toLowerCase())
 
             if(!command){
-                embed.setAuthor('Comando inválido!', 'https://i.imgur.com/ga5FQNR.png')
+                embed.setAuthor({name: 'Comando inválido!', iconURL: 'https://i.imgur.com/ga5FQNR.png'})
                     .setDescription(`
                         > Me perdoe ${message.author}, mas esse comando não existe! 
                         > Use \`${prefix}help\` para ver os comandos disponíveis.
@@ -94,7 +97,7 @@ module.exports = {
 
             command = command.help;
 
-            embed.setAuthor(`Comando ${command.name.slice(0, 1).toUpperCase() + command.name.slice(1)}`, 'https://i.imgur.com/ga5FQNR.png')
+            embed.setAuthor({name: `Comando ${command.name.slice(0, 1).toUpperCase() + command.name.slice(1)}`, iconURL: 'https://i.imgur.com/ga5FQNR.png'})
                 .setDescription(`
                     > ▫ **Descrição:**
                     > \`${command.description || "não possui."}\`

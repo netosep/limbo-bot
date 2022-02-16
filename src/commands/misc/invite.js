@@ -17,9 +17,12 @@ module.exports = {
 
         let embed = new MessageEmbed()
             .setColor("BLACK")
-            .setAuthor(`Olá ${message.author.username}!`, message.author.displayAvatarURL())
+            .setAuthor({name: `Olá ${message.author.username}!`, iconURL: message.author.displayAvatarURL()})
             .setDescription(`> **[Clique aqui](${link}) para poder me adicionar ao seu servidor!**`)
-            .setFooter(`© ${bot.user.username} - ${time.getFullYear()} | Todos os direitos reservados.`, bot.user.displayAvatarURL());
+            .setFooter({
+                text: `© ${bot.user.username} - ${time.getFullYear()} | Todos os direitos reservados.`, 
+                iconURL: bot.user.displayAvatarURL()
+            });
         
         message.react('🤙🏿').catch(() => { return });
         return message.author.send({ embeds: [embed] }).catch(() => { return });

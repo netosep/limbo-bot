@@ -26,7 +26,7 @@ module.exports = {
         let prefix = guildData.guild_prefix;
 
         let embed = new MessageEmbed()
-            .setAuthor("Essas são as atividades disponíveis:", bot.user.displayAvatarURL())
+            .setAuthor({name: "Essas são as atividades disponíveis:", iconURL: bot.user.displayAvatarURL()})
             .setColor("BLACK")
             .setDescription(`
                 > ▫ **Use \`${prefix}activity <atividade>\` para iniciar uma atividade!**\n
@@ -45,7 +45,7 @@ module.exports = {
                 > **\`Sketchheads\`**: Jogue um jogo de Sketch.
                 > **\`Ocho\`**: Jogue um jogo de Ocho (Discord Boost Level 1).
             `)
-            .setFooter(`Discord Activities - © ${bot.user.username}`, "https://i.imgur.com/bF7ruPV.png");
+            .setFooter({text: `Discord Activities - © ${bot.user.username}`, iconURL: "https://i.imgur.com/bF7ruPV.png"});
 
         if(!activity) {
             return message.reply({

@@ -57,7 +57,10 @@ bot.on("guildCreate", async (guild) => {
                 > através do meu repositório oficial [clicando aqui](https://github.com/netosep/limbo-bot). 👨🏻‍💻\n
                 > **Aproveite!** 😊
             `)
-            .setFooter(`© ${bot.user.username} | 2021 - ${new Date().getFullYear()}`, bot.user.displayAvatarURL())
+            .setFooter({
+                text: `© ${bot.user.username} | 2021 - ${new Date().getFullYear()}`, 
+                iconURL: bot.user.displayAvatarURL()
+            })
             .setTimestamp();
 
         return channel.send({

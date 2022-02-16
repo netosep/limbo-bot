@@ -105,21 +105,25 @@ module.exports = {
             });
 
             if(playerExists) {
-                embed.setAuthor(`informações de ${(player.personaname).toUpperCase()}`, player.avatarfull, player.profileurl)
-                    .setThumbnail("https://i.imgur.com/m90ZV8l.png") // csgologo
-                    .setDescription(`
-                        > ▫ Nick: **[${player.personaname}](https://steamcommunity.com/profiles/${player.steamid})**
-                        > ▫ Kills: **${kills}**
-                        > ▫ Mortes: **${deaths}**
-                        > ▫ KD: **${(kills / deaths).toFixed(2)}**
-                        > ▫ HS: **${headshots} - ${((headshots * 100) / kills).toFixed(2)}%**\n
-                        > ▫ Partidas: **${matches}**
-                        > ▫ Vencidas: **${wins}**
-                        > ▫ Perdidas: **${matches - wins}**
-                        > ▫ MVPS: **${mvps}**
-                        > ▫ Winrate: **${((wins * 100) / matches).toFixed(2)}%**
-                    `)
-                    .setFooter(`CS:GO Player Info - © ${bot.user.username}`, bot.user.displayAvatarURL());
+                embed.setAuthor({
+                    name: `informações de ${(player.personaname).toUpperCase()}`, 
+                    iconURL: player.avatarfull, 
+                    url: player.profileurl
+                })
+                .setThumbnail("https://i.imgur.com/m90ZV8l.png") // csgologo
+                .setDescription(`
+                    > ▫ Nick: **[${player.personaname}](https://steamcommunity.com/profiles/${player.steamid})**
+                    > ▫ Kills: **${kills}**
+                    > ▫ Mortes: **${deaths}**
+                    > ▫ KD: **${(kills / deaths).toFixed(2)}**
+                    > ▫ HS: **${headshots} - ${((headshots * 100) / kills).toFixed(2)}%**\n
+                    > ▫ Partidas: **${matches}**
+                    > ▫ Vencidas: **${wins}**
+                    > ▫ Perdidas: **${matches - wins}**
+                    > ▫ MVPS: **${mvps}**
+                    > ▫ Winrate: **${((wins * 100) / matches).toFixed(2)}%**
+                `)
+                .setFooter({text: `CS:GO Player Info - © ${bot.user.username}`, iconURL: bot.user.displayAvatarURL()});
 
                 return message.reply({ 
                     embeds: [embed], 

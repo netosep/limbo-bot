@@ -32,7 +32,7 @@ module.exports = {
 
         let embed = new MessageEmbed()
             .setColor("BLACK")
-            .setAuthor("Se liga no aviso:", bot.user.displayAvatarURL())
+            .setAuthor({name: "Se liga no aviso:", iconURL: bot.user.displayAvatarURL()})
             .setTitle(`> **${alertMsg}**`)
             .setTimestamp();
 

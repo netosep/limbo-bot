@@ -17,7 +17,7 @@ module.exports = {
         
         let embed = new MessageEmbed()
             .setThumbnail(guild.iconURL())
-            .setAuthor(`Informações sobre o servidor ${guild.name}`, guild.iconURL())
+            .setAuthor({name: `Informações sobre o servidor ${guild.name}`, iconURL: guild.iconURL()})
             .setDescription(`
                 > ▫ Nome: **${guild.name}**
                 > ▫ Dono: **<@!${guild.ownerId}>**
@@ -27,7 +27,7 @@ module.exports = {
                 > ▫ Criado em: **${moment(guild.createdAt).format("DD/MM/YYYY")}**
                 > ▫ ID único: \`${guild.id}\`
             `)
-            .setFooter(`© ${bot.user.username} `, bot.user.displayAvatarURL())
+            .setFooter({text: `© ${bot.user.username} `, iconURL: bot.user.displayAvatarURL()})
             .setColor("BLACK")
             .setTimestamp();
 

@@ -41,7 +41,7 @@ module.exports = {
             }
 
             result = result[0];
-            embed.setAuthor(`Previsão do tempo para ${result.location.name}`, result.current.imageUrl)
+            embed.setAuthor({name: `Previsão do tempo para ${result.location.name}`, iconURL: result.current.imageUrl})
                 .setThumbnail("https://i.imgur.com/YrhNKCx.png") // Weather Icon
                 .addField(`📆 ${result.current.day.toUpperCase()} (HOJE) - ${moment(result.current.date).format("DD/MM/YY")}`,`
                     > 🌡 Temperatura: **${result.current.temperature}°C** 
@@ -50,7 +50,10 @@ module.exports = {
                     > ${emojis[result.current.skycode]} Tempo: **${result.current.skytext}**
                     > 🔗 Fonte: **[MSN Clima](https://www.msn.com/pt-br/clima/)**
                 `)
-                .setFooter(`Atualizado às: ${result.current.observationtime}h - ${moment(result.current.date).format("DD/MM/YY")} por MSN Clima`, bot.user.displayAvatarURL());
+                .setFooter({
+                    text: `Atualizado às: ${result.current.observationtime}h - ${moment(result.current.date).format("DD/MM/YY")} por MSN Clima`, 
+                    iconURL: bot.user.displayAvatarURL()
+                });
             
             let days = result.forecast;
             /* iniciando o for no 2 pois os dias 0 e 1 são ontem e hoje */

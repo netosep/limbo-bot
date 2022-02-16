@@ -94,7 +94,11 @@ module.exports = {
 
                 let embed = new MessageEmbed()
                     .setColor("BLACK")
-                    .setAuthor(`Steam de ${(steamAcc.personaname).toUpperCase()}`, steamAcc.avatarfull, steamAcc.profileurl)
+                    .setAuthor({
+                        name: `Steam de ${(steamAcc.personaname).toUpperCase()}`, 
+                        iconURL: steamAcc.avatarfull, 
+                        url: steamAcc.profileurl
+                    })
                     .setThumbnail(steamAcc.avatarfull)
                     .setDescription(`
                         > ▫ Nome real: **${steamAcc.realname || "indefinido"}**
@@ -106,7 +110,7 @@ module.exports = {
                         > ▫ Conta criada em: **${moment(steamAcc.timecreated*1000).format("DD/MM/YYYY - HH:mm")}**
                         > ▫ VAC: **\`${steamAcc.VACBanned ? "✅" : "❎"}\`** - VACBans: **${steamAcc.VACBans}** - GameBans: **${steamAcc.gameBans}**
                     `)
-                    .setFooter(`Steam Info - © ${bot.user.username}`, "https://i.imgur.com/e9kv0wT.png");
+                    .setFooter({text: `Steam Info - © ${bot.user.username}`, iconURL: "https://i.imgur.com/e9kv0wT.png"});
 
                 return message.reply({ 
                     embeds: [embed], 
