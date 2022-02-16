@@ -46,10 +46,11 @@ module.exports = {
             embed.addField('Comandos musicais:  🎶',
                 `> **\`${prefix}autoplay\`** - coloca a fila de reprodução em automático.\n`+
                 `> **\`${prefix}clear\`**    - limpa a fila de músicas para reprodução.\n`+
-                // filter
+                //`> **\`${prefix}jump\`**     - avança/volta uma quantidade de músicas da fila.\n`+
                 `> **\`${prefix}pause\`**    - pausa a reprodução de uma música.\n`+
                 `> **\`${prefix}play\`**     - busca no youtube e reproduz a música solicitada.\n`+
-                // queue
+                `> **\`${prefix}previous\`** - volta para a música para a anterior da fila.\n`+
+                //`> **\`${prefix}queue\`**    - mostra a fila de músicas para reprodução.\n`+
                 `> **\`${prefix}resume\`**   - retoma a música que estava em pausa.\n`+
                 `> **\`${prefix}skip\`**     - pula a musica que está tocando para a próxima da fila.\n`+
                 `> **\`${prefix}stop\`**     - para a reprodução de uma música e sai do canal.\n`+
@@ -61,12 +62,12 @@ module.exports = {
                 `> **\`${prefix}setprefix\`** - definir o prefixo do bot no servidor.\n`
             );
             embed.addField('Comandos de desenvolvedor:  👨🏻‍💻',
-                // alert
-                // eval
-                `> **\`${prefix}lower\`** - converte uma palavra ou frase para letras minúsculas.\n`+
-                `> **\`${prefix}md5\`**   - converte uma palavra ou frase para char md5.\n`+
-                // qrcode
-                `> **\`${prefix}upper\`** - converte uma palavra ou frase para letras maiúsculas.\n`
+                //`> **\`${prefix}alert\`**  - envia uma mensagem para todos os servidores.\n`+
+                //`> **\`${prefix}eval\`**   - executa um comando no código do bot.\n`+
+                `> **\`${prefix}lower\`**  - converte uma palavra ou frase para letras minúsculas.\n`+
+                `> **\`${prefix}md5\`**    - converte uma palavra ou frase para char md5.\n`+
+                //`> **\`${prefix}qrcode\`** - cria um qrcode com o texto/link informado.\n`+
+                `> **\`${prefix}upper\`**  - converte uma palavra ou frase para letras maiúsculas.\n`
             );
             embed.addField("Use também:  🔥",
                 `> \`${prefix}help <comando>\` - mostra mais sobre o comando e como usar.`
