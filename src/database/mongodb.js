@@ -1,5 +1,5 @@
 const client = require("mongoose");
-const { guildInfoTable, userInfoTable, rankInfoTable, disabledCmdsTable } = require("./schemas");
+const { bugReportsTable, guildInfoTable, userInfoTable, rankInfoTable, disabledCmdsTable } = require("./schemas");
 require("dotenv").config();
 
 const uri = process.env.MONGODB_URL;
@@ -16,12 +16,14 @@ client.connect(uri, {
     return console.error(err);
 });
 
+const bugReports   = client.model("bugReports", bugReportsTable);
 const guildInfo    = client.model("guild", guildInfoTable);
 const userInfo     = client.model("user", userInfoTable);
 const rankInfo     = client.model("rank", rankInfoTable);
 const disabledCmds = client.model("disabledCmds", disabledCmdsTable);
 
-module.exports = { 
+module.exports = {
+    bugReports,
     guildInfo,
     userInfo,
     rankInfo,
