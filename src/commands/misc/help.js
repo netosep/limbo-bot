@@ -30,6 +30,7 @@ module.exports = {
                 `> **\`${prefix}activity\`**    - iniciar uma atividade no canal do discord.\n`+
                 `> **\`${prefix}avatar\`**      - mostra o seu avatar ou o de alguém mencionado.\n`+
                 `> **\`${prefix}csgo\`**        - mostra algus dados de uma conta de CS:GO.\n`+
+                `> **\`${prefix}freegames\`**   - lista os jogos gratis da semana da EpicGames.\n`+
                 `> **\`${prefix}help\`**        - mostra os comandos disponíveis do bot.\n`+
                 `> **\`${prefix}invite\`**      - link de convite para adicionar o bot ao seu servidor.\n`+
                 `> **\`${prefix}ping\`**        - mostra o tempo de resposta do bot.\n`+
@@ -64,6 +65,7 @@ module.exports = {
             embed.addField('Comandos de desenvolvedor:  👨🏻‍💻',
                 //`> **\`${prefix}alert\`**  - envia uma mensagem para todos os servidores.\n`+
                 //`> **\`${prefix}eval\`**   - executa um comando no código do bot.\n`+
+                `> **\`${prefix}bug\`**    - para reportar um bug relacionado ao bot.\n`+
                 `> **\`${prefix}lower\`**  - converte uma palavra ou frase para letras minúsculas.\n`+
                 `> **\`${prefix}md5\`**    - converte uma palavra ou frase para char md5.\n`+
                 //`> **\`${prefix}qrcode\`** - cria um qrcode com o texto/link informado.\n`+
