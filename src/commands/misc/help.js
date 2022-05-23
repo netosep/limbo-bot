@@ -49,7 +49,7 @@ module.exports = {
                 //`> **\`${prefix}jump\`**     - avança/volta uma quantidade de músicas da fila.\n`+
                 `> **\`${prefix}pause\`**    - pausa a reprodução de uma música.\n`+
                 `> **\`${prefix}play\`**     - busca no youtube e reproduz a música solicitada.\n`+
-                `> **\`${prefix}previous\`** - volta para a música para a anterior da fila.\n`+
+                `> **\`${prefix}previous\`** - volta a musica para a anterior da fila.\n`+
                 //`> **\`${prefix}queue\`**    - mostra a fila de músicas para reprodução.\n`+
                 `> **\`${prefix}resume\`**   - retoma a música que estava em pausa.\n`+
                 `> **\`${prefix}skip\`**     - pula a musica que está tocando para a próxima da fila.\n`+
