@@ -18,7 +18,7 @@ module.exports = {
         
         let embed = new MessageEmbed()
             .setColor("BLACK")
-            .setThumbnail(user.displayAvatarURL({ size: 1024 }))
+            .setThumbnail(user.displayAvatarURL({ size: 1024, dynamic: true }))
             .setAuthor({name: `Informações sobre ${user.username}`, iconURL: user.displayAvatarURL()})
             .setDescription(`
                 > ▫ Nome: **${user.username}#${user.discriminator}**
