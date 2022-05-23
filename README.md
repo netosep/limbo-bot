@@ -49,35 +49,19 @@
   cp .env.example .env
 ```
 
-- Subistitua os valores descritos com `<valor>`
+- Subistitua os valores descritos entre `"aspas"`
 ```env
-# URL de conexão do banco de dados MongoDB
-# Veja mais em: https://www.mongodb.com/pt-br/basics/create-database
-MONGODB_URL=<mongodb_url>
+BOT_TOKEN="bot_token"
 
-# Token de login do bot.
-# Disponivel em: https://discord.com/developers/applications
-BOT_TOKEN=<bot_token>
+BOT_PREFIX="?"
 
-# Prefixo padrão do bot: ?
-# Esse prefixo também é definido no banco de dados.
-BOT_PREFIX=?
+BOT_OWNER_ID="000000000000000"
 
-# ID de usuário do discord para comandos de desenvolvedor (dono do bot).
-# Como pegar o seu ID: https://www.youtube.com/watch?v=xX-aWpqnphI
-BOT_OWNER_ID=<000000000000000>
+MONGODB_URL="mongodb_url"
 
-# ID do canal para salvar os logs do bot de forma global (será removido).
-# Siga o mesmo video de cima para pegar o ID do canal (formas parecidas).
-LOG_CHANNEL_ID=<000000000000000>
+PANEL_URL="http://localhost"
 
-# URL do painel de configuração web do bot.
-# Repósitório do painel: (em desenvolvimento).
-PANEL_URL=http://localhost
-
-# API Key da steam para usar os comandos ?steam e ?csgo.
-# Acesse: https://steamcommunity.com/dev/apikey para obter a chave.
-STEAM_API_KEY=<XXXXXXXXXXXXXXXXXXXXXXXXXXXX>
+STEAM_API_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ```
 
 - Execute o bot
