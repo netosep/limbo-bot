@@ -38,7 +38,7 @@ module.exports = {
 
         bot.guilds.cache.each(guild => {
             let channel = guild.channels.cache.filter(channel => channel.type == "GUILD_TEXT").first();
-             if(channel) {
+            if(channel) {
                 return channel.send({
                     embeds: [embed], 
                     allowedMentions: { repliedUser: false },
