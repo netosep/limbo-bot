@@ -34,23 +34,11 @@ module.exports = {
             } 
             if(queue.playing) {
                 message.reply({
-                    content: `
-                        > **Reprodução em pausa ⏸**
-                        > ▶ Unpause automático em: \`3 min\` ⏱`,
+                    content: `> **Reprodução em pausa ⏸**`,
                     allowedMentions: { repliedUser: false },
                     failIfNotExists: false 
                 })
-                bot.distube.pause(message);
-                return setTimeout(() => {
-                    if(queue.paused) {
-                        message.reply({
-                            content: "> **Unpause automatico! Retornando a reprodução ⏯**",
-                            allowedMentions: { repliedUser: false },
-                            failIfNotExists: false
-                        });
-                        bot.distube.resume(message);
-                    }
-                }, 180000); // 3 min
+                return bot.distube.pause(message);
             }
             if(queue.paused) {
                 message.reply({
