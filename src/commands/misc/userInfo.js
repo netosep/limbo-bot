@@ -18,8 +18,8 @@ module.exports = {
         
         let embed = new MessageEmbed()
             .setColor("BLACK")
-            .setThumbnail(user.displayAvatarURL({ size: 1024 }))
-            .setAuthor(`Informações sobre ${user.username}`, user.displayAvatarURL())
+            .setThumbnail(user.displayAvatarURL({ size: 1024, dynamic: true }))
+            .setAuthor({name: `Informações sobre ${user.username}`, iconURL: user.displayAvatarURL()})
             .setDescription(`
                 > ▫ Nome: **${user.username}#${user.discriminator}**
                 > ▫ Nick no servidor: **${member.nickname || user.username}**
@@ -27,7 +27,7 @@ module.exports = {
                 > ▫ Conta criada em: **${moment(user.createdTimestamp).format("DD/MM/YYYY")}**
                 > ▫ ID único: \`${user.id}\`
             `)
-            .setFooter(`© ${bot.user.username} `, bot.user.displayAvatarURL())
+            .setFooter({text: `© ${bot.user.username} `, iconURL: bot.user.displayAvatarURL()})
             .setTimestamp();
 
         return message.reply({ 

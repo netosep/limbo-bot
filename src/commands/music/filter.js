@@ -42,7 +42,7 @@ module.exports = {
                     let command = message.content.split(" ")[0];
                     let embed = new MessageEmbed()
                         .setColor("BLACK")
-                        .setAuthor("Filtros disponiveis:", bot.user.displayAvatarURL())
+                        .setAuthor({name: "Filtros disponiveis:", iconURL: bot.user.displayAvatarURL()})
                         .setDescription(`
                             > **\`3d\` - \`bassboost\` - \`echo\` - \`karaoke\`
                             > \`nightcore\` - \`vaporwave\` - \`flanger\` 

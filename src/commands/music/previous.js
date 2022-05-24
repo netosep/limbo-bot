@@ -2,11 +2,11 @@
 module.exports = { 
 
     help: {
-        name: "pause",
-        usage: ["pause"],
-        description: "Pausa/Resume uma música em reprodução.",
+        name: "previous",
+        usage: ["previous", "anterior"],
+        description: "Volta para a música anterior da fila.",
         accessableBy: "Todos os membros.",
-        aliases: ["pausar"]
+        aliases: ["anteriror", "voltar", "ant"]
     },
 
     run: async (bot, message, args) => {
@@ -32,22 +32,23 @@ module.exports = {
                     failIfNotExists: false 
                 });
             } 
-            if(queue.playing) {
-                message.reply({
-                    content: `> **Reprodução em pausa ⏸**`,
-                    allowedMentions: { repliedUser: false },
-                    failIfNotExists: false 
-                })
-                return bot.distube.pause(message);
-            }
-            if(queue.paused) {
-                message.reply({
-                    content: "> **Retornando a reprodução ⏯**",
+
+            return bot.distube.previous(message)
+            .then(() => { 
+                return message.reply({
+                    content: "> **Voltando... ⏮**",
                     allowedMentions: { repliedUser: false },
                     failIfNotExists: false 
                 });
-                return bot.distube.resume(message);
-            }
+            })
+            .catch(() => {
+                return message.reply({
+                    content: "> **Não há nunhuma música antes dessa!**",
+                    allowedMentions: { repliedUser: false },
+                    failIfNotExists: false 
+                });
+            });
+
         } else {
             return message.reply({
                 content: "> **Que eu saiba, não estou tocando nada nesse servidor...  🙄**",

@@ -31,12 +31,12 @@ module.exports = {
 
         let embed = new MessageEmbed()
             .setColor("BLACK")
-            .setAuthor(`Opa ${target.username}! ✌`, target.displayAvatarURL())
+            .setAuthor({name: `Opa ${target.username}! ✌`, iconURL: target.displayAvatarURL()})
             .setDescription(`
                 > Há ${time} atrás você me pediu pra eu te lembrar disso aqui:
                 > **👉  ${reminder}**
             `)
-            .setFooter(`© ${bot.user.username} - Lembretes`, bot.user.displayAvatarURL())
+            .setFooter({text: `© ${bot.user.username} - Lembretes`, iconURL: bot.user.displayAvatarURL()})
             .setTimestamp()
 
         setTimeout(() => {

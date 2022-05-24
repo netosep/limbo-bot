@@ -4,7 +4,7 @@ const { bot } = require("../../index");
 let embed = new MessageEmbed().setColor("BLACK");
 
 bot.distube.on("playSong", (queue, song) => {
-    embed.setAuthor("Tocando agora 🎶", bot.user.displayAvatarURL())
+    embed.setAuthor({name: "Tocando agora 🎶", iconURL: bot.user.displayAvatarURL()})
         .setThumbnail(song.thumbnail)
         .setDescription(`
             > **🔗 [${song.name}](${song.url})**
@@ -17,7 +17,7 @@ bot.distube.on("playSong", (queue, song) => {
 });
 
 bot.distube.on("addList", (queue, playlist) => {
-    embed.setAuthor("Uma nova playlist foi adicionada 🆙", bot.user.displayAvatarURL())
+    embed.setAuthor({name: "Uma nova playlist foi adicionada 🆙", iconURL: bot.user.displayAvatarURL()})
         .setThumbnail(playlist.thumbnail)
         .setDescription(`
             > **🔗 [${playlist.name}](${playlist.url})**
@@ -31,7 +31,7 @@ bot.distube.on("addList", (queue, playlist) => {
 });
 
 bot.distube.on("addSong", (queue, song) => {
-    embed.setAuthor("Uma nova música foi adicionada a fila 🔜", bot.user.displayAvatarURL())
+    embed.setAuthor({name: "Uma nova música foi adicionada a fila 🔜", iconURL: bot.user.displayAvatarURL()})
         .setThumbnail(song.thumbnail)
         .setDescription(`
             > **🔗 [${song.name}](${song.url})**

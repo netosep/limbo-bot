@@ -33,7 +33,10 @@ bot.on("messageCreate", async (message) => {
     if(message.content === `<@!${bot.user.id}>`) {
         let embed = new MessageEmbed()
             .setColor("BLACK")
-            .setAuthor(`Salve ${message.author.username} ✌🏿`, message.author.displayAvatarURL({ dynamic: true }))
+            .setAuthor({
+                name: `Salve ${message.author.username} ✌🏿`, 
+                iconURL: message.author.displayAvatarURL({ dynamic: true })
+            })
             .setThumbnail(message.guild.iconURL({ dynamic: true }))
             .setDescription(`
                 > ▫ **Me chamo ${bot.user}! Precisa de ajuda?**

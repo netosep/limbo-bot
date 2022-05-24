@@ -13,7 +13,13 @@ module.exports = {
 
     run: async (bot, message, args) => {
 
-        if(message.author.id != process.env.BOT_OWNER_ID) return;
+        if(message.author.id != process.env.BOT_OWNER_ID) {
+            return message.reply({
+                content: `> **Negado! Esse comando só pode ser usado pelo desenvolvedor!  ⛔**`,
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false
+            });
+        }
         
         let input = args.join(" ");
         let output;
@@ -26,7 +32,7 @@ module.exports = {
 
         let embed = new MessageEmbed()
             .setColor("BLACK")
-            .setAuthor("Rodando um código em JavaScript", bot.user.displayAvatarURL())
+            .setAuthor({name: "Rodando um código em JavaScript", iconURL: bot.user.displayAvatarURL()})
             .setDescription(`
                 ▫ **Entrada:**
                 \`\`\`js\n${input}\`\`\`

@@ -43,10 +43,13 @@ module.exports = {
                 );
             }
 
-            embed.setAuthor("Rastreando objeto pela API dos CORREIOS", "https://i.imgur.com/I18ZP2h.png")
+            embed.setAuthor({name: "Rastreando objeto pela API dos CORREIOS", iconURL: "https://i.imgur.com/I18ZP2h.png"})
                 .setThumbnail("https://i.imgur.com/unNhvOp.png")
                 .setDescription(`> ▫ Código de rastreio: **\`${objeto.codObjeto}\`**`)
-                .setFooter(`Previsão de chegada: ${moment(objeto.dtPrevista).format("DD/MM/YYYY")} 📅`, bot.user.displayAvatarURL())
+                .setFooter({
+                    text: `Previsão de chegada: ${moment(objeto.dtPrevista).format("DD/MM/YYYY")} 📅`, 
+                    iconURL: bot.user.displayAvatarURL()
+                });
 
             return message.reply({ 
                 embeds: [embed], 

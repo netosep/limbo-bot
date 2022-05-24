@@ -32,7 +32,7 @@ module.exports = {
         }
 
         let embed = new MessageEmbed()
-            .setAuthor("Codificando para MD5", bot.user.displayAvatarURL())
+            .setAuthor({name: "Codificando para MD5", iconURL: bot.user.displayAvatarURL()})
             .setColor("BLACK")
             .setDescription(`
                 > Prontinho ${message.author}! 🤐 Aqui está 👇🏿

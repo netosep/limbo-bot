@@ -21,7 +21,7 @@ module.exports = {
                 > **Avatar de ${target}**
                 > [Clique aqui](${target.displayAvatarURL({ size: 4096, dynamic: true })}) para baixar
             `)
-            .setFooter(`© ${bot.user.username} - ${time.getFullYear()}`, bot.user.displayAvatarURL())
+            .setFooter({text: `© ${bot.user.username} - ${time.getFullYear()}`, iconURL: bot.user.displayAvatarURL()})
             .setTimestamp();
         
         return message.reply({ 

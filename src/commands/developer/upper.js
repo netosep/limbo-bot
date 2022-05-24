@@ -31,7 +31,7 @@ module.exports = {
         }
 
         let embed = new MessageEmbed()
-            .setAuthor("Colocando frases em CAIXA ALTA", bot.user.displayAvatarURL())
+            .setAuthor({name: "Colocando frases em CAIXA ALTA", iconURL: bot.user.displayAvatarURL()})
             .setColor("BLACK")
             .setDescription(`
                 > Prontinho ${message.author}! 😊 Aqui está 👇🏿

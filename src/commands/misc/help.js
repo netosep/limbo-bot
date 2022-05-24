@@ -17,16 +17,20 @@ module.exports = {
         let prefix = data.guild_prefix;
 
         let embed = new MessageEmbed()
-            .setAuthor('Esses são os meus comandos disponíveis:', 'https://i.imgur.com/ga5FQNR.png')
+            .setAuthor({name: 'Esses são os meus comandos disponíveis:', iconURL: 'https://i.imgur.com/ga5FQNR.png'})
             .setThumbnail(bot.user.displayAvatarURL())
             .setColor("BLACK")
-            .setFooter(`© ${bot.user.username} - ${new Date().getFullYear()} | Comando help`, bot.user.displayAvatarURL());
+            .setFooter({
+                text: `© ${bot.user.username} - ${new Date().getFullYear()} | Comando help`, 
+                iconURL: bot.user.displayAvatarURL()
+            });
 
         if(!args[0]){
             embed.addField('Comandos gerais:  ⚙',
                 `> **\`${prefix}activity\`**    - iniciar uma atividade no canal do discord.\n`+
                 `> **\`${prefix}avatar\`**      - mostra o seu avatar ou o de alguém mencionado.\n`+
                 `> **\`${prefix}csgo\`**        - mostra algus dados de uma conta de CS:GO.\n`+
+                `> **\`${prefix}freegames\`**   - lista os jogos gratis da semana da EpicGames.\n`+
                 `> **\`${prefix}help\`**        - mostra os comandos disponíveis do bot.\n`+
                 `> **\`${prefix}invite\`**      - link de convite para adicionar o bot ao seu servidor.\n`+
                 `> **\`${prefix}ping\`**        - mostra o tempo de resposta do bot.\n`+
@@ -43,27 +47,29 @@ module.exports = {
             embed.addField('Comandos musicais:  🎶',
                 `> **\`${prefix}autoplay\`** - coloca a fila de reprodução em automático.\n`+
                 `> **\`${prefix}clear\`**    - limpa a fila de músicas para reprodução.\n`+
-                // filter
+                //`> **\`${prefix}jump\`**     - avança/volta uma quantidade de músicas da fila.\n`+
                 `> **\`${prefix}pause\`**    - pausa a reprodução de uma música.\n`+
                 `> **\`${prefix}play\`**     - busca no youtube e reproduz a música solicitada.\n`+
-                // queue
+                `> **\`${prefix}previous\`** - volta a musica para a anterior da fila.\n`+
+                //`> **\`${prefix}queue\`**    - mostra a fila de músicas para reprodução.\n`+
                 `> **\`${prefix}resume\`**   - retoma a música que estava em pausa.\n`+
                 `> **\`${prefix}skip\`**     - pula a musica que está tocando para a próxima da fila.\n`+
                 `> **\`${prefix}stop\`**     - para a reprodução de uma música e sai do canal.\n`+
                 `> **\`${prefix}volume\`**   - define o volume da música que está reproduzindo.`
             );
-            embed.addField('Comandos de moderação:  👮‍♂️',
+            embed.addField('Comandos de moderação:  👮🏻‍♂️',
                 `> **\`${prefix}disable\`**   - desabilita o uso do(s) comando(s) no canal.\n`+
                 `> **\`${prefix}enable\`**    - habilita o uso do(s) comando(s) no canal.\n`+
                 `> **\`${prefix}setprefix\`** - definir o prefixo do bot no servidor.\n`
             );
-            embed.addField('Comandos de desenvolvedor:  👨‍💻',
-                `> **\`${prefix}eval\`**  - testa/executa uma entrada de código.\n`+
-                `> **\`${prefix}lower\`** - converte uma palavra ou frase para letras minúsculas.\n`+
-                `> **\`${prefix}md5\`**   - converte uma palavra ou frase para char md5.\n`+
-                // qrcode
-                // repo
-                `> **\`${prefix}upper\`** - converte uma palavra ou frase para letras maiúsculas.\n`
+            embed.addField('Comandos de desenvolvedor:  👨🏻‍💻',
+                //`> **\`${prefix}alert\`**  - envia uma mensagem para todos os servidores.\n`+
+                //`> **\`${prefix}eval\`**   - executa um comando no código do bot.\n`+
+                `> **\`${prefix}bug\`**    - para reportar um bug relacionado ao bot.\n`+
+                `> **\`${prefix}lower\`**  - converte uma palavra ou frase para letras minúsculas.\n`+
+                `> **\`${prefix}md5\`**    - converte uma palavra ou frase para char md5.\n`+
+                //`> **\`${prefix}qrcode\`** - cria um qrcode com o texto/link informado.\n`+
+                `> **\`${prefix}upper\`**  - converte uma palavra ou frase para letras maiúsculas.\n`
             );
             embed.addField("Use também:  🔥",
                 `> \`${prefix}help <comando>\` - mostra mais sobre o comando e como usar.`
@@ -80,7 +86,7 @@ module.exports = {
             let command = bot.commands.get(bot.aliases.get(args[0].toLowerCase()) || args[0].toLowerCase())
 
             if(!command){
-                embed.setAuthor('Comando inválido!', 'https://i.imgur.com/ga5FQNR.png')
+                embed.setAuthor({name: 'Comando inválido!', iconURL: 'https://i.imgur.com/ga5FQNR.png'})
                     .setDescription(`
                         > Me perdoe ${message.author}, mas esse comando não existe! 
                         > Use \`${prefix}help\` para ver os comandos disponíveis.
@@ -94,7 +100,7 @@ module.exports = {
 
             command = command.help;
 
-            embed.setAuthor(`Comando ${command.name.slice(0, 1).toUpperCase() + command.name.slice(1)}`, 'https://i.imgur.com/ga5FQNR.png')
+            embed.setAuthor({name: `Comando ${command.name.slice(0, 1).toUpperCase() + command.name.slice(1)}`, iconURL: 'https://i.imgur.com/ga5FQNR.png'})
                 .setDescription(`
                     > ▫ **Descrição:**
                     > \`${command.description || "não possui."}\`
