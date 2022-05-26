@@ -30,32 +30,40 @@ module.exports = {
             message.reply({ 
                 content: "> **Lista de jogos gratuitos da semana na EpicGames:**", 
                 allowedMentions: { repliedUser: false },
-                failIfNotExists: false 
+                failIfNotExists: false
             });
 
-            elements.forEach((game, i = 0) => {
+            let gameList = elements.filter((e) => e.promotions.upcomingPromotionalOffers[0] ?? e.promotions.promotionalOffers[0]);
 
-                let promotionalStartDate = game.promotions.upcomingPromotionalOffers[0] ?? game.promotions.promotionalOffers[0];
-                let promotionalEndDate = game.promotions.upcomingPromotionalOffers[0] ?? game.promotions.promotionalOffers[0];
+            gameList.forEach((game, i = 0) => {
+
+                let promotionalDate = game.promotions.upcomingPromotionalOffers[0] ?? game.promotions.promotionalOffers[0];
 
                 embed.setAuthor({
                     name: `${1 + i++ + ' - ' + game.title}`,
                     iconURL: "https://i.imgur.com/vd4huus.jpg",
-                    url: `https://store.epicgames.com/pt-BR/p/${game.title.toLowerCase().replace(' ', '-')}`
+                    url: `https://store.epicgames.com/pt-BR/free-games`
                 })
                 .setDescription(`
-                    > 📆 Inicio da promoção: **${moment(promotionalStartDate.promotionalOffers[0].startDate).format('DD/MM/YYYY')}**
-                    > 📆 Fim da promoção: **${moment(promotionalEndDate.promotionalOffers[0].endDate).format('DD/MM/YYYY')}**
+                    > 📆 Inicio da promoção: **${moment(promotionalDate.promotionalOffers[0].startDate).format('DD/MM/YYYY')}**
+                    > 📆 Fim da promoção: **${moment(promotionalDate.promotionalOffers[0].endDate).format('DD/MM/YYYY')}**
                     > 💰 Preço: **Grátis** 🤑
                     > 📝 Descrição: **${game.description}**
-                    > 🔗 Link: **https://store.epicgames.com/pt-BR/p/${game.title.toLowerCase().replace(' ', '-')}**
+                    > 🔗 Link: **https://store.epicgames.com/pt-BR/free-games**
                 `)
-                .setImage(game.keyImages.pop().url);
+                .setImage(game.keyImages.pop().url.replaceAll(' ', '%20'));
 
                 message.channel.send({ 
                     embeds: [embed],
                     failIfNotExists: false 
                 });
+            });
+        })
+        .catch((err) => {
+            return message.reply({ 
+                content: "> **Aconteceu algum erro e eu não consegui realizar essa operação...  😵**", 
+                allowedMentions: { repliedUser: false },
+                failIfNotExists: false 
             });
         });
         
