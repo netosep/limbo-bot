@@ -33,7 +33,7 @@ module.exports = {
                 failIfNotExists: false
             });
 
-            let gameList = elements.filter((e) => e.promotions.upcomingPromotionalOffers[0] ?? e.promotions.promotionalOffers[0]);
+            let gameList = elements.filter((e) => e.promotions);
 
             gameList.forEach((game, i = 0) => {
 
