@@ -33,13 +33,24 @@ module.exports = {
                 failIfNotExists: false
             });
 
-            let gameList = elements.filter((e) => e.promotions);
+            let gameList = elements.filter((e) => e.game.promotions.promotionalOffers[0] ?? e.promotions.upcomingPromotionalOffers[0]);
+            let promotionalDate = null;
+
+            /* "promotions": {
+                "promotionalOffers": [],
+                "upcomingPromotionalOffers": []
+            } */
+
+            console.log(gameList.length);
 
             gameList.forEach((game, i = 0) => {
 
-                let promotionalDate = game.promotions.upcomingPromotionalOffers[0] ?? game.promotions.promotionalOffers[0];
+                promotionalDate = game.promotions.promotionalOffers[0] ?? game.promotions.upcomingPromotionalOffers[0];
 
-                embed.setAuthor({
+                //console.log(promotionalDate);
+                console.log(promotionalDate ? promotionalDate.promotionalOffers : 'undefined');
+
+                /* embed.setAuthor({
                     name: `${1 + i++ + ' - ' + game.title}`,
                     iconURL: "https://i.imgur.com/vd4huus.jpg",
                     url: `https://store.epicgames.com/pt-BR/free-games`
@@ -56,16 +67,16 @@ module.exports = {
                 message.channel.send({ 
                     embeds: [embed],
                     failIfNotExists: false 
-                });
+                }); */
             });
         })
-        .catch((err) => {
+        /* .catch((err) => {
             return message.reply({ 
                 content: "> **Aconteceu algum erro e eu não consegui realizar essa operação...  😵**", 
                 allowedMentions: { repliedUser: false },
                 failIfNotExists: false 
             });
-        });
+        }); */
         
     }
 }
