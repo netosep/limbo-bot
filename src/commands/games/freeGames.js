@@ -19,7 +19,7 @@ module.exports = {
             let elements = data.data.Catalog.searchStore.elements;
             let embed = new MessageEmbed().setColor("BLACK");
 
-            if (elements.length == 0) {
+            if (elements.length === 0) {
                 return message.reply({ 
                     content: "> **Não há nenhum jogo gratis para essa semana  😢**", 
                     allowedMentions: { repliedUser: false },
@@ -33,25 +33,15 @@ module.exports = {
                 failIfNotExists: false
             });
 
-            let gameList = elements.filter((e) => e.game.promotions.promotionalOffers[0] ?? e.promotions.upcomingPromotionalOffers[0]);
-            let promotionalDate = null;
+            let gameList = elements.filter((e) => e.promotions?.promotionalOffers.length > 0 || e.promotions?.upcomingPromotionalOffers.length > 0);
 
-            /* "promotions": {
-                "promotionalOffers": [],
-                "upcomingPromotionalOffers": []
-            } */
+            gameList.forEach((game, i = 1) => {
 
-            console.log(gameList.length);
+                let promotionalDate = game.promotions.promotionalOffers[0] ?? game.promotions.upcomingPromotionalOffers[0];
+                let image = game.keyImages.filter((img) => img.type == "OfferImageWide")[0];
 
-            gameList.forEach((game, i = 0) => {
-
-                promotionalDate = game.promotions.promotionalOffers[0] ?? game.promotions.upcomingPromotionalOffers[0];
-
-                //console.log(promotionalDate);
-                console.log(promotionalDate ? promotionalDate.promotionalOffers : 'undefined');
-
-                /* embed.setAuthor({
-                    name: `${1 + i++ + ' - ' + game.title}`,
+                embed.setAuthor({
+                    name: `${++i + ' - ' + game.title}`,
                     iconURL: "https://i.imgur.com/vd4huus.jpg",
                     url: `https://store.epicgames.com/pt-BR/free-games`
                 })
@@ -62,21 +52,21 @@ module.exports = {
                     > 📝 Descrição: **${game.description}**
                     > 🔗 Link: **https://store.epicgames.com/pt-BR/free-games**
                 `)
-                .setImage(game.keyImages.pop().url.replaceAll(' ', '%20'));
+                .setImage(encodeURI(image.url));
 
                 message.channel.send({ 
                     embeds: [embed],
                     failIfNotExists: false 
-                }); */
+                });
             });
         })
-        /* .catch((err) => {
+        .catch((err) => {
             return message.reply({ 
                 content: "> **Aconteceu algum erro e eu não consegui realizar essa operação...  😵**", 
                 allowedMentions: { repliedUser: false },
                 failIfNotExists: false 
             });
-        }); */
+        });
         
     }
 }
