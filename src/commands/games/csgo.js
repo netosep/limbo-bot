@@ -10,7 +10,7 @@ module.exports = {
         usage: ["csgo <steamid>"],
         description: "Mostra as informações de um jogador de CS:GO.",
         accessableBy: "Todos os membros.",
-        aliases: ["csgostatus"]
+        aliases: ["csgokda"]
     },
 
     run: async (bot, message, args) => {

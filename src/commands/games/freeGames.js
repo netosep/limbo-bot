@@ -19,7 +19,7 @@ module.exports = {
             let elements = data.data.Catalog.searchStore.elements;
             let embed = new MessageEmbed().setColor("BLACK");
 
-            if (elements.length == 0) {
+            if (elements.length === 0) {
                 return message.reply({ 
                     content: "> **Não há nenhum jogo gratis para essa semana  😢**", 
                     allowedMentions: { repliedUser: false },
@@ -33,14 +33,15 @@ module.exports = {
                 failIfNotExists: false
             });
 
-            let gameList = elements.filter((e) => e.promotions);
+            let gameList = elements.filter((e) => e.promotions?.promotionalOffers.length > 0 || e.promotions?.upcomingPromotionalOffers.length > 0);
 
-            gameList.forEach((game, i = 0) => {
+            gameList.forEach((game, i = 1) => {
 
-                let promotionalDate = game.promotions.upcomingPromotionalOffers[0] ?? game.promotions.promotionalOffers[0];
+                let promotionalDate = game.promotions.promotionalOffers[0] ?? game.promotions.upcomingPromotionalOffers[0];
+                let image = game.keyImages.filter((img) => img.type == "OfferImageWide")[0];
 
                 embed.setAuthor({
-                    name: `${1 + i++ + ' - ' + game.title}`,
+                    name: `${++i + ' - ' + game.title}`,
                     iconURL: "https://i.imgur.com/vd4huus.jpg",
                     url: `https://store.epicgames.com/pt-BR/free-games`
                 })
@@ -51,7 +52,7 @@ module.exports = {
                     > 📝 Descrição: **${game.description}**
                     > 🔗 Link: **https://store.epicgames.com/pt-BR/free-games**
                 `)
-                .setImage(game.keyImages.pop().url.replaceAll(' ', '%20'));
+                .setImage(encodeURI(image.url));
 
                 message.channel.send({ 
                     embeds: [embed],
