@@ -1,49 +1,39 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandType, Client, Interaction, ApplicationCommandOptionType } = require("discord.js");
 
-module.exports = { 
+module.exports = {
 
-    help: {
-        name: "lower",
-        usage: ["lower <frase qualquer>"],
-        description: "Coloca a frase em letras minúsculas.",
-        accessableBy: "Todos os membros.",
-        aliases: ["low", "lowercase"]
-    },
-
-    run: async (bot, message, args) => {
-
-        let phrase = args.join(" ").toLowerCase();
-
-        if (!phrase) {
-            return message.reply({
-                content: "> **Você precisa de uma frase para que eu possa fazer isso...  🤨**",
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false
-            });
+    name: "lower",
+    description: "Coloca a frase em letras minúsculas.",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+        {
+            name: "frase",
+            description: "Frase/Texto que queira converter para minúsculo.",
+            type: ApplicationCommandOptionType.String,
+            required: true
         }
+    ],
 
-        if (phrase.length > 1500) {
-            return message.reply({
-                content: "> **A frase que você enviou é muito grande! Limite 1500 caracteres!  📄**",
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false
-            });
-        }
+    /**
+     *  @param {Client} client
+     *  @param {Interaction} interaction
+     */
+    run: async (client, interaction) => {
 
-        let embed = new MessageEmbed()
-            .setAuthor({name: "Colocando frases em caixa baixa", iconURL: bot.user.displayAvatarURL()})
+        const option = interaction.options._hoistedOptions.pop();
+        const phrase = option.value.toLowerCase();
+        const embed = new EmbedBuilder()
+            .setAuthor({ name: "Converterno para minúsculo", iconURL: client.user.displayAvatarURL() })
             .setColor("BLACK")
             .setDescription(`
-                > Prontinho ${message.author}! 😊 Aqui está 👇🏿
+                > Prontinho ${interaction.user}! 😊 Aqui está 👇🏿
                 \`\`\`${phrase}\`\`\`
             `);
-
-        return message.reply({
-            embeds: [embed], 
-            allowedMentions: { repliedUser: false },
+        
+        return interaction.reply({
+            embeds: [embed],
             failIfNotExists: false
         });
-
-    } 
-    
+        
+    }
 }

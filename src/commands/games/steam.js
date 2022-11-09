@@ -1,88 +1,89 @@
-const axios = require("axios");
+const { EmbedBuilder, ApplicationCommandType, Client, Interaction, ApplicationCommandOptionType } = require("discord.js");
 const Steam = require("steamid");
+const axios = require("axios");
 const moment = require("moment");
-const { MessageEmbed } = require("discord.js");
-require("dotenv").config();
 
-module.exports = {
+module.exports = { 
 
-    help: {
-        name: "steam",
-        usage: ["steam <url_id>", "steam <id>", "steam <id64>"],
-        description: "Mostra os detalhes de uma conta steam.",
-        accessableBy: "Todos os membros.",
-        aliases: []
-    },
-    
-    run: async (bot, message, args) => {
-
-        let steam = args.join(" ");
-        let validSteam = true;
-        let token = process.env.STEAM_API_KEY;
-
-        if(!token) return;
-
-        if(!steam) {
-            return message.reply({
-                content: "> **É necessário passar um parâmetro!**",
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false
-            });
+    name: "steam",
+    description: "Mostra os detalhes de uma conta steam.",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+        {
+            name: "steam",
+            description: "Final da URL do perfil Steam ou SteamID",
+            type: ApplicationCommandOptionType.String,
+            required: true,
+            minLength: 3,
+            maxLength: 20
         }
+    ],
+
+    /**
+     *  @param {Client} client
+     *  @param {Interaction} interaction
+     */
+    run: async (client, interaction) => {
+
+        const option = interaction.options._hoistedOptions.pop();
+        const apiKey = process.env.STEAM_API_KEY;
+
+        if (!apiKey) return;
+
+        let steam = option.value;
+        let validSteam = true;
 
         if(parseInt(steam)) {
             let validSteamId = new Steam(steam).isValid();
             if(!validSteamId) {
-                return message.reply({
+                return interaction.reply({
                     content: "> **O SteamID informado é inválido!**",
-                    allowedMentions: { repliedUser: false },
-                    failIfNotExists: false
+                    ephemeral: true
                 });
             }
-        }
-        else if(steam.startsWith("STEAM_") || steam.startsWith("[U:")) {
+        } else if(steam.startsWith("STEAM_") || steam.startsWith("[U:")) {
             try {
                 steam = new Steam(steam).getSteamID64();
             } catch(err) {
-                return message.reply({
+                return interaction.reply({
                     content: "> **O SteamID informado é inválido!**",
-                    allowedMentions: { repliedUser: false },
-                    failIfNotExists: false
+                    ephemeral: true
                 });
             }
         } else {
-            await axios(`http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${token}&vanityurl=${steam}`)
+            await axios(`http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${apiKey}&vanityurl=${steam}`)
             .then(({ data }) => {
                 steam = data.response.steamid;
                 if(!steam) {
                     validSteam = false;
-                    return message.reply({
+                    return interaction.reply({
                         content: "> **Não foi possivel encontrar ninguém com esse final de URL...**",
-                        allowedMentions: { repliedUser: false },
-                        failIfNotExists: false
+                        ephemeral: true
                     });
                 }
             })
             .catch((err) => {
-                return console.error(err);
+                return interaction.reply({
+                    content: "> **Aconteceu alguma coisa errada aqui e eu não vou conseguir fazer isso... 🥺**",
+                    ephemeral: true
+                });
             });
         }
 
         if(validSteam) {
-            await axios(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${token}&steamids=${steam}`)
+            await axios(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steam}`)
             .then(async ({ data }) => {
-                let steamAcc = data.response.players[0];
-                let state = ["online", "offline", "ocupado", "away", "cochilando", "querendo trocar", "querendo jogar"];
+                const steamAcc = data.response.players[0];
+                const state = ["online", "offline", "ocupado", "away", "cochilando", "querendo trocar", "querendo jogar"];
 
                 if(!steamAcc) {
-                    return message.reply({
+                    return interaction.reply({
                         content: "> **Não foi possivel encontrar uma conta steam com esse parâmetro...**",
-                        allowedMentions: { repliedUser: false },
-                        failIfNotExists: false
+                        ephemeral: true
                     });
                 }
 
-                await axios(`http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=${token}&steamids=${steam}`)
+                await axios(`http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=${apiKey}&steamids=${steam}`)
                 .then(({ data }) => {
                     steamAcc.VACBanned = data.players[0].VACBanned;
                     steamAcc.gameBans = data.players[0].NumberOfGameBans;
@@ -92,7 +93,7 @@ module.exports = {
                     return console.error(err);
                 });
 
-                let embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setColor("BLACK")
                     .setAuthor({
                         name: `Steam de ${(steamAcc.personaname).toUpperCase()}`, 
@@ -110,19 +111,17 @@ module.exports = {
                         > ▫ Conta criada em: **${moment(steamAcc.timecreated*1000).format("DD/MM/YYYY - HH:mm")}**
                         > ▫ VAC: **\`${steamAcc.VACBanned ? "✅" : "❎"}\`** - VACBans: **${steamAcc.VACBans}** - GameBans: **${steamAcc.gameBans}**
                     `)
-                    .setFooter({text: `Steam Info - © ${bot.user.username}`, iconURL: "https://i.imgur.com/e9kv0wT.png"});
+                    .setFooter({text: `Steam Info - © ${client.user.username}`, iconURL: "https://i.imgur.com/e9kv0wT.png"});
 
-                return message.reply({ 
-                    embeds: [embed], 
-                    allowedMentions: { repliedUser: false },
-                    failIfNotExists: false 
-                });
+                return interaction.reply({ embeds: [embed] });
 
             })
             .catch((err) => {
-                return console.error(err);
+                return interaction.reply({
+                    content: "> **Aconteceu alguma coisa errada aqui e eu não vou conseguir fazer isso... 🥺**",
+                    ephemeral: true
+                });
             });
-            
         }
 
     }

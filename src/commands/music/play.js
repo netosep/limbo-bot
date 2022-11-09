@@ -1,57 +1,43 @@
+const { EmbedBuilder, ApplicationCommandType, Client, Interaction, ApplicationCommandOptionType } = require("discord.js");
 
-module.exports = { 
+module.exports = {
 
-    help: {
-        name: "play",
-        usage: ["play", "p <nome/link>"],
-        description: "Procura e reproduz a música pedida.",
-        accessableBy: "Todos os membros.",
-        aliases: ["p"]
-    },
-
-    run: async (bot, message, args) => {
-
-        let voiceChannel = message.member.voice.channel;
-        if(!voiceChannel) {
-            return message.reply({
-                content: "> **Você precisa estar em um canal pra poder executar esse comando...  😕**",
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false 
-            });
+    name: "play",
+    description: "Procura e reproduz a música pedida pelo nome ou por URL.",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+        {
+            name: "musica",
+            description: "Nome da música ou URL do youtube/spotify/soundcloud.",
+            type: ApplicationCommandOptionType.String,
+            required: true,
+            minLength: 3,
+            maxLength: 100
         }
+    ],
+    /**
+     *  @param {Client} client
+     *  @param {Interaction} interaction
+     */
+    run: async (client, interaction) => {
 
-        let queue = bot.distube.getQueue(message);
+        const voiceChannel = interaction.member?.voice?.channel;
+        const option = interaction.options._hoistedOptions.pop();
+        const song = option.value;
 
-        if(queue) {
-            let queueChannel = queue.voiceChannel.id;
-            let userChannel = voiceChannel.id
+        if(!voiceChannel) return;
 
-            if(queueChannel != userChannel) {
-                return message.reply({
-                    content: "> **Não é possivel usar esse comando de um canal diferente!  😠**",
-                    allowedMentions: { repliedUser: false },
-                    failIfNotExists: false 
-                });
-            } 
+        try {
+            client.distube.play(voiceChannel, song, {
+                member: interaction.member,
+                textChannel: interaction.channel,
+                message: interaction.message
+            })
+
+            //console.log(client.distube);
+        } catch (err) {
+            console.error(err)
         }
-
-        let musicParams = args.join(" ").trim();
-        if(!musicParams) return message.react("🤨");
-        let string = "Procurando por";
-        if(musicParams.startsWith("http")) string = "Acessando url";
-
-        message.reply({
-            content: `> **${string}: \`${musicParams}\` 🔍**`,
-            allowedMentions: { repliedUser: false },
-            failIfNotExists: false 
-        });
-
-        return bot.distube.play(voiceChannel, musicParams , {
-            member: message.member,
-            textChannel: message.channel,
-            message: message
-        });
         
-    } 
-    
+    }
 }

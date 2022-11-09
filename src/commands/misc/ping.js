@@ -1,30 +1,28 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandType, Client, Interaction } = require("discord.js");
 
 module.exports = {
 
-    help: {
-        name: "ping",
-        usage: ["ping"],
-        description: "Mostra o tempo de resposta do bot.",
-        accessableBy: "Todos os membros.",
-        aliases: ["pingar"]
-    },
-    
-    run: async (bot, message, args) => {
+    name: "ping",
+    description: "Mostra o tempo de resposta do bot.",
+    type: ApplicationCommandType.ChatInput,
 
-        let embed = new MessageEmbed()
+    /**
+     *  @param {Client} client
+     *  @param {Interaction} interaction
+     */
+    run: async (client, interaction) => {
+
+        const embed = new EmbedBuilder()
             .setColor("BLACK")
             .setDescription("> **Pingando... ⏳**");
-        
-        return message.reply({ 
-            embeds: [embed], 
-            allowedMentions: { repliedUser: false },
-            failIfNotExists: false 
+
+        return interaction.reply({ 
+            embeds: [embed],
+            failIfNotExists: false
         })
-        .then((msg) => {
-            let ping = msg.createdTimestamp - message.createdTimestamp;
-            embed.setDescription(`> **BOT Ping: \`${ping}ms\` ⏳ | API Ping: \`${bot.ws.ping}ms\` ⏱**`);
-            return msg.edit({ embeds: [embed] }).catch(() => { return });
+        .then((message) => {
+            embed.setDescription(`> **Ping: \`${client.ws.ping}ms\` ⏱**`);
+            return message.interaction.editReply({ embeds: [embed] });
         });
     }
 }

@@ -1,41 +1,43 @@
-const { MessageEmbed } = require("discord.js")
+const { EmbedBuilder, ApplicationCommandType, Client, Interaction, ApplicationCommandOptionType } = require("discord.js");
 const moment = require("moment");
 
-module.exports = { 
+module.exports = {
 
-    help: {
-        name: "userinfo",
-        usage: ["userinfo", "ui <@user>"],
-        description: "Mostra as suas informações do discord ou a de alguém mencionado.",
-        accessableBy: "Todos os membros.",
-        aliases: ["ui"]
-    },
+    name: "userinfo",
+    description: "Mostra as suas informações do discord ou a de alguém mencionado.",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+        {
+            name: "user",
+            description: "Usuário queira ver as informações.",
+            type: ApplicationCommandOptionType.User,
+            required: false
+        }
+    ],
 
-    run: async (bot, message, args) => {
+    /**
+     *  @param {Client} client
+     *  @param {Interaction} interaction
+     */
+    run: async (client, interaction) => {
 
-        let user = message.mentions.users.first() || message.author;
-        let member = message.guild.members.cache.get(user.id);
-        
-        let embed = new MessageEmbed()
+        const options = interaction.options._hoistedOptions;
+        const member = options.find((o) => o.name === 'user')?.member || interaction.member;
+        const embed = new EmbedBuilder()
             .setColor("BLACK")
-            .setThumbnail(user.displayAvatarURL({ size: 1024, dynamic: true }))
-            .setAuthor({name: `Informações sobre ${user.username}`, iconURL: user.displayAvatarURL()})
+            .setThumbnail(member.displayAvatarURL({ size: 1024, dynamic: true }))
+            .setAuthor({name: `Informações sobre ${member.user.username}`, iconURL: member.displayAvatarURL()})
             .setDescription(`
-                > ▫ Nome: **${user.username}#${user.discriminator}**
-                > ▫ Nick no servidor: **${member.nickname || user.username}**
+                > ▫ Nome: **${member.user.username}#${member.user.discriminator}**
+                > ▫ Nick no servidor: **${member.nickname || member.user.username}**
                 > ▫ Membro do servidor desde: **${moment(member.joinedTimestamp).format("DD/MM/YYYY")}**
-                > ▫ Conta criada em: **${moment(user.createdTimestamp).format("DD/MM/YYYY")}**
-                > ▫ ID único: \`${user.id}\`
+                > ▫ Conta criada em: **${moment(member.user.createdTimestamp).format("DD/MM/YYYY")}**
+                > ▫ ID único: \`${member.user.id}\`
             `)
-            .setFooter({text: `© ${bot.user.username} `, iconURL: bot.user.displayAvatarURL()})
+            .setFooter({text: `© ${client.user.username} `, iconURL: client.user.displayAvatarURL()})
             .setTimestamp();
 
-        return message.reply({ 
-            embeds: [embed],
-            allowedMentions: { repliedUser: false },
-            failIfNotExists: false
-        });
-
-    } 
-    
+        return interaction.reply({ embeds: [embed] });
+        
+    }
 }

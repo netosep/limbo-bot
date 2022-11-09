@@ -1,81 +1,58 @@
+const { ApplicationCommandOptionType, ApplicationCommandType, Client, Interaction } = require("discord.js");
+const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require("@discordjs/voice");
 const axios = require("axios");
-const { joinVoiceChannel, createAudioResource, createAudioPlayer } = require("@discordjs/voice");
 
-module.exports = { 
+module.exports = {
 
-    help: {
-        name: "tts",
-        usage: ["tts <frase para falar>"],
-        description: "Fala no canal o texto digitado. 9?",
-        accessableBy: "Todos os membros.",
-        aliases: ["falar", "talk"]
-    },
-
-    run: async (bot, message, args) => {
-
-        let queue = bot.distube.getQueue(message);
-
-        if(queue) {
-            if(queue.playing || queue.paused) {
-                return message.reply({
-                    content: "> **Não é possivel reproduzir texto enquanto estou tocando uma música!  🙄**",
-                    allowedMentions: { repliedUser: false },
-                    failIfNotExists: false
-                });
-            }
+    name: "tts",
+    description: "Fala no canal o texto digitado. 9?",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+        {
+            name: "mensagem",
+            description: "Frase que deve ser falada.",
+            type: ApplicationCommandOptionType.String,
+            required: true
         }
+    ],
+
+    /**
+     *  @param {Client} client
+     *  @param {Interaction} interaction
+     */
+    run: async (client, interaction) => {
+
+        const option = interaction.options._hoistedOptions.pop();
+        const message = option.value;
+        const voiceChannel = interaction.member.voice.channel;
         
-        let string = args.join(" ");
-        let voiceChannel = message.member.voice.channel;
-
-        if(string.length < 1) {
-            return message.reply({
-                content: "> **Mensagem inválida!**",
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false
-            });
-        }
-
-        if(string.length > 550) {
-            return message.reply({
-                content: "> **A mensagem contém muitos caracteres! Limite: \`550\` 😶**",
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false
-            });
-        }
-
-        if(!voiceChannel) {
-            return message.reply({
-                content: "> **Você precisa estar em um canal de voz para executar esse comando!**",
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false
-            });
-        }
-
         await axios({
-            method: "post",
+            method: "POST",
             url: "https://streamlabs.com/polly/speak",
             data: {
-                text: string,
+                text: message,
                 voice: "Ricardo"
             }
         })
         .then(({ data }) => {
             try {
-                let connection = joinVoiceChannel({
+                const connection = joinVoiceChannel({
                     channelId: voiceChannel.id,
-                    guildId: message.guild.id,
-                    adapterCreator: message.guild.voiceAdapterCreator
+                    guildId: interaction.guildId,
+                    adapterCreator: interaction.guild.voiceAdapterCreator
                 });
 
-                let player = createAudioPlayer();
-                let resource = createAudioResource(data.speak_url, { inlineVolume: true });
+                const player = createAudioPlayer();
+                const resource = createAudioResource(data.speak_url, { inlineVolume: true });
 
-                resource.volume.setVolume(5);
+                resource.volume.setVolume(10);
                 connection.subscribe(player);
 
-                message.react("🔊");
+                console.log(data.speak_url);
+
                 player.play(resource);
+
+                interaction.reply('XD')
 
                 player.on("idle", () => {
                     setTimeout(() => {
@@ -85,22 +62,20 @@ module.exports = {
 
             } catch(err) {
                 console.error(err);
-                message.reply({
-                    content: "> **Ocorreu um erro ao reproduzir o texto... 🤕**",
-                    allowedMentions: { repliedUser: false },
-                    failIfNotExists: false
-                });
+                // message.reply({
+                //     content: "> **Ocorreu um erro ao reproduzir o texto... 🤕**",
+                //     allowedMentions: { repliedUser: false },
+                //     failIfNotExists: false
+                // });
             }
         })
-        .catch((err) => {
-            console.error(err);
-            return message.reply({
-                content: "> **Ocorreu um erro ao executar o comando... 🤕**",
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false
-            });
-        });
-
-    } 
-    
+        // .catch((err) => {
+        //     console.error(err);
+        //     return message.reply({
+        //         content: "> **Ocorreu um erro ao executar o comando... 🤕**",
+        //         allowedMentions: { repliedUser: false },
+        //         failIfNotExists: false
+        //     });
+        // });
+    }
 }

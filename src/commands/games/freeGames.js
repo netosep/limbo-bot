@@ -1,39 +1,32 @@
-const { MessageEmbed } = require('discord.js');
-const axios = require('axios');
-const moment = require('moment');
+const { EmbedBuilder, ApplicationCommandType, Client, Interaction } = require("discord.js");
+const axios = require("axios");
+const moment = require("moment");
 
 module.exports = {
 
-    help: {
-        name: "freegames",
-        usage: ["freegames"],
-        description: "Lista os jogos gratis da semana na EpicGames Store.",
-        accessableBy: "Todos os membros.",
-        aliases: ["fg", "epicgames"]
-    },
-    
-    run: async (bot, message, args) => {
-        
+    name: "freegames",
+    description: "Lista os jogos gratis da semana na EpicGames Store.",
+    type: ApplicationCommandType.ChatInput,
+
+    /**
+     *  @param {Client} client
+     *  @param {Interaction} interaction
+     */
+    run: async (client, interaction) => {
+
         await axios('https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?country=BR')
-        .then(({ data }) => {
-            let elements = data.data.Catalog.searchStore.elements;
-            let embed = new MessageEmbed().setColor("BLACK");
+        .then(async ({ data }) => {
+
+            const elements = data.data.Catalog.searchStore.elements;
+            const embed = new EmbedBuilder().setColor("BLACK");
 
             if (elements.length === 0) {
-                return message.reply({ 
-                    content: "> **Não há nenhum jogo gratis para essa semana  😢**", 
-                    allowedMentions: { repliedUser: false },
-                    failIfNotExists: false 
-                });
+                return interaction.reply({ content: "> **Não há nenhum jogo gratis para essa semana  😢**" });
             }
 
-            message.reply({ 
-                content: "> **Lista de jogos gratuitos da semana na EpicGames:**", 
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false
-            });
+            await interaction.reply({ content: "> **Lista de jogos gratuitos da semana na EpicGames:**" });
 
-            let gameList = elements.filter((e) => e.promotions?.promotionalOffers.length > 0 || e.promotions?.upcomingPromotionalOffers.length > 0);
+            const gameList = elements.filter((e) => e.promotions?.promotionalOffers.length > 0 || e.promotions?.upcomingPromotionalOffers.length > 0);
 
             gameList.forEach((game, i = 1) => {
 
@@ -54,19 +47,13 @@ module.exports = {
                 `)
                 .setImage(encodeURI(image.url));
 
-                message.channel.send({ 
-                    embeds: [embed],
-                    failIfNotExists: false 
-                });
+                interaction.channel.send({ embeds: [embed] });
             });
+
         })
         .catch((err) => {
-            return message.reply({ 
-                content: "> **Aconteceu algum erro e eu não consegui realizar essa operação...  😵**", 
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false 
-            });
+            return interaction.reply({ content: "> **Aconteceu algum erro e eu não consegui realizar essa operação...  😵**" });
         });
-        
+
     }
 }

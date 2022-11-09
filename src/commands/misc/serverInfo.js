@@ -1,21 +1,20 @@
-const { MessageEmbed } = require("discord.js")
+const { EmbedBuilder, ApplicationCommandType, Client, Interaction } = require("discord.js");
 const moment = require("moment");
 
-module.exports = { 
+module.exports = {
 
-    help: {
-        name: "serverinfo",
-        usage: ["serverinfo"],
-        description: "Mostra as informações do servidor do discord.",
-        accessableBy: "Todos os membros.",
-        aliases: ["si"]
-    },
+    name: "serverinfo",
+    description: "Mostra as informações do servidor do discord.",
+    type: ApplicationCommandType.ChatInput,
 
-    run: async (bot, message, args) => {
+    /**
+     *  @param {Client} client
+     *  @param {Interaction} interaction
+     */
+    run: async (client, interaction) => {
 
-        let guild = message.guild;
-        
-        let embed = new MessageEmbed()
+        const guild = interaction.guild;
+        const embed = new EmbedBuilder()
             .setThumbnail(guild.iconURL())
             .setAuthor({name: `Informações sobre o servidor ${guild.name}`, iconURL: guild.iconURL()})
             .setDescription(`
@@ -27,16 +26,11 @@ module.exports = {
                 > ▫ Criado em: **${moment(guild.createdAt).format("DD/MM/YYYY")}**
                 > ▫ ID único: \`${guild.id}\`
             `)
-            .setFooter({text: `© ${bot.user.username} `, iconURL: bot.user.displayAvatarURL()})
+            .setFooter({text: `© ${client.user.username} `, iconURL: client.user.displayAvatarURL()})
             .setColor("BLACK")
             .setTimestamp();
 
-        return message.reply({ 
-            embeds: [embed], 
-            allowedMentions: { repliedUser: false },
-            failIfNotExists: false
-        }); 
-
-    } 
-    
+        return interaction.reply({ embeds: [embed] }); 
+        
+    }
 }

@@ -1,20 +1,26 @@
-const { bot } = require("../../index");
+const { client } = require("../../index");
 
-bot.on("ready", async () => {
 
+client.on("ready", async () => {
+
+    console.log(`# Client ${client.user.username}#${client.user.discriminator} is ready!`);
+
+    client.guilds.cache.forEach(guild => guild.commands.set(client.commands));
+    client.user.setStatus('dnd'); // dnd, idle, online, invisible
+    
+
+    let i = 0;
     let status = [
-        "boas energias!",
-        "use ?help",
-        `em ${bot.guilds.cache.size} servidores! 🥰`,
+        "minha nova versão!",
+        "/help",
+        `em ${client.guilds.cache.size} servidores! 🥰`,
         "me mencione para obter ajuda..."
     ];
 
-    let i = 0;
-    bot.user.setStatus('dnd') // dnd, idle, online, invisible
-    setInterval(() => bot.user.setActivity(`${status[i++ % status.length]}`, { 
-        type: "STREAMING", // PLAYING, STREAMING, LISTENING, WATCHING, COMPETING
-        //url: "https://www.twitch.tv/net0xy",
-        url: "https://www.youtube.com/watch?v=sSQH1Hin9-I", // video do samuel silva
+    setInterval(() => client.user.setActivity(`${status[i++ % status.length]}`, { 
+        type: "LISTENING", // PLAYING, STREAMING, LISTENING, WATCHING, COMPETING
+        // url: "https://www.twitch.tv/net0xy",
+        // url: "https://www.youtube.com/watch?v=sSQH1Hin9-I", // video do samuel silva
     }), 10000);
 
 });

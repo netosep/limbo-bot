@@ -1,31 +1,34 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandType, Client, Interaction } = require("discord.js");
 
 module.exports = {
 
-    help: {
-        name: "invite",
-        usage: ["invite"],
-        description: "Te envia o link de convite do bot.",
-        accessableBy: "Todos os membros.",
-        aliases: ["convite", "link"]
-    },
-    
-    run: async (bot, message, args) => {
-        
-        let time = new Date();
-        let link = `https://discord.com/oauth2/authorize?=&client_id=${bot.user.id}&scope=bot&permissions=8`; // link de convite do bot
+    name: "invite",
+    description: "Te envia o link de convite do bot.",
+    type: ApplicationCommandType.ChatInput,
 
-        let embed = new MessageEmbed()
+    /**
+     *  @param {Client} client
+     *  @param {Interaction} interaction
+     */
+    run: async (client, interaction) => {
+
+        const PERMISSIONS_INTEGER = 8;
+        const time = new Date();
+        const inviteUrl = `https://discord.com/oauth2/authorize?=&client_id=${client.user.id}&scope=bot&permissions=${PERMISSIONS_INTEGER}`;
+        const embed = new EmbedBuilder()
             .setColor("BLACK")
-            .setAuthor({name: `Olá ${message.author.username}!`, iconURL: message.author.displayAvatarURL()})
-            .setDescription(`> **[Clique aqui](${link}) para poder me adicionar ao seu servidor!**`)
+            .setAuthor({name: `Olá ${interaction.user.username}!`, iconURL: interaction.user.displayAvatarURL()})
+            .setDescription(`> **[Clique aqui](${inviteUrl}) para poder me adicionar ao seu servidor!**`)
             .setFooter({
-                text: `© ${bot.user.username} - ${time.getFullYear()} | Todos os direitos reservados.`, 
-                iconURL: bot.user.displayAvatarURL()
+                text: `© ${client.user.username} - ${time.getFullYear()} | Todos os direitos reservados.`, 
+                iconURL: client.user.displayAvatarURL()
             });
-        
-        message.react('🤙🏿').catch(() => { return });
-        return message.author.send({ embeds: [embed] }).catch(() => { return });
+
+        interaction.user.send({ embeds: [embed] }).catch(() => { return });
+        return interaction.reply({
+            content: "> **Te mandei no privado  🤙🏿**",
+            ephemeral: true
+        });
         
     }
 }

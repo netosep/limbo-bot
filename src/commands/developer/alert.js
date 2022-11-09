@@ -1,58 +1,49 @@
-const { MessageEmbed } = require("discord.js");
-require("dotenv").config();
+const { EmbedBuilder, ApplicationCommandType, Client, Interaction, ApplicationCommandOptionType, ChannelType } = require("discord.js");
 
-module.exports = { 
+module.exports = {
 
-    help: {
-        name: "alert",
-        usage: ["alert <mensagem>", "alerta <mensagem>"],
-        description: "Envia uma mensagem de alerta para todos os servidores.",
-        accessableBy: "Somente o desenvolvedor.",
-        aliases: ["alerta"]
-    },
+    name: "alert",
+    description: "Envia uma mensagem de alerta para todos os servidores.",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+        {
+            name: "mensagem",
+            description: "Mensagem de alerta que queira anunciar.",
+            type: ApplicationCommandOptionType.String,
+            required: true
+        }
+    ],
 
-    run: async (bot, message, args) => {
+    /**
+     *  @param {Client} client
+     *  @param {Interaction} interaction
+     */
+    run: async (client, interaction) => {
 
-        if(message.author.id != process.env.BOT_OWNER_ID) {
-            return message.reply({
+        if (interaction.user.id != process.env.BOT_OWNER_ID) {
+            return interaction.reply({
                 content: `> **Negado! Esse comando só pode ser usado pelo desenvolvedor!  ⛔**`,
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false
+                ephemeral: true
             });
         }
 
-        let alertMsg = args.join(" ");
-        if(!alertMsg) {
-            return message.reply({
-                content: `> **É necessário informar uma menságem de alerta!  🙄**`,
-                allowedMentions: { repliedUser: false },
-                failIfNotExists: false
-            });
-        }
-
-        let embed = new MessageEmbed()
+        const option = interaction.options._hoistedOptions.pop();
+        const alertMsg = option.value;
+        const embed = new EmbedBuilder()
             .setColor("BLACK")
-            .setAuthor({name: "Se liga no aviso:", iconURL: bot.user.displayAvatarURL()})
+            .setAuthor({name: "Se liga no aviso:", iconURL: client.user.displayAvatarURL()})
             .setTitle(`> **${alertMsg}**`)
             .setTimestamp();
 
-        bot.guilds.cache.each(guild => {
-            let channel = guild.channels.cache.filter(channel => channel.type == "GUILD_TEXT").first();
-            if(channel) {
-                return channel.send({
-                    embeds: [embed], 
-                    allowedMentions: { repliedUser: false },
-                    failIfNotExists: false
-                });
-            }
+        client.guilds.cache.each(guild => {
+            const channel = guild.channels.cache.filter((c) => c.type === ChannelType.GuildText).first();
+            if (channel) return channel.send({ embeds: [embed] });
         });
 
-        return message.reply({
-            content: `> **O alerta foi enviado com sucesso para ${bot.guilds.cache.size} servidores!**  📩`,
-            allowedMentions: { repliedUser: false },
-            failIfNotExists: false
+        return interaction.reply({
+            content: `> **O alerta foi enviado com sucesso para \`${client.guilds.cache.size}\` servidores!**  📩`,
+            ephemeral: true
         });
-
-    } 
-    
+        
+    }
 }

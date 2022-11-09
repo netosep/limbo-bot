@@ -1,27 +1,25 @@
-const { MessageEmbed } = require("discord.js");
-const ms = require("ms");
+const { EmbedBuilder, ApplicationCommandType, Client, Interaction } = require("discord.js");
+const ms = require("ms-pt-br");
 
 module.exports = {
 
-    help: {
-        name: "uptime",
-        usage: ["uptime"],
-        description: "Mostra o tempo online do bot.",
-        accessableBy: "Todos os membros.",
-        aliases: ["upt"]
-    },
-    
-    run: async (bot, message, args) => {
+    name: "uptime",
+    description: "Mostra o tempo online do bot.",
+    type: ApplicationCommandType.ChatInput,
 
-        let embed = new MessageEmbed()
-            .setColor("BLACK")
-            .setDescription(`**> Estou online a \`${ms(bot.uptime, {long: true})}\`**`);
-
-        return message.channel.send({ 
-            embeds: [embed],
-            allowedMentions: { repliedUser: false },
-            failIfNotExists: false
+    /**
+     *  @param {Client} client
+     *  @param {Interaction} interaction
+     */
+    run: async (client, interaction) => {
+        
+        return interaction.reply({ 
+            embeds: [
+                new EmbedBuilder()
+                    .setColor("BLACK")
+                    .setDescription(`**> Estou online a \`${ms(client.uptime, { long: true })}\` ⏳**`)
+                ] 
         });
-
+        
     }
 }
